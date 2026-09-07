@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CascadoEvent — Site vitrine (page unique)
+  ------------------------------------------------------------
+  Projet de test : HTML / CSS / JS purs, sans framework.
+  Le style est dans "style.css", le comportement dans "script.js".
+  Les zones à personnaliser sont marquées « À REMPLIR ».
+  ============================================================
+-->
+<html lang="fr">
+<head>
+  <!-- Encodage des caractères (accents français) -->
+  <meta charset="UTF-8" />
+
+  <!-- Rend le site responsive : la largeur suit celle de l'écran -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Titre affiché dans l'onglet du navigateur — À REMPLIR si besoin -->
+  <title>CascadoEvent — Agence événementielle</title>
+
+  <!-- Courte description pour les moteurs de recherche — À REMPLIR -->
+  <meta name="description" content="CascadoEvent, organisation d'événements sur mesure. Découvrez mes prestations." />
+
+  <!-- Feuille de style externe (jamais de CSS en ligne) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ========================================================
+       EN-TÊTE : nom de la marque + menu de navigation
+       ======================================================== -->
+  <header class="site-header">
+    <div class="conteneur header-contenu">
+
+      <!-- Nom de la marque (cliquable, ramène en haut de page) -->
+      <a href="#accueil" class="logo">CascadoEvent</a>
+
+      <!-- Bouton "hamburger" visible uniquement sur mobile.
+           Son comportement est géré dans script.js -->
+      <button
+        class="menu-burger"
+        id="menu-burger"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="menu-nav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Menu de navigation : les liens pointent vers les sections (ancres #) -->
+      <nav class="menu-nav" id="menu-nav">
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#prestations">Prestations</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- Contenu principal de la page -->
+  <main>
+
+    <!-- ======================================================
+         SECTION ACCUEIL (HERO) : titre accrocheur + bouton
+         ====================================================== -->
+    <section id="accueil" class="hero">
+      <div class="conteneur hero-contenu">
+
+        <!-- Titre principal — À REMPLIR avec votre vraie accroche -->
+        <h1 class="hero-titre">Des événements qui laissent un souvenir</h1>
+
+        <!-- Sous-titre / phrase d'introduction — À REMPLIR -->
+        <p class="hero-texte">
+          CascadoEvent imagine, organise et coordonne vos événements
+          professionnels et privés, de la première idée jusqu'au jour J.
+        </p>
+
+        <!-- Bouton d'appel à l'action : fait défiler vers la section Prestations -->
+        <a href="#prestations" class="bouton bouton-principal">Voir mes prestations</a>
+
+      </div>
+    </section>
+
+
+    <!-- ======================================================
+         SECTION PRESTATIONS : 3 cartes de démonstration
+         ====================================================== -->
+    <section id="prestations" class="prestations">
+      <div class="conteneur">
+
+        <h2 class="section-titre">Mes prestations</h2>
+        <p class="section-intro">
+          <!-- À REMPLIR : phrase de présentation de vos services -->
+          Voici quelques exemples de prestations. Le contenu ci-dessous est
+          provisoire et sera remplacé par vos vraies offres.
+        </p>
+
+        <!-- Grille des cartes -->
+        <div class="grille-cartes">
+
+          <!-- Carte 1 — À REMPLIR (titre, texte, image) -->
+          <article class="carte">
+            <img
+              src="images/placeholder-1.svg"
+              alt="Image de la prestation 1 — À REMPLIR"
+              class="carte-image"
+            />
+            <div class="carte-corps">
+              <h3 class="carte-titre">Organisation clé en main</h3>
+              <p class="carte-texte">
+                Description courte de la prestation. Remplacez ce texte par le
+                détail de votre offre (public, durée, ce qui est inclus, etc.).
+              </p>
+            </div>
+          </article>
+
+          <!-- Carte 2 — À REMPLIR -->
+          <article class="carte">
+            <img
+              src="images/placeholder-2.svg"
+              alt="Image de la prestation 2 — À REMPLIR"
+              class="carte-image"
+            />
+            <div class="carte-corps">
+              <h3 class="carte-titre">Coordination le jour J</h3>
+              <p class="carte-texte">
+                Description courte de la prestation. Remplacez ce texte par le
+                détail de votre offre (public, durée, ce qui est inclus, etc.).
+              </p>
+            </div>
+          </article>
+
+          <!-- Carte 3 — À REMPLIR -->
+          <article class="carte">
+            <img
+              src="images/placeholder-3.svg"
+              alt="Image de la prestation 3 — À REMPLIR"
+              class="carte-image"
+            />
+            <div class="carte-corps">
+              <h3 class="carte-titre">Scénographie & décoration</h3>
+              <p class="carte-texte">
+                Description courte de la prestation. Remplacez ce texte par le
+                détail de votre offre (public, durée, ce qui est inclus, etc.).
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================
+         SECTION CONTACT : formulaire simple
+         ====================================================== -->
+    <section id="contact" class="contact">
+      <div class="conteneur">
+
+        <h2 class="section-titre">Me contacter</h2>
+        <p class="section-intro">
+          <!-- À REMPLIR : vos coordonnées (téléphone, email, zone géographique) -->
+          Une question, un projet ? Écrivez-moi via le formulaire ci-dessous.
+        </p>
+
+        <!--
+          Formulaire de démonstration.
+          IMPORTANT : sans serveur, ce formulaire n'envoie pas d'email tout seul.
+          Options possibles plus tard :
+            - un service externe (Formspree, Netlify Forms, etc.)
+            - un lien "mailto:" simple
+          Pour l'instant, l'envoi est simulé dans script.js.
+        -->
+        <form class="formulaire" id="formulaire-contact" novalidate>
+
+          <!-- Champ : nom -->
+          <div class="champ">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+          </div>
+
+          <!-- Champ : email -->
+          <div class="champ">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="vous@exemple.com" required />
+          </div>
+
+          <!-- Champ : message -->
+          <div class="champ">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Décrivez votre projet…" required></textarea>
+          </div>
+
+          <!-- Bouton d'envoi -->
+          <button type="submit" class="bouton bouton-principal">Envoyer</button>
+
+          <!-- Zone de retour affichée après soumission (gérée par script.js) -->
+          <p class="formulaire-retour" id="formulaire-retour" role="status" aria-live="polite"></p>
+
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================
+       PIED DE PAGE
+       ======================================================== -->
+  <footer class="site-footer">
+    <div class="conteneur footer-contenu">
+
+      <!-- Année mise à jour automatiquement par script.js -->
+      <p>&copy; <span id="annee">2026</span> CascadoEvent. Tous droits réservés.</p>
+
+      <!-- Liens / réseaux sociaux — À REMPLIR -->
+      <p class="footer-liens">
+        <a href="#accueil">Retour en haut</a>
+      </p>
+
+    </div>
+  </footer>
+
+  <!-- Script JavaScript externe, chargé en fin de page pour ne pas ralentir l'affichage -->
+  <script src="script.js"></script>
+
+</body>
+</html>
