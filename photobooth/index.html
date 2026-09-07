@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  CascadoEvent — PAGE PANNEAUX FONTAINE (panneaux.html)
+  CascadoEvent — PAGE PHOTOBOOTH (photobooth/index.html)
   ------------------------------------------------------------
-  Galerie des modèles de panneaux fontaine lumineux.
+  Galerie des modèles de photobooth.
   Cartes de démonstration : remplacez les noms, descriptions
   et images (ou vidéos) par vos vrais modèles.
   ============================================================
@@ -13,8 +13,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Panneaux Fontaine lumineux — CascadoEvent</title>
-  <meta name="description" content="Découvrez les modèles de panneaux fontaine lumineux CascadoEvent pour vos entrées, discours et ouvertures de bal." />
+  <title>Photobooth événementiel — CascadoEvent</title>
+  <meta name="description" content="Découvrez les modèles de photobooth CascadoEvent : bornes élégantes et tirages personnalisés pour vos invités." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,7 +22,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/style.css" />
 
   <!-- Affichage garanti même si le JavaScript est désactivé -->
   <noscript>
@@ -32,20 +32,20 @@
 
 <body>
 
-  <!-- EN-TÊTE COMMUN (classe "actif" sur Panneaux Fontaine) -->
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Photobooth) -->
   <header class="site-header">
     <div class="conteneur header-contenu">
-      <a href="index.html" class="logo"><span class="texte-or">Cascado</span>Event</a>
+      <a href="/" class="logo"><span class="texte-or">Cascado</span>Event</a>
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
       <nav class="menu-nav" id="menu-nav">
         <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="panneaux.html" class="actif">Panneaux Fontaine</a></li>
-          <li><a href="photobooth.html">Photobooth</a></li>
-          <li><a href="packs.html">Packs</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/panneaux">Panneaux Fontaine</a></li>
+          <li><a href="/photobooth" class="actif">Photobooth</a></li>
+          <li><a href="/packs">Packs</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -58,14 +58,14 @@
     <section class="page-entete">
       <div class="conteneur">
         <span class="surtitre">Nos prestations</span>
-        <h1>Panneaux Fontaine</h1>
+        <h1>Photobooth</h1>
         <hr class="filet centre" />
         <p>
-          <!-- À REMPLIR : présentation de vos panneaux fontaine (2-3 phrases).
-               Sécurité (étincelles froides, sans fumée), moments idéals, options. -->
-          Des jets d'étincelles froides, sans chaleur ni fumée, pour magnifier
-          vos entrées, vos discours et l'ouverture de bal. Installation et
-          déclenchement assurés par nos équipes.
+          <!-- À REMPLIR : présentation de vos photobooths (2-3 phrases).
+               Type de bornes, tirages illimités, personnalisation, livre d'or, accessoires. -->
+          Des bornes élégantes qui offrent à vos invités un souvenir immédiat et
+          raffiné : tirages personnalisés à votre image, accessoires soignés et
+          galerie numérique après l'événement.
         </p>
       </div>
     </section>
@@ -78,77 +78,74 @@
 
           <!--
             MODÈLE 1 — À REMPLIR
-            - Remplacez le nom, le tag et la description.
-            - Image : remplacez src par votre photo (images/panneau-1.jpg).
-            - Vignette vidéo : ajoutez data-video="images/panneau-1.mp4" sur
-              .modele-media et la classe "video" pour afficher le bouton lecture.
+            - Remplacez nom, tag et description.
+            - Image : images/photobooth-1.jpg
+            - Pour une vignette vidéo : classe "video" + data-video="/images/photobooth-1.mp4"
           -->
           <article class="modele">
             <div class="modele-media">
-              <img src="images/panneau-1.svg" alt="Panneau fontaine modèle 1 — À REMPLACER" />
+              <img src="/images/photobooth-1.svg" alt="Photobooth modèle 1 — À REMPLACER" />
             </div>
             <div class="modele-corps">
               <span class="modele-tag">Modèle</span>
               <h3>Nom du modèle 1</h3>
-              <p>Courte description : hauteur du jet, durée, usage recommandé. À REMPLIR.</p>
+              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
             </div>
           </article>
 
           <!-- MODÈLE 2 — exemple avec vignette vidéo cliquable -->
           <article class="modele">
-            <div class="modele-media video" data-video="images/panneau-2.mp4">
-              <!-- À REMPLIR : vidéo "images/panneau-2.mp4" + photo d'aperçu ci-dessous -->
-              <img src="images/panneau-2.svg" alt="Panneau fontaine modèle 2 — À REMPLACER" />
+            <div class="modele-media video" data-video="/images/photobooth-2.mp4">
+              <img src="/images/photobooth-2.svg" alt="Photobooth modèle 2 — À REMPLACER" />
             </div>
             <div class="modele-corps">
               <span class="modele-tag">Modèle · vidéo</span>
               <h3>Nom du modèle 2</h3>
-              <p>Courte description : hauteur du jet, durée, usage recommandé. À REMPLIR.</p>
+              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
             </div>
           </article>
 
           <!-- MODÈLE 3 — À REMPLIR -->
           <article class="modele">
             <div class="modele-media">
-              <img src="images/panneau-3.svg" alt="Panneau fontaine modèle 3 — À REMPLACER" />
+              <img src="/images/photobooth-3.svg" alt="Photobooth modèle 3 — À REMPLACER" />
             </div>
             <div class="modele-corps">
               <span class="modele-tag">Modèle</span>
               <h3>Nom du modèle 3</h3>
-              <p>Courte description : hauteur du jet, durée, usage recommandé. À REMPLIR.</p>
+              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
             </div>
           </article>
 
           <!-- MODÈLE 4 — À REMPLIR -->
           <article class="modele">
             <div class="modele-media">
-              <img src="images/panneau-4.svg" alt="Panneau fontaine modèle 4 — À REMPLACER" />
+              <img src="/images/photobooth-4.svg" alt="Photobooth modèle 4 — À REMPLACER" />
             </div>
             <div class="modele-corps">
               <span class="modele-tag">Modèle</span>
               <h3>Nom du modèle 4</h3>
-              <p>Courte description : hauteur du jet, durée, usage recommandé. À REMPLIR.</p>
+              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
             </div>
           </article>
 
           <!-- MODÈLE 5 — À REMPLIR -->
           <article class="modele">
             <div class="modele-media">
-              <img src="images/panneau-5.svg" alt="Panneau fontaine modèle 5 — À REMPLACER" />
+              <img src="/images/photobooth-5.svg" alt="Photobooth modèle 5 — À REMPLACER" />
             </div>
             <div class="modele-corps">
               <span class="modele-tag">Modèle</span>
               <h3>Nom du modèle 5</h3>
-              <p>Courte description : hauteur du jet, durée, usage recommandé. À REMPLIR.</p>
+              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
             </div>
           </article>
 
         </div>
 
-        <!-- Appel à l'action -->
         <div class="entete-section reveal" style="margin: 80px auto 0;">
           <p style="margin-bottom: 24px;">Un modèle vous intéresse&nbsp;?</p>
-          <a href="contact.html" class="bouton">Demander un devis</a>
+          <a href="/contact" class="bouton">Demander un devis</a>
         </div>
       </div>
     </section>
@@ -161,7 +158,7 @@
     <div class="conteneur">
       <div class="footer-haut">
         <div class="footer-marque">
-          <a href="index.html" class="logo"><span class="texte-or">Cascado</span>Event</a>
+          <a href="/" class="logo"><span class="texte-or">Cascado</span>Event</a>
           <p>
             Panneaux fontaine lumineux &amp; photobooths haut de gamme pour vos
             événements. Intervention sur [À REMPLIR : région / département].
@@ -169,11 +166,11 @@
         </div>
         <nav class="footer-nav">
           <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="panneaux.html">Panneaux Fontaine</a></li>
-            <li><a href="photobooth.html">Photobooth</a></li>
-            <li><a href="packs.html">Packs</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/panneaux">Panneaux Fontaine</a></li>
+            <li><a href="/photobooth">Photobooth</a></li>
+            <li><a href="/packs">Packs</a></li>
+            <li><a href="/contact">Contact</a></li>
           </ul>
         </nav>
       </div>
@@ -209,6 +206,6 @@
     <span class="wa-texte">Réservation via WhatsApp</span>
   </a>
 
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>

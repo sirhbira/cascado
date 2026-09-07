@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
      --------------------------------------------------------
      Chaque élément [data-video] ouvre une fenêtre légère
      (overlay) contenant la vidéo indiquée.
-     À REMPLIR : renseigner l'attribut data-video="images/xxx.mp4"
+     À REMPLIR : renseigner l'attribut data-video="/images/xxx.mp4"
      (ou une URL) sur les vignettes concernées dans le HTML.
      -------------------------------------------------------- */
   const declencheursVideo = document.querySelectorAll("[data-video]");

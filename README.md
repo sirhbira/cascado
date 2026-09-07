@@ -14,10 +14,12 @@ Direction artistique : luxe & doré, noir profond, épuré.
 ```
 cascadoevent/
 ├── index.html          Accueil : hero vidéo, présentation, les 2 univers, aperçu des packs
-├── panneaux.html       Galerie des modèles de panneaux fontaine
-├── photobooth.html     Galerie des modèles de photobooth
-├── packs.html          Formules Premium & Prestige (grille tarifaire)
-├── contact.html        Formulaire + coordonnées
+├── panneaux/index.html    Galerie des modèles de panneaux fontaine
+├── photobooth/index.html  Galerie des modèles de photobooth
+├── packs/index.html       Formules Premium & Prestige (grille tarifaire)
+├── contact/index.html     Formulaire + coordonnées
+├── googlea36a95fb7b4e8ce5.html  Vérification Google (inchangée)
+├── CNAME               Domaine personnalisé cascadoevent.fr
 ├── style.css           Feuille de style partagée (toutes les pages)
 ├── script.js           JS partagé (menu, animations, vidéos, formulaire)
 ├── images/             Images et vidéos (placeholders SVG à remplacer)
@@ -31,11 +33,8 @@ navigation, répercutez le changement dans les 5 fichiers `.html`.
 
 ## Ouvrir le site en local
 
-### Méthode 1 — double-clic
-
-Ouvrez `index.html` dans votre navigateur.
-
-### Méthode 2 — petit serveur local (recommandé, pour la vidéo de fond)
+Utilisez un serveur local lancé à la racine du projet pour résoudre les
+chemins absolus des pages et des ressources.
 
 - **VS Code** : extension « Live Server » → clic droit sur `index.html` →
   « Open with Live Server ».
@@ -56,9 +55,9 @@ fichiers : ils marquent tout ce qui doit être adapté.
 | Couleurs, polices, mesures | `style.css`, section `1. VARIABLES` (`:root`) |
 | Vidéo de fond du hero | `index.html` → `<video class="hero-video">`, fichier `images/hero.mp4` |
 | Photos des modèles | `images/panneau-*.svg` et `images/photobooth-*.svg` → vos `.jpg` |
-| Vignettes vidéo dans les galeries | attribut `data-video="images/xxx.mp4"` + classe `video` sur `.modele-media` |
-| Prix et prestations des packs | `packs.html` (listes `À REMPLIR`) |
-| Adresse de réception des devis | action du formulaire dans contact.html : cascadoevent@gmail.com |
+| Vignettes vidéo dans les galeries | attribut `data-video="/images/xxx.mp4"` + classe `video` sur `.modele-media` |
+| Prix et prestations des packs | `packs/index.html` (listes `À REMPLIR`) |
+| Adresse de réception des devis | action du formulaire dans contact/index.html : cascadoevent@gmail.com |
 | Numéro WhatsApp (bouton flottant) | les 5 `.html` → `VOTRE_NUMERO_WHATSAPP` |
 
 ### Formulaire de devis (FormSubmit)
@@ -95,7 +94,7 @@ avec un message pré-rempli.
 
 - **Hero** : `images/hero.mp4` (H.264, 1080p, muette, ~10-20 s en boucle,
   compressée — visez < 5 Mo, GitHub Pages sert des fichiers statiques).
-- **Galeries** : mettez la classe `video` et `data-video="images/xxx.mp4"` sur
+- **Galeries** : mettez la classe `video` et `data-video="/images/xxx.mp4"` sur
   une vignette `.modele-media` pour la rendre cliquable (lecture en plein écran).
 
 ## Publier sur GitHub Pages
@@ -110,11 +109,14 @@ avec un message pré-rempli.
    git push -u origin main
    ```
 2. Sur GitHub : `Settings` → `Pages` → Source : branche `main`, dossier `/ (root)`.
-3. Le site sera en ligne sur `https://VOTRE-COMPTE.github.io/cascadoevent/`.
+3. Conservez le domaine personnalisé `cascadoevent.fr` configuré dans Pages
+   et dans le fichier `CNAME`.
 
-> Toutes les URL internes sont **relatives** (`panneaux.html`, `images/…`), le
-> site fonctionne donc aussi bien à la racine d'un domaine que dans un
-> sous-dossier GitHub Pages.
+Les liens des pages utilisent `/`, `/contact`, `/panneaux`, `/photobooth`
+et `/packs`. Chaque dossier contient son fichier `index.html`.
+Les ressources utilisent `/style.css`, `/script.js` et `/images/…`.
+Ces chemins partent de la racine du domaine personnalisé ; un hébergement
+sous un préfixe de dépôt nécessiterait d'adapter les chemins.
 
 ### Alternatives
 
