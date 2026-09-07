@@ -58,27 +58,21 @@ fichiers : ils marquent tout ce qui doit être adapté.
 | Photos des modèles | `images/panneau-*.svg` et `images/photobooth-*.svg` → vos `.jpg` |
 | Vignettes vidéo dans les galeries | attribut `data-video="images/xxx.mp4"` + classe `video` sur `.modele-media` |
 | Prix et prestations des packs | `packs.html` (listes `À REMPLIR`) |
-| ID Formspree (formulaire de devis) | `contact.html` → `VOTRE_ID_FORMSPREE` |
+| Adresse de réception des devis | action du formulaire dans contact.html : cascadoevent@gmail.com |
 | Numéro WhatsApp (bouton flottant) | les 5 `.html` → `VOTRE_NUMERO_WHATSAPP` |
 
-### Formulaire de devis (Formspree)
+### Formulaire de devis (FormSubmit)
 
-Le formulaire de la page `contact.html` envoie les demandes **par email via
-[Formspree](https://formspree.io)** (offre gratuite suffisante pour démarrer).
-L'envoi est fait en AJAX par `script.js` : la page ne se recharge pas, un
-message « Votre demande a bien été envoyée » s'affiche.
+Le formulaire envoie les demandes à **cascadoevent@gmail.com** via
+[FormSubmit](https://formsubmit.co/). Le JavaScript valide les champs puis
+le service affiche le CAPTCHA et la confirmation.
 
-1. Créez un compte sur <https://formspree.io> et un nouveau formulaire.
-2. Formspree vous donne un ID (ex. `xyzabcde`).
-3. Dans `contact.html`, remplacez `VOTRE_ID_FORMSPREE` dans
-   `action="https://formspree.io/f/VOTRE_ID_FORMSPREE"` par cet ID.
-4. Validez votre adresse email à la première soumission (demandé par Formspree).
+Pour activer la réception, envoyez une première demande depuis le site servi
+en HTTP(S), puis cliquez sur le lien reçu à cette adresse (vérifiez les spams).
+Faites ensuite un nouvel essai pour vérifier la réception du devis.
 
-> Tant que l'ID n'est pas renseigné, `script.js` **simule** l'envoi pour vous
-> permettre de prévisualiser le comportement.
-
-Champs envoyés : `formule`, `nom`, `contact` (email ou téléphone),
-`date_evenement`, `message` (optionnel).
+Champs envoyés : formule, nom, contact (email ou téléphone),
+date_evenement, message (optionnel) et sujet du devis.
 
 ### Bouton WhatsApp flottant
 

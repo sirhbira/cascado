@@ -6,7 +6,7 @@
      2. Année automatique dans le pied de page
      3. Apparition douce des sections au défilement (une seule fois)
      4. Vignettes vidéo cliquables -> ouverture dans une fenêtre légère
-     5. Formulaire de contact (validation + envoi simulé)
+     5. Formulaire de contact (validation + envoi par email)
    ------------------------------------------------------------
    Le script est chargé en fin de page (voir la balise <script>).
    ============================================================ */
@@ -154,15 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* --------------------------------------------------------
-     5. FORMULAIRE DE DEVIS (envoi par email via Formspree)
+     5. FORMULAIRE DE DEVIS (envoi par email via FormSubmit)
      --------------------------------------------------------
-     - Validation simple des champs obligatoires.
-     - Envoi en AJAX (fetch) vers Formspree : la page ne se
-       recharge pas, on affiche un message de confirmation.
-     - Tant que l'ID Formspree n'est pas renseigné dans le
-       "action" du formulaire (il contient encore
-       "VOTRE_ID_FORMSPREE"), l'envoi est SIMULÉ pour permettre
-       la prévisualisation.
+     Validation des champs, puis envoi natif vers FormSubmit.
+     Le service affiche le CAPTCHA et la confirmation.
      -------------------------------------------------------- */
   const formulaire = document.getElementById("formulaire-devis");
   const zoneRetour = document.getElementById("formulaire-retour");
@@ -193,50 +188,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // --- Envoi ---
-      const boutonEnvoi = formulaire.querySelector("button[type='submit']");
-      const action = formulaire.getAttribute("action") || "";
-      const idNonRenseigne = action.indexOf("VOTRE_ID_FORMSPREE") !== -1;
-
-      // Cas 1 : ID Formspree pas encore collé -> on simule
-      if (idNonRenseigne) {
-        afficherRetour(
-          "Votre demande a bien été envoyée (démo — collez votre ID Formspree pour un envoi réel).",
-          "succes"
-        );
-        formulaire.reset();
-        return;
-      }
-
-      // Cas 2 : envoi réel vers Formspree
-      if (boutonEnvoi) {
-        boutonEnvoi.disabled = true;
-        boutonEnvoi.textContent = "Envoi en cours…";
-      }
-      afficherRetour("", "");
-
-      fetch(action, {
-        method: "POST",
-        body: new FormData(formulaire),
-        headers: { Accept: "application/json" }
-      })
-        .then(function (reponse) {
-          if (reponse.ok) {
-            afficherRetour("Votre demande a bien été envoyée. Je vous recontacte rapidement.", "succes");
-            formulaire.reset();
-          } else {
-            afficherRetour("L'envoi a échoué. Réessayez ou écrivez-nous directement par email.", "erreur");
-          }
-        })
-        .catch(function () {
-          afficherRetour("Connexion impossible. Vérifiez votre réseau et réessayez.", "erreur");
-        })
-        .finally(function () {
-          if (boutonEnvoi) {
-            boutonEnvoi.disabled = false;
-            boutonEnvoi.textContent = "Demander un devis";
-          }
-        });
+      // FormSubmit affiche le CAPTCHA et la confirmation.
+      HTMLFormElement.prototype.submit.call(formulaire);
     });
   }
 

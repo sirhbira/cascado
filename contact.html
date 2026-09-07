@@ -5,10 +5,8 @@
   ------------------------------------------------------------
   Formulaire de devis (formule, nom, contact, date, message)
   + coordonnées.
-  L'envoi se fait par email via Formspree, en AJAX (voir
-  script.js) : pas de rechargement, message de confirmation.
-  À REMPLIR : coller l'ID Formspree dans l'attribut "action"
-  du formulaire ci-dessous (cherchez « VOTRE_ID_FORMSPREE »).
+  Les demandes sont envoyées à cascadoevent@gmail.com via FormSubmit.
+  Activez la réception avec le lien reçu lors du premier envoi.
   ============================================================
 -->
 <html lang="fr">
@@ -77,28 +75,11 @@
       <div class="conteneur">
         <div class="contact-grille reveal">
 
-          <!--
-            ============================================================
-            FORMULAIRE DE DEVIS — envoi des réponses par email via Formspree
-            ------------------------------------------------------------
-            À REMPLIR : coller l'ID Formspree ici
-            1. Créez un compte gratuit sur https://formspree.io
-            2. Créez un nouveau formulaire : Formspree vous donne un ID
-               du type "xyzabcde".
-            3. Remplacez "VOTRE_ID_FORMSPREE" ci-dessous par cet ID.
-               L'URL finale doit ressembler à :
-               https://formspree.io/f/xyzabcde
-            ------------------------------------------------------------
-            L'envoi est géré en AJAX par script.js : la page ne se
-            recharge pas, un message de confirmation s'affiche.
-            Tant que l'ID n'est pas renseigné, script.js simule l'envoi
-            pour vous permettre de prévisualiser.
-            ============================================================
-          -->
+          <!-- Formulaire de devis : envoi par email via FormSubmit. -->
           <form
             class="formulaire"
             id="formulaire-devis"
-            action="https://formspree.io/f/VOTRE_ID_FORMSPREE"
+            action="https://formsubmit.co/cascadoevent@gmail.com"
             method="POST"
             novalidate
           >
@@ -150,7 +131,7 @@
               ></textarea>
             </div>
 
-            <!-- Sujet de l'email reçu (Formspree utilise _subject) -->
+            <!-- Sujet de l'email reçu -->
             <input type="hidden" name="_subject" value="Nouvelle demande de devis — CascadoEvent" />
 
             <button type="submit" class="bouton">Demander un devis</button>
@@ -164,7 +145,7 @@
             <h3>Coordonnées</h3>
             <dl>
               <dt>Email</dt>
-              <dd><!-- À REMPLIR -->contact@cascadoevent.fr</dd>
+              <dd><!-- À REMPLIR -->cascadoevent@gmail.com</dd>
 
               <dt>Téléphone</dt>
               <dd><!-- À REMPLIR -->00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</dd>
@@ -207,7 +188,7 @@
       </div>
       <div class="footer-bas">
         <span>&copy; <span id="annee">2026</span> CascadoEvent. Tous droits réservés.</span>
-        <span>contact@cascadoevent.fr &nbsp;·&nbsp; 00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</span>
+        <span>cascadoevent@gmail.com &nbsp;·&nbsp; 00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</span>
       </div>
     </div>
   </footer>
