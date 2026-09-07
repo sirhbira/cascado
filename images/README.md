@@ -1,15 +1,26 @@
-# Dossier images
+# Dossier images / vidéos
 
-Placez ici les images du site (photos de prestations, logo, image de fond du hero…).
+Placez ici tous les médias du site. Les fichiers `.svg` actuels sont des
+**placeholders** à remplacer.
 
-## Fichiers actuels (à remplacer)
+## Fichiers attendus (à remplacer)
 
-- `placeholder-1.svg`, `placeholder-2.svg`, `placeholder-3.svg` : images de démonstration
-  utilisées par les 3 cartes de la section « Prestations ».
+| Fichier placeholder | Remplacer par | Utilisé sur |
+|---|---|---|
+| `poster-hero.svg` | `poster-hero.jpg` (image affichée avant la vidéo) | `index.html` (hero) |
+| `hero.mp4` *(à ajouter)* | votre vidéo de fond du hero | `index.html` (hero) |
+| `presentation.svg` | photo ou vidéo de présentation | `index.html` |
+| `univers-panneaux.svg` | visuel « panneaux fontaine » | `index.html` |
+| `univers-photobooth.svg` | visuel « photobooth » | `index.html` |
+| `panneau-1.svg` … `panneau-5.svg` | photos de vos modèles de panneaux | `panneaux.html` |
+| `photobooth-1.svg` … `photobooth-5.svg` | photos de vos modèles de photobooth | `photobooth.html` |
 
 ## Conseils
 
-- Formats recommandés : `.jpg` pour les photos, `.svg` ou `.png` pour les logos.
-- Optimisez le poids des images (idéalement < 300 Ko) pour un chargement rapide.
-- Si vous changez les noms de fichiers, pensez à mettre à jour les `src="images/..."`
-  dans `index.html`.
+- **Photos** : `.jpg`, largeur ~1200 px, compressées (< 300 Ko).
+- **Vidéos** : `.mp4` (H.264), 1080p, compressées. Le hero gagne à être muet
+  et court (10-20 s) en boucle.
+- Si vous changez les **noms de fichiers**, mettez à jour les `src="images/…"`
+  et `data-video="images/…"` dans les pages HTML correspondantes.
+- Vignettes vidéo dans les galeries : ajoutez la classe `video` et
+  `data-video="images/mon-modele.mp4"` sur la `<div class="modele-media">`.

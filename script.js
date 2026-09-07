@@ -1,42 +1,37 @@
 /* ============================================================
-   CascadoEvent — JavaScript
+   CascadoEvent — JavaScript partagé (toutes les pages)
    ------------------------------------------------------------
-   Trois petites fonctionnalités :
-     1. Ouvrir / fermer le menu de navigation sur mobile
-     2. Mettre à jour l'année dans le pied de page
-     3. Gérer l'envoi (simulé) du formulaire de contact
+   Fonctionnalités :
+     1. Menu de navigation responsive (hamburger)
+     2. Année automatique dans le pied de page
+     3. Apparition douce des sections au défilement (une seule fois)
+     4. Vignettes vidéo cliquables -> ouverture dans une fenêtre légère
+     5. Formulaire de contact (validation + envoi simulé)
+   ------------------------------------------------------------
+   Le script est chargé en fin de page (voir la balise <script>).
    ============================================================ */
 
-// "DOMContentLoaded" : on attend que le HTML soit chargé avant d'agir
 document.addEventListener("DOMContentLoaded", function () {
 
   /* --------------------------------------------------------
-     1. MENU MOBILE
+     1. MENU RESPONSIVE
      -------------------------------------------------------- */
-
-  // On récupère le bouton hamburger et le menu dans la page
   const boutonBurger = document.getElementById("menu-burger");
   const menuNav = document.getElementById("menu-nav");
 
   if (boutonBurger && menuNav) {
-
-    // Au clic sur le hamburger : on ajoute/enlève la classe "ouvert"
     boutonBurger.addEventListener("click", function () {
-      const estOuvert = menuNav.classList.toggle("ouvert");
-
-      // On met à jour l'attribut d'accessibilité (lecteurs d'écran)
-      boutonBurger.setAttribute("aria-expanded", estOuvert ? "true" : "false");
-      boutonBurger.setAttribute(
-        "aria-label",
-        estOuvert ? "Fermer le menu" : "Ouvrir le menu"
-      );
+      const ouvert = menuNav.classList.toggle("ouvert");
+      boutonBurger.classList.toggle("actif", ouvert);
+      boutonBurger.setAttribute("aria-expanded", ouvert ? "true" : "false");
+      boutonBurger.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
     });
 
-    // Quand on clique sur un lien du menu, on referme le menu (utile sur mobile)
-    const liensMenu = menuNav.querySelectorAll("a");
-    liensMenu.forEach(function (lien) {
+    // On referme le menu après un clic sur un lien (utile sur mobile)
+    menuNav.querySelectorAll("a").forEach(function (lien) {
       lien.addEventListener("click", function () {
         menuNav.classList.remove("ouvert");
+        boutonBurger.classList.remove("actif");
         boutonBurger.setAttribute("aria-expanded", "false");
         boutonBurger.setAttribute("aria-label", "Ouvrir le menu");
       });
@@ -45,72 +40,216 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* --------------------------------------------------------
-     2. ANNÉE AUTOMATIQUE DANS LE PIED DE PAGE
+     2. ANNÉE AUTOMATIQUE (pied de page)
      -------------------------------------------------------- */
-
   const spanAnnee = document.getElementById("annee");
   if (spanAnnee) {
-    // new Date().getFullYear() donne l'année courante (ex : 2026)
     spanAnnee.textContent = new Date().getFullYear();
   }
 
 
   /* --------------------------------------------------------
-     3. FORMULAIRE DE CONTACT (envoi simulé)
+     3. APPARITION AU SCROLL
      --------------------------------------------------------
-     ATTENTION : sans serveur, on ne peut pas vraiment envoyer
-     d'email. Ici on se contente de vérifier les champs et
-     d'afficher un message de confirmation.
-
-     À REMPLIR plus tard : brancher un vrai service d'envoi
-     (Formspree, Netlify Forms, EmailJS…) ou un lien mailto.
+     On ajoute la classe "visible" aux éléments .reveal quand
+     ils entrent dans l'écran. On respecte prefers-reduced-motion :
+     dans ce cas, tout est affiché immédiatement.
      -------------------------------------------------------- */
+  const elementsReveal = document.querySelectorAll(".reveal");
+  const animationsReduites = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const formulaire = document.getElementById("formulaire-contact");
+  if (animationsReduites || !("IntersectionObserver" in window)) {
+    // Pas d'animation : on montre tout de suite
+    elementsReveal.forEach(function (el) {
+      el.classList.add("visible");
+    });
+  } else {
+    const observateur = new IntersectionObserver(
+      function (entrees) {
+        entrees.forEach(function (entree) {
+          if (entree.isIntersecting) {
+            entree.target.classList.add("visible");
+            // Une seule fois : on arrête d'observer cet élément
+            observateur.unobserve(entree.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    elementsReveal.forEach(function (el) {
+      observateur.observe(el);
+    });
+
+    // Filet de sécurité : au bout de 2 s, on affiche tout élément .reveal
+    // resté caché (au cas où l'observateur ne se déclencherait pas).
+    window.setTimeout(function () {
+      elementsReveal.forEach(function (el) {
+        el.classList.add("visible");
+      });
+    }, 2000);
+  }
+
+
+  /* --------------------------------------------------------
+     4. VIGNETTES VIDÉO CLIQUABLES
+     --------------------------------------------------------
+     Chaque élément [data-video] ouvre une fenêtre légère
+     (overlay) contenant la vidéo indiquée.
+     À REMPLIR : renseigner l'attribut data-video="images/xxx.mp4"
+     (ou une URL) sur les vignettes concernées dans le HTML.
+     -------------------------------------------------------- */
+  const declencheursVideo = document.querySelectorAll("[data-video]");
+
+  if (declencheursVideo.length > 0) {
+    declencheursVideo.forEach(function (el) {
+      el.style.cursor = "pointer";
+      el.addEventListener("click", function () {
+        const source = el.getAttribute("data-video");
+        if (source) {
+          ouvrirVideo(source);
+        }
+      });
+    });
+  }
+
+  /**
+   * Ouvre une vidéo dans un overlay plein écran.
+   * @param {string} source - chemin ou URL de la vidéo
+   */
+  function ouvrirVideo(source) {
+    const overlay = document.createElement("div");
+    overlay.className = "video-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-label", "Lecture vidéo");
+
+    overlay.innerHTML =
+      '<button class="video-fermer" aria-label="Fermer">&times;</button>' +
+      '<video src="' + source + '" controls autoplay playsinline></video>';
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = "hidden"; // bloque le défilement en fond
+
+    function fermer() {
+      overlay.remove();
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", surTouche);
+    }
+
+    function surTouche(e) {
+      if (e.key === "Escape") fermer();
+    }
+
+    overlay.addEventListener("click", function (e) {
+      // Fermer si on clique en dehors de la vidéo ou sur la croix
+      if (e.target === overlay || e.target.classList.contains("video-fermer")) {
+        fermer();
+      }
+    });
+    document.addEventListener("keydown", surTouche);
+  }
+
+
+  /* --------------------------------------------------------
+     5. FORMULAIRE DE DEVIS (envoi par email via Formspree)
+     --------------------------------------------------------
+     - Validation simple des champs obligatoires.
+     - Envoi en AJAX (fetch) vers Formspree : la page ne se
+       recharge pas, on affiche un message de confirmation.
+     - Tant que l'ID Formspree n'est pas renseigné dans le
+       "action" du formulaire (il contient encore
+       "VOTRE_ID_FORMSPREE"), l'envoi est SIMULÉ pour permettre
+       la prévisualisation.
+     -------------------------------------------------------- */
+  const formulaire = document.getElementById("formulaire-devis");
   const zoneRetour = document.getElementById("formulaire-retour");
 
   if (formulaire && zoneRetour) {
 
-    formulaire.addEventListener("submit", function (evenement) {
-      // On empêche le rechargement de la page (comportement par défaut)
-      evenement.preventDefault();
+    formulaire.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-      // On lit les valeurs saisies, en retirant les espaces inutiles
+      // Lecture des champs
+      const formule = formulaire.formule.value.trim();
       const nom = formulaire.nom.value.trim();
-      const email = formulaire.email.value.trim();
-      const message = formulaire.message.value.trim();
+      const contact = formulaire.contact.value.trim();
+      const dateEvenement = formulaire.date_evenement.value.trim();
+      // message : facultatif, on ne le vérifie pas
 
-      // Vérification simple : tous les champs doivent être remplis
-      if (nom === "" || email === "" || message === "") {
-        afficherRetour("Merci de remplir tous les champs.", "erreur");
+      // --- Validation ---
+      if (formule === "" || nom === "" || contact === "" || dateEvenement === "") {
+        afficherRetour("Merci de remplir les champs obligatoires.", "erreur");
         return;
       }
 
-      // Vérification très basique du format de l'email
-      const emailValide = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!emailValide) {
-        afficherRetour("L'adresse email ne semble pas valide.", "erreur");
+      // Le moyen de contact doit ressembler à un email OU à un téléphone
+      const ressembleEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+      const ressembleTelephone = (contact.replace(/\D/g, "").length >= 8);
+      if (!ressembleEmail && !ressembleTelephone) {
+        afficherRetour("Indiquez un email valide ou un numéro de téléphone.", "erreur");
         return;
       }
 
-      // Tout est bon : on simule l'envoi
-      afficherRetour(
-        "Merci " + nom + " ! Votre message a bien été pris en compte (démo).",
-        "succes"
-      );
-      formulaire.reset(); // on vide le formulaire
+      // --- Envoi ---
+      const boutonEnvoi = formulaire.querySelector("button[type='submit']");
+      const action = formulaire.getAttribute("action") || "";
+      const idNonRenseigne = action.indexOf("VOTRE_ID_FORMSPREE") !== -1;
+
+      // Cas 1 : ID Formspree pas encore collé -> on simule
+      if (idNonRenseigne) {
+        afficherRetour(
+          "Votre demande a bien été envoyée (démo — collez votre ID Formspree pour un envoi réel).",
+          "succes"
+        );
+        formulaire.reset();
+        return;
+      }
+
+      // Cas 2 : envoi réel vers Formspree
+      if (boutonEnvoi) {
+        boutonEnvoi.disabled = true;
+        boutonEnvoi.textContent = "Envoi en cours…";
+      }
+      afficherRetour("", "");
+
+      fetch(action, {
+        method: "POST",
+        body: new FormData(formulaire),
+        headers: { Accept: "application/json" }
+      })
+        .then(function (reponse) {
+          if (reponse.ok) {
+            afficherRetour("Votre demande a bien été envoyée. Je vous recontacte rapidement.", "succes");
+            formulaire.reset();
+          } else {
+            afficherRetour("L'envoi a échoué. Réessayez ou écrivez-nous directement par email.", "erreur");
+          }
+        })
+        .catch(function () {
+          afficherRetour("Connexion impossible. Vérifiez votre réseau et réessayez.", "erreur");
+        })
+        .finally(function () {
+          if (boutonEnvoi) {
+            boutonEnvoi.disabled = false;
+            boutonEnvoi.textContent = "Demander un devis";
+          }
+        });
     });
   }
 
   /**
    * Affiche un message sous le formulaire.
-   * @param {string} texte  - le message à afficher
-   * @param {string} type   - "succes" ou "erreur" (change la couleur)
+   * @param {string} texte - message ("" pour effacer)
+   * @param {string} type  - "succes", "erreur" ou "" (neutre)
    */
   function afficherRetour(texte, type) {
+    if (!zoneRetour) return;
     zoneRetour.textContent = texte;
     zoneRetour.classList.remove("succes", "erreur");
-    zoneRetour.classList.add(type);
+    if (type) zoneRetour.classList.add(type);
   }
 
 });

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CascadoEvent — PAGE CONTACT (contact.html)
+  ------------------------------------------------------------
+  Formulaire de devis (formule, nom, contact, date, message)
+  + coordonnées.
+  L'envoi se fait par email via Formspree, en AJAX (voir
+  script.js) : pas de rechargement, message de confirmation.
+  À REMPLIR : coller l'ID Formspree dans l'attribut "action"
+  du formulaire ci-dessous (cherchez « VOTRE_ID_FORMSPREE »).
+  ============================================================
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Contact — CascadoEvent</title>
+  <meta name="description" content="Contactez CascadoEvent pour votre mariage, anniversaire ou soirée d'entreprise. Devis personnalisé sous 48 h." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Affichage garanti même si le JavaScript est désactivé -->
+  <noscript>
+    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
+</head>
+
+<body>
+
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Contact) -->
+  <header class="site-header">
+    <div class="conteneur header-contenu">
+      <a href="index.html" class="logo"><span class="texte-or">Cascado</span>Event</a>
+      <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="menu-nav" id="menu-nav">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="panneaux.html">Panneaux Fontaine</a></li>
+          <li><a href="photobooth.html">Photobooth</a></li>
+          <li><a href="packs.html">Packs</a></li>
+          <li><a href="contact.html" class="actif">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- EN-TÊTE DE PAGE -->
+    <section class="page-entete">
+      <div class="conteneur">
+        <span class="surtitre">Contact</span>
+        <h1>Parlons de votre événement</h1>
+        <hr class="filet centre" />
+        <p>
+          <!-- À REMPLIR : phrase d'introduction + délai de réponse -->
+          Décrivez votre projet en quelques mots : date, lieu, type d'événement
+          et prestation souhaitée. Réponse sous 48&nbsp;h.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- FORMULAIRE + COORDONNÉES -->
+    <section class="section">
+      <div class="conteneur">
+        <div class="contact-grille reveal">
+
+          <!--
+            ============================================================
+            FORMULAIRE DE DEVIS — envoi des réponses par email via Formspree
+            ------------------------------------------------------------
+            À REMPLIR : coller l'ID Formspree ici
+            1. Créez un compte gratuit sur https://formspree.io
+            2. Créez un nouveau formulaire : Formspree vous donne un ID
+               du type "xyzabcde".
+            3. Remplacez "VOTRE_ID_FORMSPREE" ci-dessous par cet ID.
+               L'URL finale doit ressembler à :
+               https://formspree.io/f/xyzabcde
+            ------------------------------------------------------------
+            L'envoi est géré en AJAX par script.js : la page ne se
+            recharge pas, un message de confirmation s'affiche.
+            Tant que l'ID n'est pas renseigné, script.js simule l'envoi
+            pour vous permettre de prévisualiser.
+            ============================================================
+          -->
+          <form
+            class="formulaire"
+            id="formulaire-devis"
+            action="https://formspree.io/f/VOTRE_ID_FORMSPREE"
+            method="POST"
+            novalidate
+          >
+
+            <!-- Formule souhaitée (menu déroulant) -->
+            <div class="champ">
+              <label for="formule">Formule souhaitée</label>
+              <select id="formule" name="formule" required>
+                <option value="" disabled selected>Choisissez une formule…</option>
+                <option value="Pack Premium">Pack Premium</option>
+                <option value="Pack Prestige">Pack Prestige</option>
+                <option value="Photobooth seul">Photobooth seul</option>
+                <option value="Panneaux fontaine seuls">Panneaux fontaine seuls</option>
+                <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
+              </select>
+            </div>
+
+            <!-- Nom / prénom -->
+            <div class="champ">
+              <label for="nom">Nom / prénom</label>
+              <input type="text" id="nom" name="nom" placeholder="Votre nom et prénom" required />
+            </div>
+
+            <!-- Moyen de contact : email OU téléphone, un seul champ -->
+            <div class="champ">
+              <label for="contact">Email ou téléphone</label>
+              <input
+                type="text"
+                id="contact"
+                name="contact"
+                placeholder="vous@exemple.com ou 06 12 34 56 78"
+                required
+              />
+            </div>
+
+            <!-- Date de l'événement -->
+            <div class="champ">
+              <label for="date_evenement">Date de l'événement</label>
+              <input type="date" id="date_evenement" name="date_evenement" required />
+            </div>
+
+            <!-- Message libre (optionnel) -->
+            <div class="champ">
+              <label for="message">Message <span class="champ-optionnel">(optionnel)</span></label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Lieu, nombre d'invités, horaires, questions…"
+              ></textarea>
+            </div>
+
+            <!-- Sujet de l'email reçu (Formspree utilise _subject) -->
+            <input type="hidden" name="_subject" value="Nouvelle demande de devis — CascadoEvent" />
+
+            <button type="submit" class="bouton">Demander un devis</button>
+
+            <p class="formulaire-retour" id="formulaire-retour" role="status" aria-live="polite"></p>
+
+          </form>
+
+          <!-- Coordonnées -->
+          <aside class="coordonnees">
+            <h3>Coordonnées</h3>
+            <dl>
+              <dt>Email</dt>
+              <dd><!-- À REMPLIR -->contact@cascadoevent.fr</dd>
+
+              <dt>Téléphone</dt>
+              <dd><!-- À REMPLIR -->00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</dd>
+
+              <dt>Zone d'intervention</dt>
+              <dd><!-- À REMPLIR -->[Région / département] et alentours</dd>
+
+              <dt>Réseaux</dt>
+              <dd><!-- À REMPLIR : liens Instagram / Facebook -->@cascadoevent</dd>
+            </dl>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- PIED DE PAGE COMMUN -->
+  <footer class="site-footer">
+    <div class="conteneur">
+      <div class="footer-haut">
+        <div class="footer-marque">
+          <a href="index.html" class="logo"><span class="texte-or">Cascado</span>Event</a>
+          <p>
+            Panneaux fontaine lumineux &amp; photobooths haut de gamme pour vos
+            événements. Intervention sur [À REMPLIR : région / département].
+          </p>
+        </div>
+        <nav class="footer-nav">
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="panneaux.html">Panneaux Fontaine</a></li>
+            <li><a href="photobooth.html">Photobooth</a></li>
+            <li><a href="packs.html">Packs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-bas">
+        <span>&copy; <span id="annee">2026</span> CascadoEvent. Tous droits réservés.</span>
+        <span>contact@cascadoevent.fr &nbsp;·&nbsp; 00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</span>
+      </div>
+    </div>
+  </footer>
+
+  <!--
+    ============================================================
+    BOUTON WHATSAPP FLOTTANT — présent sur toutes les pages
+    ------------------------------------------------------------
+    À REMPLIR : numéro au format international, sans « + » ni espaces
+    (exemple pour la France : 33612345678).
+    Remplacez « VOTRE_NUMERO_WHATSAPP » dans le href ci-dessous.
+    Le message pré-rempli est déjà encodé pour l'URL ; vous pouvez
+    le modifier en gardant l'encodage (%20 = espace, %2C = virgule…).
+    ============================================================
+  -->
+  <a
+    class="wa-flottant"
+    href="https://wa.me/VOTRE_NUMERO_WHATSAPP?text=Bonjour%20CascadoEvent%2C%20je%20souhaite%20r%C3%A9server%20%2F%20avoir%20un%20devis."
+    target="_blank"
+    rel="noopener"
+    aria-label="Réservation via WhatsApp"
+  >
+    <!-- Icône WhatsApp (SVG intégré, aucun fichier externe à charger) -->
+    <svg class="wa-icone" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M16.004 0h-.008C7.174 0 .002 7.174.002 16c0 3.5 1.128 6.744 3.046 9.376L1.05 31.36l6.19-1.98A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.826 32 16S24.826 0 16.004 0zm9.312 22.594c-.386 1.09-1.918 1.994-3.14 2.258-.836.178-1.928.32-5.604-1.204-4.7-1.948-7.726-6.724-7.962-7.034-.226-.31-1.9-2.53-1.9-4.826s1.174-3.424 1.65-3.91c.394-.404.87-.588 1.4-.588.17 0 .322.008.46.014.406.018.61.042.878.684.33.804 1.15 2.798 1.248 3.004.1.206.166.446.03.756-.128.32-.24.446-.446.686-.206.24-.402.424-.608.682-.188.224-.4.466-.164.87.236.396 1.05 1.73 2.254 2.802 1.552 1.384 2.82 1.826 3.266 2.012.332.138.728.106.97-.152.308-.33.688-.878 1.074-1.42.274-.388.62-.436.984-.3.37.128 2.354 1.11 2.756 1.31.402.2.668.296.766.462.098.166.098.964-.288 2.054z"/>
+    </svg>
+    <span class="wa-texte">Réservation via WhatsApp</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

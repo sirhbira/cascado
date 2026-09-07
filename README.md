@@ -1,82 +1,136 @@
 # CascadoEvent — Site vitrine
 
-Site vitrine d'une seule page pour l'activité événementielle **CascadoEvent**.
-Projet de test volontairement simple : **HTML, CSS et JavaScript purs**, sans
-framework ni outil de build (pas de React, pas de npm).
+Site vitrine multi-pages pour **CascadoEvent** — animation événementielle :
+location de **panneaux fontaine lumineux** et de **photobooths** pour mariages,
+anniversaires et soirées d'entreprise.
+
+Site 100 % statique : **HTML, CSS et JavaScript purs**, sans framework ni build
+(pas de React, pas de npm). Hébergé sur **GitHub Pages**.
+
+Direction artistique : luxe & doré, noir profond, épuré.
 
 ## Structure du projet
 
 ```
 cascadoevent/
-├── index.html        Page unique (structure et contenu)
-├── style.css         Feuille de style (mise en forme, responsive)
-├── script.js         JavaScript (menu mobile, année, formulaire)
-├── images/           Images du site (placeholders à remplacer)
-│   ├── placeholder-1.svg
-│   ├── placeholder-2.svg
-│   ├── placeholder-3.svg
-│   └── README.md
-├── README.md         Ce fichier
+├── index.html          Accueil : hero vidéo, présentation, les 2 univers, aperçu des packs
+├── panneaux.html       Galerie des modèles de panneaux fontaine
+├── photobooth.html     Galerie des modèles de photobooth
+├── packs.html          Formules Premium & Prestige (grille tarifaire)
+├── contact.html        Formulaire + coordonnées
+├── style.css           Feuille de style partagée (toutes les pages)
+├── script.js           JS partagé (menu, animations, vidéos, formulaire)
+├── images/             Images et vidéos (placeholders SVG à remplacer)
+├── README.md           Ce fichier
 └── .gitignore
 ```
 
+L'en-tête et le pied de page sont **recopiés à l'identique** dans chaque page
+HTML (pas de build, donc pas d'inclusion automatique). Si vous modifiez la
+navigation, répercutez le changement dans les 5 fichiers `.html`.
+
 ## Ouvrir le site en local
 
-Aucune installation n'est nécessaire.
+### Méthode 1 — double-clic
 
-### Méthode 1 — double-clic (la plus simple)
+Ouvrez `index.html` dans votre navigateur.
 
-Ouvrez `index.html` dans votre navigateur (double-clic sur le fichier, ou
-clic droit → « Ouvrir avec »).
+### Méthode 2 — petit serveur local (recommandé, pour la vidéo de fond)
 
-### Méthode 2 — petit serveur local (recommandé)
-
-Certaines fonctions se comportent mieux via un serveur local. Au choix :
-
-- **VS Code** : installez l'extension « Live Server », puis clic droit sur
-  `index.html` → « Open with Live Server ».
-- **Python** (déjà installé sur beaucoup de machines) :
+- **VS Code** : extension « Live Server » → clic droit sur `index.html` →
+  « Open with Live Server ».
+- **Python** :
   ```bash
   python -m http.server 8000
   ```
-  puis ouvrez <http://localhost:8000> dans le navigateur.
+  puis <http://localhost:8000>.
 
 ## Personnaliser le contenu
 
-Cherchez les commentaires **« À REMPLIR »** dans `index.html`, `style.css` et
-`script.js` : ils indiquent les endroits à adapter (textes, couleurs, images,
-coordonnées, envoi du formulaire…).
+Cherchez les commentaires **« À REMPLIR »** et **« À REMPLACER »** dans les
+fichiers : ils marquent tout ce qui doit être adapté.
 
-Le formulaire de contact est pour l'instant **simulé** (aucun email n'est
-réellement envoyé). Pour un envoi réel, branchez un service comme
-Formspree, Netlify Forms ou EmailJS (voir le commentaire dans `script.js`).
+| À faire | Où |
+|---|---|
+| Textes, accroches, coordonnées | dans chaque `.html` |
+| Couleurs, polices, mesures | `style.css`, section `1. VARIABLES` (`:root`) |
+| Vidéo de fond du hero | `index.html` → `<video class="hero-video">`, fichier `images/hero.mp4` |
+| Photos des modèles | `images/panneau-*.svg` et `images/photobooth-*.svg` → vos `.jpg` |
+| Vignettes vidéo dans les galeries | attribut `data-video="images/xxx.mp4"` + classe `video` sur `.modele-media` |
+| Prix et prestations des packs | `packs.html` (listes `À REMPLIR`) |
+| ID Formspree (formulaire de devis) | `contact.html` → `VOTRE_ID_FORMSPREE` |
+| Numéro WhatsApp (bouton flottant) | les 5 `.html` → `VOTRE_NUMERO_WHATSAPP` |
 
-## Publier le site
+### Formulaire de devis (Formspree)
 
-Le site étant 100 % statique, il peut être hébergé gratuitement.
+Le formulaire de la page `contact.html` envoie les demandes **par email via
+[Formspree](https://formspree.io)** (offre gratuite suffisante pour démarrer).
+L'envoi est fait en AJAX par `script.js` : la page ne se recharge pas, un
+message « Votre demande a bien été envoyée » s'affiche.
 
-### Netlify (glisser-déposer)
+1. Créez un compte sur <https://formspree.io> et un nouveau formulaire.
+2. Formspree vous donne un ID (ex. `xyzabcde`).
+3. Dans `contact.html`, remplacez `VOTRE_ID_FORMSPREE` dans
+   `action="https://formspree.io/f/VOTRE_ID_FORMSPREE"` par cet ID.
+4. Validez votre adresse email à la première soumission (demandé par Formspree).
 
-1. Créez un compte sur <https://www.netlify.com>.
-2. Rubrique « Add new site » → « Deploy manually ».
-3. Glissez-déposez le dossier du projet. Le site est en ligne en quelques secondes.
+> Tant que l'ID n'est pas renseigné, `script.js` **simule** l'envoi pour vous
+> permettre de prévisualiser le comportement.
 
-### GitHub Pages
+Champs envoyés : `formule`, `nom`, `contact` (email ou téléphone),
+`date_evenement`, `message` (optionnel).
 
-1. Créez un dépôt GitHub et poussez le contenu du projet :
+### Bouton WhatsApp flottant
+
+Un bouton fixe en bas à droite, présent sur **toutes les pages**, ouvre WhatsApp
+avec un message pré-rempli.
+
+- Dans les 5 fichiers `.html`, remplacez `VOTRE_NUMERO_WHATSAPP` par votre
+  numéro au **format international, sans `+` ni espaces** (ex. `33612345678`).
+- Le message par défaut (« Bonjour CascadoEvent, je souhaite réserver / avoir un
+  devis. ») est déjà encodé dans l'URL ; modifiez-le en gardant l'encodage.
+- Sur mobile, le bouton devient une pastille ronde (icône seule) pour ne pas
+  gêner la lecture.
+
+### Autres options d'envoi du formulaire
+
+- **Lien mailto** : remplacer le `<form>` par un lien `mailto:` simple.
+- **Netlify Forms** si vous hébergez sur Netlify plutôt que GitHub Pages.
+
+### Vidéos
+
+- **Hero** : `images/hero.mp4` (H.264, 1080p, muette, ~10-20 s en boucle,
+  compressée — visez < 5 Mo, GitHub Pages sert des fichiers statiques).
+- **Galeries** : mettez la classe `video` et `data-video="images/xxx.mp4"` sur
+  une vignette `.modele-media` pour la rendre cliquable (lecture en plein écran).
+
+## Publier sur GitHub Pages
+
+1. Poussez le projet sur un dépôt GitHub :
    ```bash
    git init
    git add .
-   git commit -m "Première version du site CascadoEvent"
+   git commit -m "Refonte design CascadoEvent"
    git branch -M main
    git remote add origin https://github.com/VOTRE-COMPTE/cascadoevent.git
    git push -u origin main
    ```
-2. Sur GitHub : `Settings` → `Pages` → Source : branche `main`, dossier `/root`.
-3. Le site sera disponible à l'adresse
-   `https://VOTRE-COMPTE.github.io/cascadoevent/`.
+2. Sur GitHub : `Settings` → `Pages` → Source : branche `main`, dossier `/ (root)`.
+3. Le site sera en ligne sur `https://VOTRE-COMPTE.github.io/cascadoevent/`.
 
-### Autres options
+> Toutes les URL internes sont **relatives** (`panneaux.html`, `images/…`), le
+> site fonctionne donc aussi bien à la racine d'un domaine que dans un
+> sous-dossier GitHub Pages.
 
-Vercel, Cloudflare Pages, GitLab Pages ou l'hébergement mutualisé classique
-(dépôt des fichiers par FTP) fonctionnent tout aussi bien.
+### Alternatives
+
+Netlify (glisser-déposer du dossier), Vercel, Cloudflare Pages — tous compatibles
+avec ce site statique.
+
+## Performances
+
+- Polices chargées depuis Google Fonts avec `preconnect` et `display=swap`.
+- Aucune librairie JS externe, un seul `style.css` et un seul `script.js`.
+- Images de démonstration en SVG légers.
+- Pensez à compresser vos vraies photos (< 300 Ko) et vidéos avant publication.
+- Animations désactivées automatiquement si `prefers-reduced-motion` est actif.
