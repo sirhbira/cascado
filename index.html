@@ -46,6 +46,7 @@
   />
 
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/prestations.css" />
 
   <!-- Sécurité : si le JavaScript est désactivé, on affiche quand même
        tout le contenu (les animations d'apparition sont neutralisées). -->
@@ -179,7 +180,8 @@
           </p>
         </div>
 
-        <div class="univers-grille reveal">
+        <div class="prestations-coverflow reveal" id="prestations-coverflow" role="region" aria-roledescription="carrousel" aria-label="Nos prestations">
+        <div class="univers-grille">
 
           <!-- Univers 1 : Panneaux fontaine -->
           <a href="/panneaux" class="univers-carte">
@@ -209,6 +211,17 @@
             </div>
           </a>
 
+        </div>
+        <div class="prestations-navigation" hidden>
+          <button type="button" class="prestations-fleche" data-direction="-1" aria-label="Prestation précédente">&#8592;</button>
+          <div class="prestations-points" aria-label="Choisir une prestation">
+            <button type="button" data-carte="0" aria-label="Afficher Panneaux Fontaine" aria-pressed="true"></button>
+            <button type="button" data-carte="1" aria-label="Afficher Photobooth" aria-pressed="false"></button>
+            <button type="button" data-carte="2" aria-label="Afficher Livre d’or vidéo" aria-pressed="false"></button>
+          </div>
+          <button type="button" class="prestations-fleche" data-direction="1" aria-label="Prestation suivante">&#8594;</button>
+        </div>
+        <p class="prestations-statut" role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
       </div>
     </section>
@@ -357,5 +370,6 @@
 
   <script src="/script.js"></script>
   <script src="/films.js"></script>
+  <script src="/prestations.js"></script>
 </body>
 </html>

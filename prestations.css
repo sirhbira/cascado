@@ -1,0 +1,165 @@
+/* Styles limités au carrousel des prestations de l’accueil. */
+.prestations-coverflow {
+  --carte-largeur: min(400px, 68vw);
+  --carte-hauteur: 550px;
+  --decalage: min(290px, 34vw);
+}
+
+.prestations-coverflow .univers-carte {
+  min-height: var(--carte-hauteur);
+  isolation: isolate;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.prestations-coverflow .univers-media {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  z-index: -2;
+}
+
+.prestations-coverflow .univers-media img {
+  opacity: 1;
+}
+
+.prestations-coverflow .univers-media::after {
+  background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.2) 65%, rgba(0, 0, 0, 0.65));
+}
+
+.prestations-coverflow .univers-texte {
+  flex: none;
+  margin-top: auto;
+  padding: 28px;
+  position: relative;
+}
+
+.prestations-coverflow .univers-texte::before {
+  content: "";
+  position: absolute;
+  inset: -24px 0 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(13, 13, 15, 0.1), rgba(13, 13, 15, 0.8));
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(transparent, #000 32px);
+  mask-image: linear-gradient(transparent, #000 32px);
+}
+
+.prestations-coverflow .univers-texte h3 {
+  color: var(--champagne);
+}
+
+.prestations-coverflow .univers-texte p {
+  color: #f4f0e9;
+}
+
+.prestations-coverflow.est-actif .univers-grille {
+  display: block;
+  position: relative;
+  height: calc(var(--carte-hauteur) + 36px);
+  perspective: 1200px;
+  overflow: hidden;
+  overflow: clip;
+  touch-action: pan-y pinch-zoom;
+}
+
+.prestations-coverflow.est-actif .univers-carte {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  width: var(--carte-largeur);
+  height: var(--carte-hauteur);
+  min-height: 0;
+  transform-origin: center;
+  backface-visibility: hidden;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.65s ease, border-color var(--transition), box-shadow 0.65s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.prestations-coverflow .carte-centre {
+  z-index: 3;
+  transform: translateX(-50%) translateZ(0) scale(1);
+  filter: none;
+  border-color: rgba(212, 175, 55, 0.65);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.prestations-coverflow .carte-gauche {
+  z-index: 1;
+  transform: translateX(calc(-50% - var(--decalage))) translateZ(-120px) rotateY(18deg) scale(0.87);
+  filter: brightness(0.62) blur(1px);
+}
+
+.prestations-coverflow .carte-droite {
+  z-index: 1;
+  transform: translateX(calc(-50% + var(--decalage))) translateZ(-120px) rotateY(-18deg) scale(0.87);
+  filter: brightness(0.62) blur(1px);
+}
+
+.prestations-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 16px;
+}
+
+.prestations-navigation[hidden] { display: none; }
+
+.prestations-fleche,
+.prestations-points button {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--champagne);
+  background: transparent;
+  border: 1px solid var(--or-filet);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.prestations-fleche { font-size: 1.2rem; }
+.prestations-fleche:hover { border-color: var(--or); background: var(--or-voile); }
+.prestations-points { display: flex; }
+.prestations-points button { border: 0; width: 36px; }
+.prestations-points button::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--or-filet);
+}
+.prestations-points button[aria-pressed="true"]::after { background: var(--or); }
+.prestations-coverflow a:focus-visible,
+.prestations-coverflow button:focus-visible { outline: 2px solid var(--champagne); outline-offset: -4px; }
+.prestations-statut {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .prestations-coverflow {
+    --carte-largeur: 72%;
+    --carte-hauteur: 510px;
+    --decalage: 44vw;
+  }
+  .prestations-coverflow .univers-texte { padding: 20px 18px; }
+  .prestations-coverflow .univers-texte h3 { font-size: clamp(1.4rem, 5vw, 1.8rem); }
+  .prestations-coverflow .univers-texte p { font-size: 0.88rem; }
+  .prestations-coverflow .univers-lien { font-size: 0.65rem; letter-spacing: 0.14em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prestations-coverflow *, .prestations-coverflow *::after { transition: none !important; }
+}
