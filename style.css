@@ -506,7 +506,7 @@ h1, h2, h3, h4 {
 
 .univers-grille {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 36px;
 }
 
@@ -1147,8 +1147,8 @@ h1, h2, h3, h4 {
   }
 }
 
-/* Mobile */
-@media (max-width: 720px) {
+/* Navigation : six liens, menu compact dès les écrans intermédiaires. */
+@media (max-width: 1100px) {
 
   /* Navigation : menu déroulant plein largeur */
   .menu-burger {
@@ -1190,6 +1190,11 @@ h1, h2, h3, h4 {
   .menu-nav a::after {
     display: none;
   }
+
+}
+
+/* Mobile */
+@media (max-width: 720px) {
 
   /* Packs empilés */
   .packs-grille {

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000" role="img" aria-label="Livre d’or vidéo — illustration">
+  <defs>
+    <radialGradient id="fond" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#1b1a17"/>
+      <stop offset="55%" stop-color="#0d0d0f"/>
+      <stop offset="100%" stop-color="#0a0a0c"/>
+    </radialGradient>
+    <linearGradient id="or" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#f4e4bc"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1000" fill="url(#fond)"/>
+  <rect x="24" y="24" width="1152" height="952" fill="none" stroke="url(#or)" stroke-opacity="0.5"/>
+  <g fill="none" stroke="url(#or)" stroke-width="3">
+    <rect x="425" y="260" width="350" height="230" rx="16"/>
+    <path d="M570 325 650 375 570 425Z"/>
+    <path d="M485 545Q540 525 600 555Q660 525 715 545V665Q660 645 600 675Q540 645 485 665Z M600 555V675"/>
+  </g>
+</svg>
