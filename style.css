@@ -1202,33 +1202,48 @@ h1, h2, h3, h4 {
 
 .site-footer {
   border-top: 1px solid var(--or-filet);
-  padding: 64px 0 40px;
+  padding: 72px 0 36px;
   background: var(--noir);
 }
 
 .footer-haut {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin-bottom: 48px;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1.2fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 44px;
 }
 
-.footer-marque .logo {
+.footer-col .logo {
   display: inline-block;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .footer-marque p {
   color: var(--texte-doux);
   font-size: 0.9rem;
-  max-width: 320px;
+  line-height: 1.65;
+  max-width: 340px;
+  margin-bottom: 12px;
 }
 
-.footer-nav ul {
+/* Petit intitulé de colonne, doré, dans l'esprit des surtitres du site */
+.footer-titre {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 18px;
+}
+
+.footer-nav ul,
+.footer-contact ul {
   list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1242,19 +1257,129 @@ h1, h2, h3, h4 {
   transition: color var(--transition);
 }
 
-.footer-nav a:hover {
+.footer-nav a:hover,
+.footer-nav a:focus-visible,
+.footer-contact a:hover,
+.footer-contact a:focus-visible {
   color: var(--champagne);
 }
 
-.footer-bas {
-  padding-top: 28px;
-  border-top: 1px solid rgba(212, 175, 55, 0.10);
+.footer-contact li {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.footer-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--texte-tres-doux);
+}
+
+.footer-contact a {
+  font-size: 0.92rem;
+  color: var(--texte);
+  transition: color var(--transition);
+}
+
+/* Bouton « Réservation via WhatsApp » du footer */
+.footer-wa {
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
+  margin-top: 20px;
+  padding: 12px 22px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--champagne);
+  border: 1px solid var(--or-filet);
+  border-radius: 100px;
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+}
+
+.footer-wa:hover,
+.footer-wa:focus-visible {
+  border-color: var(--or);
+  background: var(--or-voile);
+  color: var(--or);
+}
+
+.footer-wa-ico {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Réseaux sociaux — les icônes gardent leurs couleurs officielles,
+   seul le cadre circulaire reprend le doré du site. */
+.footer-social-liens {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-social-lien {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--or-filet);
+  border-radius: 50%;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.footer-social-lien svg {
+  width: 23px;
+  height: 23px;
+  display: block;
+}
+
+.footer-social-lien:hover,
+.footer-social-lien:focus-visible {
+  transform: translateY(-3px) scale(1.09);
+  border-color: var(--or);
+  box-shadow: 0 10px 24px -8px rgba(212, 175, 55, 0.4);
+}
+
+.footer-bas {
+  padding-top: 26px;
+  border-top: 1px solid rgba(212, 175, 55, 0.10);
   font-size: 0.76rem;
   color: var(--texte-tres-doux);
+  text-align: center;
+}
+
+/* Footer — tablette : deux colonnes */
+@media (max-width: 960px) {
+  .footer-haut {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+}
+
+/* Footer — téléphone : une colonne, icônes sociales côte à côte et plus grandes */
+@media (max-width: 600px) {
+  .footer-haut {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .footer-marque p {
+    max-width: none;
+  }
+
+  .footer-social-lien {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer-social-lien svg {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 
