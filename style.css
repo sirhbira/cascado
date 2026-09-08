@@ -1198,6 +1198,145 @@ h1, h2, h3, h4 {
 }
 
 
+/* 11c. FAQ (accordéon, bas de l'accueil) ------------- */
+
+.faq-liste {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border: 1px solid var(--or-filet);
+  border-radius: 10px;
+  background: var(--noir-2);
+  margin-bottom: 14px;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.faq-item:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.faq-item.est-ouvert {
+  border-color: var(--or);
+  background:
+    linear-gradient(180deg, var(--or-voile), transparent 45%),
+    var(--noir-2);
+}
+
+.faq-q {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 22px 26px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  line-height: 1.45;
+  color: var(--texte);
+  transition: color var(--transition);
+}
+
+.faq-q:hover,
+.faq-item.est-ouvert .faq-q {
+  color: var(--champagne);
+}
+
+.faq-q:focus-visible {
+  outline: 1px solid var(--or);
+  outline-offset: -1px;
+}
+
+/* Icône + / − (deux barres dorées, la verticale pivote à l'ouverture) */
+.faq-ico {
+  position: relative;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 5px;
+}
+
+.faq-ico::before,
+.faq-ico::after {
+  content: "";
+  position: absolute;
+  background: var(--or);
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.faq-ico::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.faq-ico::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  transform: translateX(-50%);
+}
+
+.faq-item.est-ouvert .faq-ico::after {
+  transform: translateX(-50%) rotate(90deg);
+  opacity: 0;
+}
+
+/* Déroulé fluide de la réponse */
+.faq-a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item.est-ouvert .faq-a {
+  grid-template-rows: 1fr;
+}
+
+.faq-a > div {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.faq-a p {
+  margin: 0;
+  padding: 2px 26px 24px;
+  color: var(--texte-doux);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+  .faq-q {
+    gap: 14px;
+    padding: 18px 18px;
+    font-size: 1rem;
+  }
+
+  .faq-ico {
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq-a p {
+    padding: 2px 18px 20px;
+    font-size: 0.92rem;
+  }
+
+  .faq-item {
+    margin-bottom: 12px;
+  }
+}
+
+
 /* 12. PIED DE PAGE ----------------------------------- */
 
 .site-footer {
@@ -1339,9 +1478,11 @@ h1, h2, h3, h4 {
 
 .footer-social-lien:hover,
 .footer-social-lien:focus-visible {
-  transform: translateY(-3px) scale(1.09);
+  transform: translateY(-3px) scale(1.1);
   border-color: var(--or);
-  box-shadow: 0 10px 24px -8px rgba(212, 175, 55, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.55),
+    0 8px 22px -6px rgba(212, 175, 55, 0.5);
 }
 
 .footer-bas {
@@ -1369,6 +1510,16 @@ h1, h2, h3, h4 {
 
   .footer-marque p {
     max-width: none;
+  }
+
+  /* Réseaux sociaux centrés et bien espacés sur téléphone */
+  .footer-social {
+    text-align: center;
+  }
+
+  .footer-social-liens {
+    justify-content: center;
+    gap: 18px;
   }
 
   .footer-social-lien {
