@@ -833,6 +833,124 @@ h1, h2, h3, h4 {
 }
 
 
+/* --- Catalogue des panneaux fontaine (page Panneaux) : grille 2 × 2 --- */
+.galerie.galerie-panneaux {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.galerie-panneaux .modele {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.galerie-panneaux .modele-media {
+  aspect-ratio: 4 / 5;
+}
+
+.galerie-panneaux .modele-media img {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.galerie-panneaux .modele:hover .modele-media img {
+  transform: scale(1.05);
+}
+
+.galerie-panneaux .modele-corps {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 26px 26px 28px;
+}
+
+.galerie-panneaux .modele-corps h3 {
+  margin-bottom: 0;
+  font-size: 1.35rem;
+}
+
+/* Badge dimensions : ligne dorée discrète */
+.modele-dim {
+  padding: 5px 13px;
+  border: 1px solid var(--or-filet);
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--champagne);
+  white-space: nowrap;
+}
+
+.galerie-panneaux .modele-corps p {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.modele-cta {
+  margin-top: 4px;
+  padding: 12px 24px;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+/* Tablette : cartes un peu plus resserrées */
+@media (max-width: 900px) {
+  .galerie.galerie-panneaux {
+    gap: 28px;
+  }
+
+  .galerie-panneaux .modele-corps {
+    padding: 22px 20px 24px;
+  }
+}
+
+/* Téléphone : on garde la grille 2 × 2, texte et visuels adaptés */
+@media (max-width: 600px) {
+  .galerie.galerie-panneaux {
+    gap: 14px;
+  }
+
+  .galerie-panneaux .modele-media {
+    aspect-ratio: 1 / 1;
+  }
+
+  .galerie-panneaux .modele-corps {
+    gap: 9px;
+    padding: 16px 14px 18px;
+  }
+
+  .galerie-panneaux .modele-corps h3 {
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .modele-dim {
+    padding: 4px 10px;
+    font-size: 0.66rem;
+  }
+
+  .galerie-panneaux .modele-corps p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .modele-cta {
+    width: 100%;
+    justify-content: center;
+    margin-top: 2px;
+    padding: 11px 8px;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+
 /* 10. PACKS (GRILLE TARIFAIRE) ------------------------- */
 
 .packs-grille {
