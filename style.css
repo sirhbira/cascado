@@ -439,9 +439,11 @@ h1, h2, h3, h4 {
 /* Lien de défilement en bas du hero */
 .hero-scroll {
   position: absolute;
-  left: 50%;
+  left: 0;
+  right: 0;
+  width: max-content;
+  margin-inline: auto;
   bottom: 28px;
-  transform: translateX(-50%);
   font-size: 0.66rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
