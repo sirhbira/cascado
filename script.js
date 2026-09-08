@@ -223,18 +223,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Indicateurs discrets sous le carrousel
     const indicateurs = document.createElement("div");
     indicateurs.className = "packs-dots";
-    const puces = cartes.map(function (carte, i) {
-      const bouton = document.createElement("button");
-      bouton.type = "button";
-      bouton.className = "packs-dot";
-      bouton.setAttribute("aria-label", "Voir le pack " + (i + 1));
-      bouton.addEventListener("click", function () {
-        grille.scrollTo({ left: positionCentree(carte), behavior: "smooth" });
-      });
-      indicateurs.appendChild(bouton);
-      return bouton;
-    });
     grille.insertAdjacentElement("afterend", indicateurs);
+
+    // Chaque puce est liée à SA carte (pas à un index), et les puces sont
+    // ordonnées comme les cartes à l'écran : aucune inversion possible.
+    let puces = [];
+    let ecouteActive = false;
+    let planifie = false;
 
     function positionCentree(carte) {
       const decalage =
@@ -244,40 +239,81 @@ document.addEventListener("DOMContentLoaded", function () {
       return decalage - (grille.clientWidth - carte.clientWidth) / 2;
     }
 
+    // Carte réellement affichée au centre = celle dont le centre est le plus
+    // proche du centre de la zone visible. Fonction pure de la position de
+    // défilement : impossible de se désynchroniser, même après plusieurs swipes.
+    function carteCentrale() {
+      const zone = grille.getBoundingClientRect();
+      const centre = zone.left + zone.width / 2;
+      let choisie = cartes[0];
+      let meilleure = Infinity;
+      cartes.forEach(function (c) {
+        const r = c.getBoundingClientRect();
+        const ecart = Math.abs(r.left + r.width / 2 - centre);
+        if (ecart < meilleure) {
+          meilleure = ecart;
+          choisie = c;
+        }
+      });
+      return choisie;
+    }
+
     function activer(carte) {
       cartes.forEach(function (c) { c.classList.toggle("is-active", c === carte); });
-      puces.forEach(function (p, i) {
-        p.classList.toggle("is-active", cartes[i] === carte);
+      puces.forEach(function (p) {
+        p.bouton.classList.toggle("is-active", p.carte === carte);
       });
     }
 
-    let observateur = null;
+    function synchroniser() {
+      activer(carteCentrale());
+    }
+
+    function surDefilement() {
+      if (planifie) return;
+      planifie = true;
+      window.requestAnimationFrame(function () {
+        planifie = false;
+        synchroniser();
+      });
+    }
+
+    function construireDots() {
+      indicateurs.textContent = "";
+      // Ordre visuel réel des cartes (tient compte du CSS `order` sur mobile).
+      const ordreVisuel = cartes.slice().sort(function (a, b) {
+        return a.getBoundingClientRect().left - b.getBoundingClientRect().left;
+      });
+      puces = ordreVisuel.map(function (carte, i) {
+        const bouton = document.createElement("button");
+        bouton.type = "button";
+        bouton.className = "packs-dot";
+        bouton.setAttribute("aria-label", "Voir le pack " + (i + 1));
+        bouton.addEventListener("click", function () {
+          grille.scrollTo({ left: positionCentree(carte), behavior: "smooth" });
+        });
+        indicateurs.appendChild(bouton);
+        return { bouton: bouton, carte: carte };
+      });
+    }
 
     function demarrer() {
       const prestige = grille.querySelector(".pack.prestige") || cartes[0];
-      activer(prestige);
       grille.scrollLeft = Math.max(0, positionCentree(prestige));
-
-      observateur = new IntersectionObserver(
-        function (entrees) {
-          entrees.forEach(function (entree) {
-            if (entree.isIntersecting && entree.intersectionRatio >= 0.6) {
-              activer(entree.target);
-            }
-          });
-        },
-        { root: grille, threshold: [0.6] }
-      );
-      cartes.forEach(function (c) { observateur.observe(c); });
+      construireDots();
+      synchroniser();
+      grille.addEventListener("scroll", surDefilement, { passive: true });
+      ecouteActive = true;
     }
 
     function arreter() {
-      if (observateur) {
-        observateur.disconnect();
-        observateur = null;
+      if (ecouteActive) {
+        grille.removeEventListener("scroll", surDefilement);
+        ecouteActive = false;
       }
+      indicateurs.textContent = "";
+      puces = [];
       cartes.forEach(function (c) { c.classList.remove("is-active"); });
-      puces.forEach(function (p) { p.classList.remove("is-active"); });
     }
 
     function appliquer() {
