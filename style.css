@@ -250,6 +250,21 @@ h1, h2, h3, h4 {
 }
 
 /* Nom de la marque */
+.site-header .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.header-logo-image {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .logo {
   font-family: var(--serif);
   font-size: 1.45rem;
