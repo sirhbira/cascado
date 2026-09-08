@@ -669,8 +669,8 @@ h1, h2, h3, h4 {
 .univers-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  max-height: 460px;
+  aspect-ratio: 3 / 4;
+  max-height: 480px;
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -708,7 +708,7 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 36px;
+  padding: 40px 36px;
 }
 
 .univers-texte .univers-lien {
