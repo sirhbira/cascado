@@ -1,8 +1,8 @@
 /* Styles limités au carrousel des prestations de l’accueil. */
 .prestations-coverflow {
-  --carte-largeur: min(400px, 68vw);
-  --carte-hauteur: 550px;
-  --decalage: min(290px, 34vw);
+  --carte-largeur: min(470px, 76vw);
+  --carte-hauteur: 640px;
+  --decalage: min(320px, 36vw);
 }
 
 .prestations-coverflow .univers-carte {
@@ -150,9 +150,9 @@
 
 @media (max-width: 720px) {
   .prestations-coverflow {
-    --carte-largeur: 72%;
-    --carte-hauteur: 510px;
-    --decalage: 44vw;
+    --carte-largeur: 80%;
+    --carte-hauteur: 570px;
+    --decalage: 46vw;
   }
   .prestations-coverflow .univers-texte { padding: 20px 18px; }
   .prestations-coverflow .univers-texte h3 { font-size: clamp(1.4rem, 5vw, 1.8rem); }

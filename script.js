@@ -205,4 +205,92 @@ document.addEventListener("DOMContentLoaded", function () {
     if (type) zoneRetour.classList.add(type);
   }
 
+
+  /* --------------------------------------------------------
+     6. CARROUSEL DES PACKS (mobile)
+     --------------------------------------------------------
+     Sur petit écran, la grille Premium / Prestige devient un
+     carrousel horizontal : le Prestige est affiché en premier,
+     la carte centrée est mise en avant, les autres sont en
+     retrait. Sur écran large, on ne touche à rien (grille CSS).
+     -------------------------------------------------------- */
+  document.querySelectorAll(".packs-grille").forEach(function (grille) {
+    const cartes = Array.prototype.slice.call(grille.querySelectorAll(".pack"));
+    if (cartes.length < 2) return;
+
+    const mq = window.matchMedia("(max-width: 720px)");
+
+    // Indicateurs discrets sous le carrousel
+    const indicateurs = document.createElement("div");
+    indicateurs.className = "packs-dots";
+    const puces = cartes.map(function (carte, i) {
+      const bouton = document.createElement("button");
+      bouton.type = "button";
+      bouton.className = "packs-dot";
+      bouton.setAttribute("aria-label", "Voir le pack " + (i + 1));
+      bouton.addEventListener("click", function () {
+        grille.scrollTo({ left: positionCentree(carte), behavior: "smooth" });
+      });
+      indicateurs.appendChild(bouton);
+      return bouton;
+    });
+    grille.insertAdjacentElement("afterend", indicateurs);
+
+    function positionCentree(carte) {
+      const decalage =
+        grille.scrollLeft +
+        carte.getBoundingClientRect().left -
+        grille.getBoundingClientRect().left;
+      return decalage - (grille.clientWidth - carte.clientWidth) / 2;
+    }
+
+    function activer(carte) {
+      cartes.forEach(function (c) { c.classList.toggle("is-active", c === carte); });
+      puces.forEach(function (p, i) {
+        p.classList.toggle("is-active", cartes[i] === carte);
+      });
+    }
+
+    let observateur = null;
+
+    function demarrer() {
+      const prestige = grille.querySelector(".pack.prestige") || cartes[0];
+      activer(prestige);
+      grille.scrollLeft = Math.max(0, positionCentree(prestige));
+
+      observateur = new IntersectionObserver(
+        function (entrees) {
+          entrees.forEach(function (entree) {
+            if (entree.isIntersecting && entree.intersectionRatio >= 0.6) {
+              activer(entree.target);
+            }
+          });
+        },
+        { root: grille, threshold: [0.6] }
+      );
+      cartes.forEach(function (c) { observateur.observe(c); });
+    }
+
+    function arreter() {
+      if (observateur) {
+        observateur.disconnect();
+        observateur = null;
+      }
+      cartes.forEach(function (c) { c.classList.remove("is-active"); });
+      puces.forEach(function (p) { p.classList.remove("is-active"); });
+    }
+
+    function appliquer() {
+      arreter();
+      if (mq.matches) demarrer();
+    }
+
+    appliquer();
+    if (mq.addEventListener) {
+      mq.addEventListener("change", appliquer);
+    } else if (mq.addListener) {
+      mq.addListener(appliquer);
+    }
+  });
+
 });
