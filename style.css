@@ -257,12 +257,30 @@ h1, h2, h3, h4 {
   white-space: nowrap;
 }
 
-.header-logo-image {
-  width: 44px;
-  height: 44px;
+.site-header .header-logo-image {
+  display: block;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   object-fit: cover;
+  object-position: center;
   border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  padding: 2px;
+  background: var(--noir);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.05), 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 720px) {
+  .site-header .logo {
+    gap: 10px;
+    font-size: 1.25rem;
+  }
+
+  .site-header .header-logo-image {
+    width: 42px;
+    height: 42px;
+  }
 }
 
 .logo {
