@@ -53,6 +53,7 @@
     <style>
       .reveal { opacity: 1 !important; transform: none !important; }
       .hero-contenu > * { opacity: 1 !important; animation: none !important; }
+      .films-lecteur { opacity: 1 !important; }
     </style>
   </noscript>
 </head>
@@ -142,6 +143,31 @@
       <a href="#presentation" class="hero-scroll">Défiler</a>
     </section>
 
+
+    <section class="films-accueil" aria-label="Nos prestations en vidéo">
+      <div class="conteneur">
+        <figure class="films-cadre">
+          <video
+            id="films-lecteur"
+            class="films-lecteur"
+            src="/videos/livre-dor.mp4"
+            autoplay
+            muted
+            playsinline
+            preload="auto"
+            disablepictureinpicture
+            disableremoteplayback
+            aria-label="Présentation vidéo des prestations Cascado Event, sans son"
+          ></video>
+          <figcaption class="films-legende">
+            <span id="films-nom">Livre d’or vidéo</span>
+            <span class="films-reperes" aria-hidden="true">
+              <span class="en-cours"></span><span></span><span></span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
 
     <!-- ======================================================
          PRÉSENTATION COURTE
@@ -380,5 +406,6 @@
   </a>
 
   <script src="/script.js"></script>
+  <script src="/films.js"></script>
 </body>
 </html>

@@ -420,6 +420,64 @@ h1, h2, h3, h4 {
 }
 
 
+/* Présentation vidéo de l’accueil : un cadre stable pour tous les formats. */
+.films-accueil {
+  padding: 32px 0 0;
+}
+
+.films-cadre {
+  max-width: 420px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+}
+
+.films-lecteur {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  background: #000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.films-lecteur.pret {
+  opacity: 1;
+}
+
+.films-legende {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  background: var(--noir-2);
+  color: var(--champagne);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+}
+
+.films-reperes {
+  display: flex;
+  gap: 8px;
+}
+
+.films-reperes span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--or-filet);
+  transition: background var(--transition);
+}
+
+.films-reperes .en-cours {
+  background: var(--or);
+}
+
 /* Effet "shimmer" : reflet doré qui traverse un titre/élément au survol.
    À appliquer sur un élément contenant du texte doré. */
 .shimmer {
