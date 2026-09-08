@@ -403,7 +403,7 @@ h1, h2, h3, h4 {
   flex-wrap: wrap;
 }
 
-/* Indicateur de défilement en bas du hero */
+/* Lien de défilement en bas du hero */
 .hero-scroll {
   position: absolute;
   left: 50%;
@@ -413,6 +413,10 @@ h1, h2, h3, h4 {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--texte-tres-doux);
+}
+
+#presentation {
+  scroll-margin-top: 76px;
 }
 
 
