@@ -900,6 +900,16 @@ h1, h2, h3, h4 {
   color: var(--texte-tres-doux);
 }
 
+/* Mention « prestations au choix » placée juste au-dessus de la liste */
+.pack-choix {
+  margin: 20px 0 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+
 .pack-liste {
   list-style: none;
   padding: 28px 0;
