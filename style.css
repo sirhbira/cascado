@@ -833,9 +833,11 @@ h1, h2, h3, h4 {
 }
 
 
-/* --- Catalogue des panneaux fontaine (page Panneaux) : grille 2 × 2 --- */
+/* --- Catalogue des panneaux fontaine (page Panneaux) --- */
+/* PC / tablette : grille 2 × 2. Téléphone : carrousel 3D (voir plus bas). */
 .galerie.galerie-panneaux {
   grid-template-columns: repeat(2, 1fr);
+  align-items: start;
   gap: 40px;
   max-width: 980px;
   margin: 0 auto;
@@ -860,12 +862,11 @@ h1, h2, h3, h4 {
 }
 
 .galerie-panneaux .modele-corps {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  padding: 26px 26px 28px;
+  padding: 26px 26px 24px;
 }
 
 .galerie-panneaux .modele-corps h3 {
@@ -886,17 +887,14 @@ h1, h2, h3, h4 {
 }
 
 .galerie-panneaux .modele-corps p {
-  flex-grow: 1;
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.65;
 }
 
-.modele-cta {
-  margin-top: 4px;
-  padding: 12px 24px;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
+/* Indicateurs du carrousel — masqués hors téléphone */
+.galerie-points {
+  display: none;
 }
 
 /* Tablette : cartes un peu plus resserrées */
@@ -906,47 +904,153 @@ h1, h2, h3, h4 {
   }
 
   .galerie-panneaux .modele-corps {
-    padding: 22px 20px 24px;
+    padding: 22px 20px 22px;
   }
 }
 
-/* Téléphone : on garde la grille 2 × 2, texte et visuels adaptés */
+/* ===== Téléphone : carrousel 3D « coverflow » ===== */
 @media (max-width: 600px) {
+  /* Repli sans JavaScript : une carte par ligne, bien lisible */
   .galerie.galerie-panneaux {
-    gap: 14px;
-  }
-
-  .galerie-panneaux .modele-media {
-    aspect-ratio: 1 / 1;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 420px;
   }
 
   .galerie-panneaux .modele-corps {
-    gap: 9px;
-    padding: 16px 14px 18px;
+    gap: 11px;
+    padding: 22px 22px 22px;
   }
 
   .galerie-panneaux .modele-corps h3 {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     line-height: 1.25;
   }
 
-  .modele-dim {
-    padding: 4px 10px;
-    font-size: 0.66rem;
-  }
-
   .galerie-panneaux .modele-corps p {
-    font-size: 0.8rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
-  .modele-cta {
-    width: 100%;
+  /* Carrousel activé par JS */
+  .galerie.galerie-panneaux.est-carrousel {
+    --decal: 47vw;
+    display: block;
+    position: relative;
+    max-width: none;
+    margin: 0 -24px;
+    padding: 10px 0 4px;
+    overflow: hidden;
+    perspective: 1300px;
+    touch-action: pan-y;
+    transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .galerie-panneaux.est-carrousel .modele {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 74%;
+    margin: 0;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.55s ease, opacity 0.55s ease;
+  }
+
+  .galerie-panneaux.est-carrousel .modele-media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .galerie-panneaux.est-carrousel .pos-centre {
+    transform: translateX(-50%) translateZ(0) scale(1);
+    filter: none;
+    opacity: 1;
+    z-index: 3;
+  }
+
+  .galerie-panneaux.est-carrousel .pos-gauche {
+    transform: translateX(calc(-50% - var(--decal))) translateZ(-150px) rotateY(22deg) scale(0.78);
+    filter: brightness(0.5) blur(1.6px);
+    opacity: 0.9;
+    z-index: 1;
+  }
+
+  .galerie-panneaux.est-carrousel .pos-droite {
+    transform: translateX(calc(-50% + var(--decal))) translateZ(-150px) rotateY(-22deg) scale(0.78);
+    filter: brightness(0.5) blur(1.6px);
+    opacity: 0.9;
+    z-index: 1;
+  }
+
+  .galerie-panneaux.est-carrousel .pos-cachee {
+    transform: translateX(-50%) translateZ(-380px) scale(0.55);
+    filter: brightness(0.35) blur(3px);
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .galerie-points {
+    display: flex;
     justify-content: center;
-    margin-top: 2px;
-    padding: 11px 8px;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .galerie-points button {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 1px solid var(--or-filet);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .galerie-points button.actif {
+    background: var(--or-degrade);
+    border-color: var(--or);
+    transform: scale(1.3);
+  }
+}
+
+
+/* --- Bloc d'appel final de la page Panneaux --- */
+.panneaux-cta {
+  text-align: center;
+  max-width: 760px;
+  margin: 110px auto 0;
+  padding: 60px 40px;
+  border: 1px solid var(--or-filet);
+  border-radius: 14px;
+  background:
+    radial-gradient(640px 240px at 50% -10%, rgba(212, 175, 55, 0.12), transparent 70%),
+    var(--noir-2);
+  box-shadow: 0 40px 90px -55px rgba(212, 175, 55, 0.4);
+}
+
+.panneaux-cta .filet {
+  margin: 0 auto 26px;
+}
+
+.panneaux-cta-titre {
+  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+  line-height: 1.2;
+  text-wrap: balance;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 600px) {
+  .panneaux-cta {
+    margin-top: 76px;
+    padding: 44px 22px;
+    border-radius: 12px;
+  }
+
+  .panneaux-cta-titre {
+    margin-bottom: 26px;
   }
 }
 

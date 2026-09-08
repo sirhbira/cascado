@@ -78,64 +78,159 @@
           <!-- Panneau Angle Droit -->
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/panneau-1.jpg" alt="Panneau fontaine de bienvenue « Panneau Angle Droit » — Cascado Event" loading="lazy" decoding="async" />
+              <img src="/images/panneau-1.jpg" alt="Panneau fontaine de bienvenue « Panneau Angle Droit » — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
               <h3>Panneau Angle Droit</h3>
               <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au design droit et structuré, sublimé par un élégant effet d’eau, un éclairage raffiné et une décoration florale personnalisable. Idéal pour une entrée moderne, chic et haut de gamme.</p>
-              <a href="/contact" class="bouton fantome modele-cta">Réserver ce modèle</a>
             </div>
           </article>
 
           <!-- Panneau Arche -->
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/panneau-1.2.jpg" alt="Panneau fontaine de bienvenue « Panneau Arche » — Cascado Event" loading="lazy" decoding="async" />
+              <img src="/images/panneau-1.2.jpg" alt="Panneau fontaine de bienvenue « Panneau Arche » — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
               <h3>Panneau Arche</h3>
               <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au design arrondi et élégant, sublimé par un effet d’eau lumineux et une composition florale raffinée. Idéal pour apporter une touche douce, moderne et prestigieuse à l’entrée de votre événement.</p>
-              <a href="/contact" class="bouton fantome modele-cta">Réserver ce modèle</a>
             </div>
           </article>
 
           <!-- Panneau Flouté -->
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/panneau-2.jpg" alt="Panneau fontaine de bienvenue « Panneau Flouté » — Cascado Event" loading="lazy" decoding="async" />
+              <img src="/images/panneau-2.jpg" alt="Panneau fontaine de bienvenue « Panneau Flouté » — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
               <h3>Panneau Flouté</h3>
               <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au rendu doux et élégant, avec effet d’eau diffus et éclairage intégré. Son design épuré apporte une touche moderne et raffinée à l’entrée de votre événement.</p>
-              <a href="/contact" class="bouton fantome modele-cta">Réserver ce modèle</a>
             </div>
           </article>
 
           <!-- Mini Panneau -->
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/panneau-3.jpg" alt="Panneau fontaine de bienvenue « Mini Panneau » — Cascado Event" loading="lazy" decoding="async" />
+              <img src="/images/panneau-3.jpg" alt="Panneau fontaine de bienvenue « Mini Panneau » — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
               <h3>Mini Panneau</h3>
               <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;50&nbsp;cm</span>
               <p>Un format compact et élégant, idéal pour apporter une touche lumineuse et personnalisée à votre événement. Parfait pour les petits espaces, les coins décoratifs, les buffets ou une mise en scène plus discrète mais raffinée.</p>
-              <a href="/contact" class="bouton fantome modele-cta">Réserver ce modèle</a>
             </div>
           </article>
 
         </div>
 
         <!-- Appel à l'action -->
-        <div class="entete-section reveal" style="margin: 80px auto 0;">
-          <p style="margin-bottom: 24px;">Un modèle vous intéresse&nbsp;?</p>
+        <div class="panneaux-cta reveal">
+          <hr class="filet centre" />
+          <h2 class="panneaux-cta-titre">
+            Trouvez le panneau qui <span class="texte-or">fera la différence</span>
+          </h2>
           <a href="/contact" class="bouton">Demander un devis</a>
         </div>
       </div>
     </section>
+
+    <script>
+      /* Panneaux Fontaine — carrousel 3D (coverflow) sur téléphone uniquement.
+         PC / tablette : la grille reste inchangée. */
+      (function () {
+        var grille = document.querySelector(".galerie-panneaux");
+        if (!grille) return;
+        var cartes = Array.prototype.slice.call(grille.querySelectorAll(".modele"));
+        if (cartes.length < 3) return;
+
+        var mq = window.matchMedia("(max-width: 600px)");
+        var actif = 0;
+        var points = document.createElement("div");
+        points.className = "galerie-points";
+        var puces = cartes.map(function (_, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", "Voir le modèle " + (i + 1));
+          b.addEventListener("click", function () { actif = i; placer(); });
+          points.appendChild(b);
+          return b;
+        });
+
+        function placer() {
+          var n = cartes.length;
+          cartes.forEach(function (carte, i) {
+            var d = (i - actif + n) % n;
+            var pos = "pos-cachee";
+            if (d === 0) pos = "pos-centre";
+            else if (d === 1) pos = "pos-droite";
+            else if (d === n - 1) pos = "pos-gauche";
+            carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            carte.classList.add(pos);
+            carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+          });
+          puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); });
+          grille.style.height = cartes[actif].offsetHeight + "px";
+        }
+
+        function aller(dir) {
+          actif = (actif + dir + cartes.length) % cartes.length;
+          placer();
+        }
+
+        var geste = null;
+        grille.addEventListener("pointerdown", function (e) {
+          if (!mq.matches) return;
+          geste = { x: e.clientX, y: e.clientY, id: e.pointerId, actif: false };
+        });
+        grille.addEventListener("pointermove", function (e) {
+          if (!geste || e.pointerId !== geste.id) return;
+          var dx = e.clientX - geste.x, dy = e.clientY - geste.y;
+          if (!geste.actif && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+            geste.actif = true;
+            try { grille.setPointerCapture(geste.id); } catch (err) {}
+          }
+          if (geste.actif) e.preventDefault();
+        }, { passive: false });
+        function finGeste(e) {
+          if (!geste || (e && e.pointerId !== geste.id)) return;
+          var dx = e ? e.clientX - geste.x : 0;
+          var etait = geste.actif;
+          geste = null;
+          if (etait && Math.abs(dx) > 40) aller(dx < 0 ? 1 : -1);
+        }
+        grille.addEventListener("pointerup", finGeste);
+        grille.addEventListener("pointercancel", finGeste);
+
+        function activer() {
+          grille.classList.add("est-carrousel");
+          if (!points.parentNode) grille.insertAdjacentElement("afterend", points);
+          actif = 0;
+          placer();
+        }
+        function desactiver() {
+          grille.classList.remove("est-carrousel");
+          if (points.parentNode) points.parentNode.removeChild(points);
+          cartes.forEach(function (c) {
+            c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            c.removeAttribute("aria-hidden");
+          });
+          grille.style.height = "";
+        }
+        function appliquer() { mq.matches ? activer() : desactiver(); }
+
+        appliquer();
+        if (mq.addEventListener) {
+          mq.addEventListener("change", function () { desactiver(); appliquer(); });
+        } else if (mq.addListener) {
+          mq.addListener(function () { desactiver(); appliquer(); });
+        }
+        window.addEventListener("resize", function () {
+          if (mq.matches) grille.style.height = cartes[actif].offsetHeight + "px";
+        });
+      })();
+    </script>
 
   </main>
 
