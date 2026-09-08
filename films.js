@@ -4,11 +4,13 @@
   if (!lecteur) return;
 
   const films = [
-    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo" },
-    { src: "/videos/panneau.MP4", nom: "Panneaux Fontaine" },
-    { src: "/videos/photobooth.mp4", nom: "Photobooth" }
+    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo", description: "Des messages spontanés et émouvants à conserver pour toujours." },
+    { src: "/videos/panneau.MP4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire pour sublimer votre événement." },
+    { src: "/videos/photobooth.mp4", nom: "Photobooth", description: "Des souvenirs instantanés, élégants et personnalisés." }
   ];
   const nom = document.getElementById("films-nom");
+  const description = document.getElementById("films-description");
+  const cadre = lecteur.closest(".films-cadre");
   const reperes = document.querySelectorAll(".films-reperes span");
   const mouvementReduit = window.matchMedia("(prefers-reduced-motion: reduce)");
   let index = 0;
@@ -27,9 +29,11 @@
     if (transition) return;
     transition = true;
     lecteur.classList.remove("pret");
+    cadre.classList.add("en-transition");
     window.setTimeout(function () {
       index = (index + 1) % films.length;
       nom.textContent = films[index].nom;
+      description.textContent = films[index].description;
       reperes.forEach(function (repere, position) {
         repere.classList.toggle("en-cours", position === index);
       });
@@ -43,6 +47,7 @@
   lecteur.addEventListener("playing", function () {
     erreurs = 0;
     lecteur.classList.add("pret");
+    cadre.classList.remove("en-transition");
   });
   lecteur.addEventListener("ended", suivant);
   lecteur.addEventListener("error", function () {

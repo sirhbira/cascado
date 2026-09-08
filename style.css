@@ -420,26 +420,36 @@ h1, h2, h3, h4 {
 }
 
 
-/* Présentation vidéo de l’accueil : un cadre stable pour tous les formats. */
+/* Hero vidéo bord à bord, avec légende en surimpression. */
 .films-accueil {
-  padding: 32px 0 0;
+  width: 100%;
+  background: #000;
 }
 
 .films-cadre {
-  max-width: 420px;
-  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 80svh, 900px);
+  margin: 0;
   overflow: hidden;
   background: #000;
-  border: 1px solid var(--or-filet);
-  border-radius: var(--rayon);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  isolation: isolate;
+}
+
+.films-cadre::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.78) 100%);
 }
 
 .films-lecteur {
   display: block;
   width: 100%;
-  aspect-ratio: 9 / 16;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   background: #000;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -450,20 +460,46 @@ h1, h2, h3, h4 {
 }
 
 .films-legende {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 24px;
-  background: var(--noir-2);
+  padding: clamp(28px, 5vw, 80px) max(24px, calc((100% - 1180px) / 2));
   color: var(--champagne);
-  font-size: 0.74rem;
-  letter-spacing: 0.12em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+.films-texte {
+  max-width: 640px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.films-texte h2 {
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  margin-bottom: 14px;
+}
+
+.films-texte p {
+  color: #fff;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  max-width: 540px;
+}
+
+.films-cadre.en-transition .films-texte {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
 .films-reperes {
   display: flex;
   gap: 8px;
+  flex-shrink: 0;
+  padding-bottom: 8px;
 }
 
 .films-reperes span {
@@ -476,6 +512,16 @@ h1, h2, h3, h4 {
 
 .films-reperes .en-cours {
   background: var(--or);
+}
+
+@media (max-width: 720px) {
+  .films-cadre {
+    height: min(80svh, 177.778vw);
+  }
+
+  .films-legende {
+    padding: 32px 24px;
+  }
 }
 
 /* Effet "shimmer" : reflet doré qui traverse un titre/élément au survol.
