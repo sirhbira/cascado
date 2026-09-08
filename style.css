@@ -415,7 +415,8 @@ h1, h2, h3, h4 {
   color: var(--texte-tres-doux);
 }
 
-#presentation {
+#presentation,
+#videos {
   scroll-margin-top: 76px;
 }
 
