@@ -294,6 +294,60 @@ h1, h2, h3, h4 {
   padding-right: 2px;
 }
 
+/* Signature du header : métal champagne, sans modifier sa géométrie. */
+.site-header .logo > span {
+  color: #f4e4bc;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.12));
+  transition: filter 0.6s ease;
+}
+
+.site-header .logo > span .texte-or {
+  background: none;
+  color: inherit;
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .site-header .logo > span {
+    background-image:
+      linear-gradient(110deg, transparent 42%, rgba(255, 249, 227, 0.65) 50%, transparent 58%),
+      linear-gradient(115deg, #b9903e 0%, #e4c77d 22%, #fff0c9 43%, #cfab57 64%, #f6e5b6 82%, #bd984b 100%);
+    background-size: 250% 100%, 100% 100%;
+    background-position: 180% 0, 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: header-nom-eclat 14s ease-in-out infinite;
+  }
+}
+
+@keyframes header-nom-eclat {
+  0%, 65% { background-position: 180% 0, 0 0; }
+  95%, 100% { background-position: -180% 0, 0 0; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-header .logo:hover > span,
+  .site-header .logo:focus-visible > span {
+    filter: brightness(1.06) drop-shadow(0 0 7px rgba(212, 175, 55, 0.23));
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header .logo > span {
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.08));
+    animation-duration: 18s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .logo > span { animation: none; transition: none; }
+}
+
+@media (forced-colors: active) {
+  .site-header .logo > span { background: none; color: LinkText; filter: none; animation: none; }
+}
+
 /* Liens de navigation */
 .menu-nav ul {
   list-style: none;
