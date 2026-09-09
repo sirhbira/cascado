@@ -87,7 +87,7 @@
 <div class="galerie-commandes"><button type="button" data-move="-1" aria-label="Photos précédentes">←</button><button type="button" id="galerie-pause" aria-label="Mettre le défilement en pause" aria-pressed="false">Pause</button><button type="button" data-move="1" aria-label="Photos suivantes">→</button></div>
 <p class="galerie-indication">Faites glisser les photos et vidéos. Cliquez pour les découvrir en grand.</p>
 </section>
-<dialog id="galerie-lightbox" aria-label="Photo ou vidéo en grand"><button type="button" class="lightbox-fermer" aria-label="Fermer le média">×</button><button type="button" class="lightbox-precedent" aria-label="Média précédent">←</button><figure><img id="lightbox-image" alt="" /><video id="lightbox-video" controls muted playsinline preload="none" hidden></video><figcaption id="lightbox-legende" aria-live="polite"></figcaption></figure><button type="button" class="lightbox-suivant" aria-label="Média suivant">→</button></dialog>
+<dialog id="galerie-lightbox" aria-label="Photo ou vidéo en grand"><button type="button" class="lightbox-fermer" aria-label="Fermer le média">×</button><button type="button" class="lightbox-precedent" aria-label="Média précédent">←</button><figure><img id="lightbox-image" alt="" /><video id="lightbox-video" muted playsinline disablepictureinpicture disableremoteplayback preload="none" hidden></video><button id="lightbox-lecture" type="button" hidden>Pause</button><figcaption id="lightbox-legende" aria-live="polite"></figcaption></figure><button type="button" class="lightbox-suivant" aria-label="Média suivant">→</button></dialog>
 </main>
 
 

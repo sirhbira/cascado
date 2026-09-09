@@ -5,6 +5,27 @@
   const dialog = document.getElementById('galerie-lightbox');
   const image = document.getElementById('lightbox-image');
   const player = document.getElementById('lightbox-video');
+  const playButton = document.getElementById('lightbox-lecture');
+  function lockSound(video) {
+    const silence = () => {
+      if (!video.muted) video.muted = true;
+      if (video.volume !== 0) video.volume = 0;
+    };
+    silence();
+    video.addEventListener('volumechange', silence);
+  }
+  lockSound(player);
+  playButton.addEventListener('click', () => {
+    if (player.paused) player.play().catch(() => {});
+    else player.pause();
+  });
+  const updatePlayButton = () => {
+    playButton.textContent = player.paused ? 'Lecture' : 'Pause';
+    playButton.setAttribute('aria-label', player.paused ? 'Lire la vidéo sans son' : 'Mettre la vidéo en pause');
+  };
+  player.addEventListener('play', updatePlayButton);
+  player.addEventListener('pause', updatePlayButton);
+  player.addEventListener('ended', updatePlayButton);
   const caption = document.getElementById('lightbox-legende');
   const pauseButton = document.getElementById('galerie-pause');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -24,6 +45,7 @@
   }
   track.prepend(copy()); track.append(copy());
   const previews = [...track.querySelectorAll('video')];
+  previews.forEach(lockSound);
   const visibleVideos = new Set();
   function syncVideos() {
     previews.forEach(video => {
@@ -126,6 +148,8 @@
     const source = originals[active].querySelector('img, video');
     const isVideo = source.tagName === 'VIDEO';
     image.hidden = isVideo; player.hidden = !isVideo;
+    playButton.hidden = !isVideo;
+    updatePlayButton();
     if (isVideo) {
       player.defaultMuted = true;
       player.muted = true;

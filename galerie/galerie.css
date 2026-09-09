@@ -28,6 +28,7 @@
 #lightbox-image { width: 100%; height: calc(100dvh - 155px); object-fit: contain; touch-action: pan-y pinch-zoom; user-select: none; -webkit-user-drag: none; }
 #lightbox-legende { margin-top: 14px; font-size: .9rem; color: var(--champagne); }
 #galerie-lightbox button { position: absolute; z-index: 2; }
+#galerie-lightbox #lightbox-lecture { position: static; margin-top: 12px; padding: 0 24px; border-radius: 24px; }
 .lightbox-fermer { top: 16px; right: 16px; font-size: 1.8rem !important; }
 .lightbox-precedent { left: 12px; top: 50%; }
 .lightbox-suivant { right: 12px; top: 50%; }
