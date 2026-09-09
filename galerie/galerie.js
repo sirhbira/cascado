@@ -127,6 +127,8 @@
     const isVideo = source.tagName === 'VIDEO';
     image.hidden = isVideo; player.hidden = !isVideo;
     if (isVideo) {
+      player.defaultMuted = true;
+      player.muted = true;
       player.src = source.dataset.src;
       player.setAttribute('aria-label', source.getAttribute('aria-label'));
       player.play().catch(() => {});
