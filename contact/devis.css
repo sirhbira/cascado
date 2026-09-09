@@ -20,6 +20,19 @@
 .devis-carte:has(:checked) { border-color: var(--or); background: var(--or-voile); color: var(--champagne); }
 .devis-carte:has(:disabled) { opacity: .5; cursor: default; }
 .devis-carte:focus-within { outline: 2px solid var(--or); outline-offset: 3px; }
+.devis-modeles .devis-modele { position: relative; display: flex; flex-direction: column; align-items: stretch; padding: 0; gap: 0; overflow: hidden; }
+.devis-modele img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.devis-modele > span { padding: 16px; text-align: center; }
+.devis-modele input { position: absolute; top: 14px; right: 14px; width: 22px; height: 22px; z-index: 1; }
+.devis-modele:has(:checked) { box-shadow: 0 0 20px var(--or-voile), inset 0 0 0 1px var(--or); }
+.devis-modele:has(:checked)::after { content: '✓'; position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: var(--or); color: var(--noir); text-align: center; line-height: 26px; pointer-events: none; }
+.devis-floral-photo { max-width: 420px; margin: 0 auto 20px; border: 1px solid var(--or-filet); border-radius: 9px; overflow: hidden; background: var(--noir-2); }
+.devis-floral-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.devis-floral-photo figcaption { text-align: center; padding: 16px; }
+.devis-retour { margin-top: 20px; white-space: pre-line; scroll-margin-top: 110px; }
+.devis-retour:empty { display: none; }
+.devis-retour.succes { padding: 24px; color: var(--champagne); background: var(--or-voile); border: 1px solid var(--or-filet); border-radius: 9px; }
+.devis-retour.erreur { padding: 18px; color: #ffb7a8; border: 1px solid #ffb7a8; border-radius: 9px; }
 .devis-aide { color: var(--texte-doux); font-size: .85rem; margin-bottom: 18px; }
 .devis-inclus { padding: 0; list-style: none; margin: 0 0 24px; }
 .devis-inclus li { margin-bottom: 8px; }
@@ -34,10 +47,6 @@
 .devis-erreur { font-size: .85rem; color: #ffb7a8; margin-top: 8px; }
 .devis-erreur:empty { display: none; }
 .devis-page [aria-invalid=true] { border-color: #ffb7a8; }
-.devis-ville { position: relative; }
-#villes-liste { position: absolute; top: 88px; left: 0; right: 0; z-index: 5; list-style: none; padding: 6px; margin: 0; max-height: 280px; overflow-y: auto; background: var(--noir-2); border: 1px solid var(--or-filet); border-radius: 8px; box-shadow: 0 16px 40px #0008; }
-#villes-liste li { padding: 14px; min-height: 48px; cursor: pointer; border-radius: 5px; }
-#villes-liste li:hover, #villes-liste [aria-selected=true] { background: var(--or-voile); color: var(--champagne); }
 .devis-recap { padding: 24px; margin-bottom: 24px; border: 1px solid var(--or-filet); border-radius: 10px; background: var(--noir); }
 .devis-recap dt { font-size: .8rem; color: var(--texte-doux); margin-top: 16px; }
 .devis-recap dd { margin: 2px 0 0; overflow-wrap: anywhere; white-space: pre-line; }
