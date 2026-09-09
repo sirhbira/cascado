@@ -72,6 +72,17 @@
 <body>
 
   <!-- EN-TÊTE COMMUN (classe "actif" sur Photobooth) -->
+  <aside class="annonce-barre" aria-label="Les informations Cascado Event">
+    <div class="annonce-contenu">
+      <div class="annonce-messages" aria-live="off">
+        <a class="annonce-message est-visible" href="/contact">⚡ Demande de devis rapide — réponse sous 24h</a>
+        <p class="annonce-message" aria-hidden="true" inert>📍 Île-de-France, Centre-Val de Loire &amp; alentours</p>
+        <p class="annonce-message" aria-hidden="true" inert>📅 Votre date est unique — pensez à la réserver à l’avance</p>
+      </div>
+      <button class="annonce-pause" type="button" aria-label="Mettre les annonces en pause" hidden>Ⅱ</button>
+    </div>
+  </aside>
+
   <header class="site-header">
     <div class="conteneur header-contenu">
       <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
@@ -428,5 +439,6 @@
   </a>
 
   <script src="/script.js"></script>
+  <script src="/announcement.js"></script>
 </body>
 </html>
