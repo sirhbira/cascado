@@ -677,6 +677,23 @@ a.annonce-message { color: var(--or); }
   .films-legende {
     padding: 32px 24px;
   }
+
+  .films-texte {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .films-texte p {
+    font-size: clamp(0.75rem, 3.4vw, 0.95rem);
+    white-space: pre;
+  }
+
+  .films-reperes {
+    position: absolute;
+    right: 24px;
+    bottom: 12px;
+    padding-bottom: 0;
+  }
 }
 
 /* Effet "shimmer" : reflet doré qui traverse un titre/élément au survol.
