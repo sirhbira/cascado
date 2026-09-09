@@ -232,6 +232,46 @@ h1, h2, h3, h4 {
 
 /* 5. EN-TÊTE + NAVIGATION -------------------------------- */
 
+.annonce-barre {
+  background: var(--noir);
+  color: var(--champagne);
+  border-bottom: 1px solid var(--or-filet);
+  font-family: var(--sans);
+  font-size: .75rem;
+  letter-spacing: .035em;
+  line-height: 1.5;
+}
+.annonce-contenu {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  max-width: 1440px;
+  min-height: 40px;
+  padding: 7px 24px;
+  margin: 0 auto;
+}
+.annonce-messages { display: grid; min-width: 0; text-align: center; }
+.annonce-message {
+  grid-area: 1 / 1;
+  align-self: center;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .45s ease, visibility .45s;
+}
+.annonce-message.est-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+a.annonce-message { color: var(--or); }
+.annonce-barre :focus-visible { outline: 1px solid var(--or); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .annonce-barre { font-size: .7rem; letter-spacing: .015em; }
+  .annonce-contenu { padding: 7px 12px; gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .annonce-message { transition: none; }
+}
+
 .site-header {
   position: sticky;
   top: 0;
