@@ -42,6 +42,7 @@
     });
     back.hidden = step === 0;
     next.hidden = step === route.length - 1;
+    updateNextButton();
     if (focus) {
       const current = route[step];
       const heading = current.querySelector('h2');
@@ -71,6 +72,12 @@
       else el.removeAttribute('aria-invalid');
     });
     return !message;
+  }
+
+  function updateNextButton() {
+    const models = [...route[step].querySelectorAll('input[type="radio"][name^="modele_"]')];
+    const selected = models.some(input => input.checked && !input.matches(':disabled'));
+    next.disabled = submitting || sent || (models.length > 0 && !selected);
   }
 
   function configure() {
@@ -165,10 +172,12 @@
     if (e.target.type === 'radio' || e.target.type === 'checkbox') configure();
     if ($(`erreur-${e.target.name}`)?.textContent) validate(step);
     summary();
+    updateNextButton();
   });
   form.addEventListener('input', e => {
     if ($(`erreur-${e.target.name}`)?.textContent) error(e.target.name, '');
     summary();
+    updateNextButton();
   });
   form.addEventListener('submit', async e => {
     e.preventDefault();

@@ -52,9 +52,55 @@
 .devis-recap dd { margin: 2px 0 0; overflow-wrap: anywhere; white-space: pre-line; }
 .devis-navigation { display: flex; gap: 16px; justify-content: space-between; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--or-filet); }
 .devis-precedent { border: 0; background: transparent; color: var(--texte); font: inherit; padding: 12px; min-height: 48px; cursor: pointer; }
+/* Conserver le style commun du bouton et son effet de survol. */
+.devis-suivant { isolation: isolate; }
+.devis-suivant:disabled { color: var(--or); border-color: var(--or-filet); opacity: .55; cursor: not-allowed; }
+.devis-suivant:disabled::before { transform: translateY(100%); transition: none; }
 .devis-envoyer { width: 100%; }
 .devis-envoyer:disabled { opacity: .65; cursor: wait; }
 .devis-delai { text-align: center; font-size: .85rem; color: var(--champagne); margin-top: 14px; }
 @keyframes devis-entree { from { opacity: .5; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @media (max-width: 600px) { #configurateur-devis { padding: 24px 18px; } .devis-layout { padding: 0 16px; gap: 32px; } .devis-choix, .devis-ligne { grid-template-columns: minmax(0, 1fr); } .devis-condition { padding: 16px 12px; } .devis-progression { gap: 6px; } .devis-progression li { font-size: .65rem; } .devis-recap { padding: 18px; } .devis-navigation .bouton { padding: 16px 20px; } }
 @media (prefers-reduced-motion: reduce) { .devis-etape { animation: none; } .devis-page * { transition: none !important; } }
+
+/* Contenir aussi les contrôles natifs de Safari dans la colonne mobile. */
+@media (max-width: 600px) {
+  #configurateur-devis,
+  .devis-etape,
+  .devis-ligne,
+  .devis-champ,
+  .devis-champ input,
+  .devis-champ select,
+  .devis-champ textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .devis-champ input[type="date"] {
+    display: block;
+    -webkit-appearance: none;
+    appearance: none;
+    min-inline-size: 0;
+  }
+
+  .devis-champ input[type="date"]::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .devis-champ input[type="date"]::-webkit-datetime-edit {
+    min-width: 0;
+    padding: 0;
+  }
+
+  /* Sur cette page, WhatsApp reste accessible après le footer sans superposition. */
+  .devis-page ~ .wa-flottant {
+    position: relative;
+    display: flex;
+    right: auto;
+    bottom: auto;
+    margin: 0 16px calc(16px + env(safe-area-inset-bottom, 0px)) auto;
+  }
+}
