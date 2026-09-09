@@ -338,19 +338,22 @@ a.annonce-message { color: var(--or); }
 }
 
 /* Signature du header : métal champagne, sans modifier sa géométrie. */
-.site-header .logo > span {
+.site-header .logo > span,
+.footer-col .logo {
   color: #f4e4bc;
   filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.12));
   transition: filter 0.6s ease;
 }
 
-.site-header .logo > span .texte-or {
+.site-header .logo > span .texte-or,
+.footer-col .logo .texte-or {
   background: none;
   color: inherit;
 }
 
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
-  .site-header .logo > span {
+  .site-header .logo > span,
+  .footer-col .logo {
     background-image:
       linear-gradient(110deg, transparent 42%, rgba(255, 249, 227, 0.65) 50%, transparent 58%),
       linear-gradient(115deg, #b9903e 0%, #e4c77d 22%, #fff0c9 43%, #cfab57 64%, #f6e5b6 82%, #bd984b 100%);
@@ -371,13 +374,16 @@ a.annonce-message { color: var(--or); }
 
 @media (hover: hover) and (pointer: fine) {
   .site-header .logo:hover > span,
-  .site-header .logo:focus-visible > span {
+  .site-header .logo:focus-visible > span,
+  .footer-col .logo:hover,
+  .footer-col .logo:focus-visible {
     filter: brightness(1.06) drop-shadow(0 0 7px rgba(212, 175, 55, 0.23));
   }
 }
 
 @media (max-width: 720px) {
-  .site-header .logo > span {
+  .site-header .logo > span,
+  .footer-col .logo {
     filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.08));
     animation-duration: 18s;
   }
