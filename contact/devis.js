@@ -10,6 +10,8 @@
   let route = [];
   let sent = false;
   const next = form.querySelector('.devis-suivant');
+  const submitButton = form.querySelector('.devis-envoyer');
+  const mobile = window.matchMedia('(max-width: 600px)');
   const back = form.querySelector('.devis-precedent');
   const checked = name => [...form.querySelectorAll(`input[name="${name}"]:checked`)].filter(el => !el.matches(':disabled'));
   const selection = name => checked(name).map(el => el.value);
@@ -75,6 +77,14 @@
   }
 
   function updateNextButton() {
+    if (mobile.matches) {
+      const locked = submitting || sent;
+      const nextDisabled = locked || !validate(step, false);
+      const submitDisabled = locked || !route.every((_, index) => validate(index, false));
+      if (next.disabled !== nextDisabled) next.disabled = nextDisabled;
+      if (submitButton.disabled !== submitDisabled) submitButton.disabled = submitDisabled;
+      return;
+    }
     const models = [...route[step].querySelectorAll('input[type="radio"][name^="modele_"]')];
     const selected = models.some(input => input.checked && !input.matches(':disabled'));
     next.disabled = submitting || sent || (models.length > 0 && !selected);
@@ -107,10 +117,13 @@
     showStep(Math.min(step, route.length - 1), false);
   }
 
-  function validate(index) {
+  function validate(index, report = true) {
     const key = route[index].dataset.step;
     let valid = true;
-    const check = (name, message) => { if (!error(name, message)) valid = false; };
+    const check = (name, message) => {
+      if (message) valid = false;
+      if (report) error(name, message);
+    };
     if (key === '0') {
       const type = selection('formule')[0];
       check('formule', type ? '' : 'Choisissez la prestation qui vous intéresse.');
@@ -120,7 +133,7 @@
     if (groups[key]) { const [name, message] = groups[key]; check(name, selection(name).length === 1 ? '' : message); }
     if (key === '1') {
       check('ville', value('ville').length >= 2 ? '' : 'Indiquez la ville de votre événement.');
-      $('date_evenement').min = today();
+      if (report) $('date_evenement').min = today();
       check('date_evenement', !value('date_evenement') ? 'Choisissez la date de votre événement.' : (!$('date_evenement').validity.valid || value('date_evenement') < today()) ? 'Choisissez une date à partir d’aujourd’hui.' : '');
       check('invites', value('invites') ? '' : 'Choisissez le nombre d’invités.');
     }
@@ -169,12 +182,18 @@
   next.addEventListener('click', advance);
   back.addEventListener('click', () => { if (!submitting && !sent) showStep(Math.max(0, step - 1)); });
   form.addEventListener('change', e => {
-    if (e.target.type === 'radio' || e.target.type === 'checkbox') configure();
+    if (submitting || sent) return;
+    const choice = e.target.type === 'radio' || e.target.type === 'checkbox';
+    // Sur téléphone, un choix de modèle ne reconstruit pas toutes les étapes.
+    if (choice && (!mobile.matches || e.target.name === 'formule' || e.target.name === 'prestations_premium')) configure();
     if ($(`erreur-${e.target.name}`)?.textContent) validate(step);
     summary();
     updateNextButton();
   });
   form.addEventListener('input', e => {
+    if (submitting || sent) return;
+    // Les radios/checkboxes sont traités sur change, la saisie sur input.
+    if (mobile.matches && (e.target.type === 'radio' || e.target.type === 'checkbox')) return;
     if ($(`erreur-${e.target.name}`)?.textContent) error(e.target.name, '');
     summary();
     updateNextButton();
@@ -232,9 +251,14 @@
       submitting = false;
       form.removeAttribute('aria-busy');
       if (!sent) controls.forEach((el, i) => { el.disabled = disabled[i]; });
+      if (mobile.matches) updateNextButton();
     }
   });
   configure();
+  mobile.addEventListener('change', () => {
+    if (!mobile.matches) submitButton.disabled = submitting || sent;
+    updateNextButton();
+  });
   // Présélection unique à l'ouverture : les choix restent ensuite libres.
   const params = new URLSearchParams(window.location.search);
   const services = {
@@ -254,6 +278,7 @@
         (input.dataset.modele || window.CascadoModeles.slug(input.value)) === params.get('modele'));
       if (model) model.checked = true;
       summary();
+      if (mobile.matches) updateNextButton();
     }
   }
 })();

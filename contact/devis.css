@@ -56,6 +56,18 @@
 .devis-suivant { isolation: isolate; }
 .devis-suivant:disabled { color: var(--or); border-color: var(--or-filet); opacity: .55; cursor: not-allowed; }
 .devis-suivant:disabled::before { transform: translateY(100%); transition: none; }
+/* Safari tactile : aucun remplissage ni transition dépendant du hover/focus. */
+@media (max-width: 600px) {
+  .devis-page :is(.devis-suivant, .devis-envoyer) {
+    color: var(--or);
+    border-color: var(--or);
+    background: transparent;
+    transition: none;
+  }
+  .devis-page :is(.devis-suivant, .devis-envoyer)::before { display: none; }
+  .devis-page .devis-suivant:disabled { border-color: var(--or-filet); }
+  .devis-page :is(.devis-suivant, .devis-envoyer):focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+}
 .devis-envoyer { width: 100%; }
 .devis-envoyer:disabled { opacity: .65; cursor: wait; }
 .devis-delai { text-align: center; font-size: .85rem; color: var(--champagne); margin-top: 14px; }
