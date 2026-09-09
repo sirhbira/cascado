@@ -5,6 +5,7 @@
   if (!form) return;
   const $ = id => document.getElementById(id);
   const steps = [...form.querySelectorAll('.devis-etape')];
+  const unavailable = new Set(form.querySelectorAll('input:disabled, input[data-disponible="false"]'));
   const progression = form.querySelector('.devis-progression');
   let route = [];
   let sent = false;
@@ -25,7 +26,7 @@
   }
   $('date_evenement').min = today();
 
-  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
+  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', livre: 'Modèle', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
   function showStep(target, focus = true) {
     step = target;
     steps.forEach(el => { el.hidden = el !== route[step]; });
@@ -41,7 +42,24 @@
     });
     back.hidden = step === 0;
     next.hidden = step === route.length - 1;
-    if (focus) route[step].querySelector('h2').focus();
+    if (focus) {
+      const current = route[step];
+      const heading = current.querySelector('h2');
+      if (window.matchMedia('(max-width: 600px)').matches) {
+        // Éviter le saut natif du focus avant le défilement fluide.
+        heading.focus({ preventScroll: true });
+        requestAnimationFrame(() => {
+          if (current !== route[step] || current.hidden) return;
+          const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0;
+          window.scrollTo({
+            top: Math.max(0, window.scrollY + current.getBoundingClientRect().top - headerHeight - 16),
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+          });
+        });
+      } else {
+        heading.focus();
+      }
+    }
     summary();
   }
 
@@ -67,13 +85,13 @@
     $('option-prestige').hidden = type !== 'Pack Prestige';
     const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : [type];
     const hasPanel = included.includes('Panneau Fontaine'), hasBooth = included.includes('Photobooth');
-    const enabled = { panneau: hasPanel, photobooth: hasBooth, floral: hasBooth && type !== 'Pack Prestige', avantage: type === 'Pack Prestige' };
+    const enabled = { panneau: hasPanel, photobooth: hasBooth, livre: included.includes('Livre d’or vidéo') || included.includes('Livre d’or audio-vidéo'), floral: hasBooth && type !== 'Pack Prestige', avantage: type === 'Pack Prestige' };
     steps.forEach(el => {
       if (!(el.dataset.step in enabled)) return;
       const available = enabled[el.dataset.step];
       el.querySelectorAll('input').forEach(input => {
-        input.disabled = !available;
-        if (!available) { input.checked = false; error(input.name, ''); }
+        input.disabled = !available || unavailable.has(input);
+        if (input.disabled) { input.checked = false; error(input.name, ''); }
       });
     });
     $('prestations_incluses').disabled = !type;
@@ -91,7 +109,7 @@
       check('formule', type ? '' : 'Choisissez la prestation qui vous intéresse.');
       if (type === 'Pack Premium') check('prestations_premium', selection('prestations_premium').length === 2 ? '' : 'Sélectionnez exactement 2 prestations.');
     }
-    const groups = { panneau: ['modele_panneau', 'Choisissez un modèle de panneau.'], photobooth: ['modele_photobooth', 'Choisissez un modèle de photobooth.'], floral: ['mur_floral', 'Choisissez Oui ou Non.'], avantage: ['avantage_offert', 'Choisissez votre avantage offert.'] };
+    const groups = { panneau: ['modele_panneau', 'Choisissez un modèle de panneau.'], photobooth: ['modele_photobooth', 'Choisissez un modèle de photobooth.'], livre: ['modele_livre', 'Choisissez un modèle de livre d’or vidéo.'], floral: ['mur_floral', 'Choisissez Oui ou Non.'], avantage: ['avantage_offert', 'Choisissez votre avantage offert.'] };
     if (groups[key]) { const [name, message] = groups[key]; check(name, selection(name).length === 1 ? '' : message); }
     if (key === '1') {
       check('ville', value('ville').length >= 2 ? '' : 'Indiquez la ville de votre événement.');
@@ -116,7 +134,7 @@
     if (type === 'Pack Premium') rows.push(['Pack Premium', '2 prestations au choix parmi 3']);
     services.forEach(service => {
       let detail = `✓ ${service}`;
-      const model = service === 'Panneau Fontaine' ? selection('modele_panneau')[0] : service === 'Photobooth' ? selection('modele_photobooth')[0] : null;
+      const model = service === 'Panneau Fontaine' ? selection('modele_panneau')[0] : service === 'Photobooth' ? selection('modele_photobooth')[0] : service === 'Livre d’or vidéo' || service === 'Livre d’or audio-vidéo' ? selection('modele_livre')[0] : null;
       if (model) detail += `\n→ Modèle : ${model}`;
       if (service === 'Photobooth' && type !== 'Pack Prestige') detail += `\n→ Mur floral : ${selection('mur_floral')[0] || 'À préciser'}${selection('mur_floral')[0] === 'Oui' ? ' (en supplément)' : ''}`;
       rows.push(['Prestation choisie', detail]);
@@ -208,4 +226,25 @@
     }
   });
   configure();
+  // Présélection unique à l'ouverture : les choix restent ensuite libres.
+  const params = new URLSearchParams(window.location.search);
+  const services = {
+    'panneau-fontaine': ['Panneau Fontaine', 'modele_panneau'],
+    photobooth: ['Photobooth', 'modele_photobooth'],
+    'livre-or-video': ['Livre d’or vidéo', 'modele_livre']
+  };
+  const requested = services[params.get('prestation')];
+  if (Array.isArray(requested)) {
+    const [service, group] = requested;
+    const radio = [...form.querySelectorAll('input[name="formule"]')].find(input => input.value === service && !input.matches(':disabled'));
+    if (radio) {
+      radio.checked = true;
+      configure();
+      const model = [...form.querySelectorAll(`input[name="${group}"]`)].find(input =>
+        !input.matches(':disabled') &&
+        (input.dataset.modele || window.CascadoModeles.slug(input.value)) === params.get('modele'));
+      if (model) model.checked = true;
+      summary();
+    }
+  }
 })();

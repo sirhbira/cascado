@@ -946,6 +946,26 @@ h1, h2, h3, h4 {
   line-height: 1.65;
 }
 
+/* Boutons des modèles : même finition sur les trois catalogues. */
+.galerie.galerie-panneaux[data-prestation] { align-items: stretch; }
+.galerie-panneaux[data-prestation] .modele-media { flex-shrink: 0; }
+.galerie-panneaux[data-prestation] .modele-corps { flex: 1; }
+.galerie-panneaux[data-prestation] .modele-corps .bouton {
+  margin-top: auto;
+  line-height: 1.7;
+  max-width: 100%;
+  justify-content: center;
+  text-align: center;
+  isolation: isolate;
+}
+.galerie-panneaux[data-prestation] .bouton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  color: var(--or);
+  border-color: var(--or-filet);
+}
+.galerie-panneaux[data-prestation] .bouton:disabled::before { display: none; }
+
 /* Indicateurs du carrousel — masqués hors téléphone */
 .galerie-points {
   display: none;

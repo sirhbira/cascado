@@ -108,7 +108,7 @@
           <h2 class="section-titre">Choisissez le photobooth qui vous correspond</h2>
           <hr class="filet centre" />
         </div>
-        <div class="galerie galerie-panneaux galerie-photobooth reveal">
+        <div class="galerie galerie-panneaux galerie-photobooth reveal" data-prestation="photobooth">
           <article class="modele">
             <div class="modele-media">
               <img src="/images/photobooth-1.jpg" alt="Photobooth Classique — Cascado Event" decoding="async" />
@@ -128,6 +128,7 @@
                 <li>Personnalisation avec prénoms, date, thème ou logo</li>
                 <li>Design élégant adapté aux mariages, anniversaires et événements professionnels</li>
               </ul>
+              <a href="/contact?prestation=photobooth&amp;modele=photobooth-classique" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
           <article class="modele">
@@ -150,6 +151,7 @@
                 <li>Impression immédiate des photos</li>
                 <li>Personnalisation avec prénoms, date, thème ou identité visuelle</li>
               </ul>
+              <a href="/contact?prestation=photobooth&amp;modele=photobooth-miroir" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
         </div>
@@ -184,6 +186,7 @@
         </div>
       </div>
     </section>
+  <script src="/modeles-devis.js"></script>
     <script>
       /* Photobooth — carrousel 3D (coverflow) sur téléphone uniquement.
          PC / tablette : la grille reste inchangée. */
@@ -218,9 +221,17 @@
             carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
             carte.classList.add(pos);
             carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+            carte.inert = d !== 0;
           });
           puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); p.setAttribute("aria-pressed", i === actif ? "true" : "false"); });
-          grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+          egaliserHauteurs();
+        }
+
+        function egaliserHauteurs() {
+          cartes.forEach(function (carte) { carte.style.height = ""; });
+          var hauteur = Math.max.apply(null, cartes.map(function (carte) { return carte.offsetHeight; }));
+          cartes.forEach(function (carte) { carte.style.height = hauteur + "px"; });
+          grille.style.height = (hauteur + 14) + "px";
         }
 
         function aller(dir) {
@@ -264,6 +275,8 @@
           cartes.forEach(function (c) {
             c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
             c.removeAttribute("aria-hidden");
+            c.inert = false;
+            c.style.height = "";
           });
           grille.style.height = "";
         }
@@ -277,7 +290,7 @@
           mq.addListener(function () { desactiver(); appliquer(); });
         }
         window.addEventListener("resize", function () {
-          if (mq.matches) grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+          if (mq.matches) egaliserHauteurs();
         });
       })();
     </script>

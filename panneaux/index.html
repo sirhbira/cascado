@@ -76,7 +76,7 @@
           <h2 class="section-titre">Choisissez votre panneau fontaine</h2>
           <hr class="filet centre" />
         </div>
-        <div class="galerie galerie-panneaux reveal">
+        <div class="galerie galerie-panneaux reveal" data-prestation="panneau-fontaine">
 
           <!-- Panneau Angle Droit -->
           <article class="modele">
@@ -87,6 +87,7 @@
               <h3>Panneau Angle Droit</h3>
               <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au design droit et structuré, sublimé par un élégant effet d’eau, un éclairage raffiné et une décoration florale personnalisable. Idéal pour une entrée moderne, chic et haut de gamme.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-angle-droit" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
 
@@ -99,6 +100,7 @@
               <h3>Panneau Arche</h3>
               <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au design arrondi et élégant, sublimé par un effet d’eau lumineux et une composition florale raffinée. Idéal pour apporter une touche douce, moderne et prestigieuse à l’entrée de votre événement.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-arche" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
 
@@ -111,6 +113,7 @@
               <h3>Panneau Flouté</h3>
               <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
               <p>Un panneau de bienvenue au rendu doux et élégant, avec effet d’eau diffus et éclairage intégré. Son design épuré apporte une touche moderne et raffinée à l’entrée de votre événement.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-floute" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
 
@@ -123,6 +126,7 @@
               <h3>Mini Panneau</h3>
               <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;50&nbsp;cm</span>
               <p>Un format compact et élégant, idéal pour apporter une touche lumineuse et personnalisée à votre événement. Parfait pour les petits espaces, les coins décoratifs, les buffets ou une mise en scène plus discrète mais raffinée.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=mini-panneau" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
           </article>
 
@@ -139,6 +143,7 @@
       </div>
     </section>
 
+  <script src="/modeles-devis.js"></script>
     <script>
       /* Panneaux Fontaine — carrousel 3D (coverflow) sur téléphone uniquement.
          PC / tablette : la grille reste inchangée. */
@@ -172,9 +177,17 @@
             carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
             carte.classList.add(pos);
             carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+            carte.inert = d !== 0;
           });
           puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); });
-          grille.style.height = cartes[actif].offsetHeight + "px";
+          egaliserHauteurs();
+        }
+
+        function egaliserHauteurs() {
+          cartes.forEach(function (carte) { carte.style.height = ""; });
+          var hauteur = Math.max.apply(null, cartes.map(function (carte) { return carte.offsetHeight; }));
+          cartes.forEach(function (carte) { carte.style.height = hauteur + "px"; });
+          grille.style.height = (hauteur + 14) + "px";
         }
 
         function aller(dir) {
@@ -218,11 +231,14 @@
           cartes.forEach(function (c) {
             c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
             c.removeAttribute("aria-hidden");
+            c.inert = false;
+            c.style.height = "";
           });
           grille.style.height = "";
         }
         function appliquer() { mq.matches ? activer() : desactiver(); }
 
+        if (document.fonts) document.fonts.ready.then(function () { if (mq.matches) placer(); });
         appliquer();
         if (mq.addEventListener) {
           mq.addEventListener("change", function () { desactiver(); appliquer(); });
@@ -230,7 +246,7 @@
           mq.addListener(function () { desactiver(); appliquer(); });
         }
         window.addEventListener("resize", function () {
-          if (mq.matches) grille.style.height = cartes[actif].offsetHeight + "px";
+          if (mq.matches) egaliserHauteurs();
         });
       })();
     </script>
