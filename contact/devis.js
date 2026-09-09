@@ -42,7 +42,24 @@
     });
     back.hidden = step === 0;
     next.hidden = step === route.length - 1;
-    if (focus) route[step].querySelector('h2').focus();
+    if (focus) {
+      const current = route[step];
+      const heading = current.querySelector('h2');
+      if (window.matchMedia('(max-width: 600px)').matches) {
+        // Éviter le saut natif du focus avant le défilement fluide.
+        heading.focus({ preventScroll: true });
+        requestAnimationFrame(() => {
+          if (current !== route[step] || current.hidden) return;
+          const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0;
+          window.scrollTo({
+            top: Math.max(0, window.scrollY + current.getBoundingClientRect().top - headerHeight - 16),
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+          });
+        });
+      } else {
+        heading.focus();
+      }
+    }
     summary();
   }
 
