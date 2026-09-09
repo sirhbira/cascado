@@ -4,8 +4,7 @@
   Cascado Event — PAGE PHOTOBOOTH (photobooth/index.html)
   ------------------------------------------------------------
   Galerie des modèles de photobooth.
-  Cartes de démonstration : remplacez les noms, descriptions
-  et images (ou vidéos) par vos vrais modèles.
+  Photobooth Classique et Photobooth Miroir.
   ============================================================
 -->
 <html lang="fr">
@@ -30,6 +29,33 @@
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
+  <style>
+    /* Compléments propres à cette page ; le coverflow utilise les styles Panneaux. */
+    .galerie.galerie-photobooth { align-items: stretch; }
+    .galerie-photobooth .modele { border-color: var(--or-filet); }
+    .galerie-photobooth .modele-corps { flex: 1; }
+    .galerie-photobooth .modele-corps h2 { font-size: 1.35rem; line-height: 1.25; }
+    .galerie-photobooth .modele-corps .photobooth-atouts { color: var(--champagne); font-size: .8rem; }
+    .galerie-photobooth .pack-liste { width: 100%; margin: 8px 0 0; padding: 20px 0 0; border-bottom: 0; }
+    .galerie-photobooth .pack-liste li { color: var(--texte); font-size: .86rem; }
+    .galerie-photobooth .pack-liste li:last-child { margin-bottom: 0; }
+    .photobooth-avantages { max-width: 980px; margin: 90px auto 0; }
+    .photobooth-avantages-grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+    .photobooth-avantages-grille article { padding: 26px 20px; border: 1px solid var(--or-filet); border-radius: var(--rayon); background: var(--noir-2); }
+    .photobooth-avantages-grille h3 { font-size: 1.15rem; margin: 12px 0; }
+    .photobooth-avantages-grille p { font-size: .9rem; color: var(--texte-doux); }
+    .photobooth-page .panneaux-cta p { margin-bottom: 28px; color: var(--texte-doux); }
+    @media (max-width: 900px) { .photobooth-avantages-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) {
+      .galerie-photobooth .modele-corps h2 { font-size: 1.25rem; }
+      .photobooth-avantages { margin-top: 76px; }
+      .photobooth-avantages-grille { grid-template-columns: 1fr; }
+    }
+    @media (hover: none) { .galerie-photobooth .modele:hover .modele-media img { transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .galerie-photobooth.est-carrousel, .galerie-photobooth.est-carrousel .modele, .galerie-photobooth .modele-media img { transition: none; }
+    }
+  </style>
 </head>
 
 <body>
@@ -55,104 +81,180 @@
   </header>
 
 
-  <main>
-
-    <!-- EN-TÊTE DE PAGE -->
+  <main class="photobooth-page">
     <section class="page-entete">
       <div class="conteneur">
         <span class="surtitre">Nos prestations</span>
         <h1>Photobooth</h1>
         <hr class="filet centre" />
-        <p>
-          <!-- À REMPLIR : présentation de vos photobooths (2-3 phrases).
-               Type de bornes, tirages illimités, personnalisation, livre d'or, accessoires. -->
-          Des bornes élégantes qui offrent à vos invités un souvenir immédiat et
-          raffiné : tirages personnalisés à votre image, accessoires soignés et
-          galerie numérique après l'événement.
-        </p>
+        <p>Découvrez nos photobooths conçus pour créer des souvenirs spontanés, élégants et personnalisés tout au long de votre événement.</p>
       </div>
     </section>
-
-
-    <!-- GALERIE DES MODÈLES -->
-    <section class="section">
+    <section class="section" aria-label="Nos modèles de photobooth">
       <div class="conteneur">
-        <div class="galerie reveal">
-
-          <!--
-            MODÈLE 1 — À REMPLIR
-            - Remplacez nom, tag et description.
-            - Image : images/photobooth-1.jpg
-            - Pour une vignette vidéo : classe "video" + data-video="/images/photobooth-1.mp4"
-          -->
+        <div class="galerie galerie-panneaux galerie-photobooth reveal">
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/photobooth-1.svg" alt="Photobooth modèle 1 — À REMPLACER" />
+              <img src="/images/photobooth-1.jpg" alt="Photobooth Classique — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
-              <span class="modele-tag">Modèle</span>
-              <h3>Nom du modèle 1</h3>
-              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
+              <span class="modele-dim">Souvenirs instantanés</span>
+              <h2>Photobooth Classique</h2>
+              <p>Un photobooth élégant et intuitif, idéal pour permettre à vos invités de capturer leurs plus beaux moments et de repartir immédiatement avec leurs souvenirs imprimés.</p>
+              <p class="photobooth-atouts">Qualité photo · Impression rapide · Simplicité · Personnalisation</p>
+              <ul class="pack-liste">
+                <li>Appareil photo Canon</li>
+                <li>Imprimante professionnelle DNP</li>
+                <li>Cadre photo entièrement personnalisable</li>
+                <li>Éclairage LED personnalisable</li>
+                <li>Écran tactile intuitif</li>
+                <li>Impression des photos directement sur place</li>
+                <li>Personnalisation avec prénoms, date, thème ou logo</li>
+                <li>Design élégant adapté aux mariages, anniversaires et événements professionnels</li>
+              </ul>
             </div>
           </article>
-
-          <!-- MODÈLE 2 — exemple avec vignette vidéo cliquable -->
-          <article class="modele">
-            <div class="modele-media video" data-video="/images/photobooth-2.mp4">
-              <img src="/images/photobooth-2.svg" alt="Photobooth modèle 2 — À REMPLACER" />
-            </div>
-            <div class="modele-corps">
-              <span class="modele-tag">Modèle · vidéo</span>
-              <h3>Nom du modèle 2</h3>
-              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
-            </div>
-          </article>
-
-          <!-- MODÈLE 3 — À REMPLIR -->
           <article class="modele">
             <div class="modele-media">
-              <img src="/images/photobooth-3.svg" alt="Photobooth modèle 3 — À REMPLACER" />
+              <img src="/images/photobooth%20miroir.jpg" alt="Photobooth Miroir interactif — Cascado Event" decoding="async" />
             </div>
             <div class="modele-corps">
-              <span class="modele-tag">Modèle</span>
-              <h3>Nom du modèle 3</h3>
-              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
+              <span class="modele-dim">Expérience Premium</span>
+              <h2>Photobooth Miroir</h2>
+              <p>Une expérience photo immersive et haut de gamme grâce à un miroir interactif qui transforme chaque prise de vue en véritable animation.</p>
+              <p class="photobooth-atouts">Effet WOW · Haut de gamme · Interactivité · Originalité et élégance</p>
+              <ul class="pack-liste">
+                <li>Miroir interactif grand format</li>
+                <li>Appareil photo Canon</li>
+                <li>Imprimante professionnelle DNP</li>
+                <li>Cadre photo entièrement personnalisable</li>
+                <li>Éclairage LED personnalisable</li>
+                <li>Interface tactile intégrée au miroir</li>
+                <li>Animations visuelles pendant la prise de photo</li>
+                <li>Impression immédiate des photos</li>
+                <li>Personnalisation avec prénoms, date, thème ou identité visuelle</li>
+              </ul>
             </div>
           </article>
-
-          <!-- MODÈLE 4 — À REMPLIR -->
-          <article class="modele">
-            <div class="modele-media">
-              <img src="/images/photobooth-4.svg" alt="Photobooth modèle 4 — À REMPLACER" />
-            </div>
-            <div class="modele-corps">
-              <span class="modele-tag">Modèle</span>
-              <h3>Nom du modèle 4</h3>
-              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
-            </div>
-          </article>
-
-          <!-- MODÈLE 5 — À REMPLIR -->
-          <article class="modele">
-            <div class="modele-media">
-              <img src="/images/photobooth-5.svg" alt="Photobooth modèle 5 — À REMPLACER" />
-            </div>
-            <div class="modele-corps">
-              <span class="modele-tag">Modèle</span>
-              <h3>Nom du modèle 5</h3>
-              <p>Courte description : type de borne, format des tirages, options. À REMPLIR.</p>
-            </div>
-          </article>
-
         </div>
-
-        <div class="entete-section reveal" style="margin: 80px auto 0;">
-          <p style="margin-bottom: 24px;">Un modèle vous intéresse&nbsp;?</p>
-          <a href="/contact" class="bouton">Demander un devis</a>
+        <section class="photobooth-avantages reveal" aria-labelledby="avantages-titre">
+          <div class="entete-section">
+            <span class="surtitre">Chaque détail compte</span>
+            <h2 id="avantages-titre">Des souvenirs à votre image</h2>
+            <hr class="filet centre" />
+          </div>
+          <div class="photobooth-avantages-grille">
+            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Qualité professionnelle</h3><p>Appareil photo Canon et impression DNP pour obtenir des photos nettes et des impressions de qualité.</p></article>
+            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Personnalisation complète</h3><p>Cadre photo, prénoms, date, couleurs et thème adaptés à votre événement.</p></article>
+            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Souvenirs immédiats</h3><p>Vos invités peuvent repartir directement avec leurs photos imprimées.</p></article>
+            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Animation conviviale</h3><p>Une expérience simple et interactive qui crée naturellement des moments spontanés et mémorables.</p></article>
+          </div>
+        </section>
+        <div class="panneaux-cta reveal">
+          <hr class="filet centre" />
+          <h2 class="panneaux-cta-titre">Choisissez le photobooth qui correspond à <span class="texte-or">votre événement</span></h2>
+          <p>Recevez une proposition personnalisée en moins de 24h.</p>
+          <a href="/contact" class="bouton">DEMANDER UN DEVIS</a>
         </div>
       </div>
     </section>
+    <script>
+      /* Photobooth — carrousel 3D (coverflow) sur téléphone uniquement.
+         PC / tablette : la grille reste inchangée. */
+      (function () {
+        var grille = document.querySelector(".galerie-panneaux");
+        if (!grille) return;
+        var cartes = Array.prototype.slice.call(grille.querySelectorAll(".modele"));
+        if (cartes.length < 2) return;
 
+        var mq = window.matchMedia("(max-width: 600px)");
+        var actif = 0;
+        var points = document.createElement("div");
+        points.className = "galerie-points";
+        var puces = cartes.map(function (_, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", "Voir le modèle " + (i + 1));
+          b.addEventListener("click", function () { actif = i; placer(); });
+          points.appendChild(b);
+          return b;
+        });
+
+        function placer() {
+          var n = cartes.length;
+          cartes.forEach(function (carte, i) {
+            var d = (i - actif + n) % n;
+            var pos = "pos-cachee";
+            if (d === 0) pos = "pos-centre";
+            else if (n === 2) pos = i > actif ? "pos-droite" : "pos-gauche";
+            else if (d === 1) pos = "pos-droite";
+            else if (d === n - 1) pos = "pos-gauche";
+            carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            carte.classList.add(pos);
+            carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+          });
+          puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); p.setAttribute("aria-pressed", i === actif ? "true" : "false"); });
+          grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+        }
+
+        function aller(dir) {
+          actif = (actif + dir + cartes.length) % cartes.length;
+          placer();
+        }
+
+        var geste = null;
+        grille.addEventListener("pointerdown", function (e) {
+          if (!mq.matches) return;
+          geste = { x: e.clientX, y: e.clientY, id: e.pointerId, actif: false };
+        });
+        grille.addEventListener("pointermove", function (e) {
+          if (!geste || e.pointerId !== geste.id) return;
+          var dx = e.clientX - geste.x, dy = e.clientY - geste.y;
+          if (!geste.actif && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+            geste.actif = true;
+            try { grille.setPointerCapture(geste.id); } catch (err) {}
+          }
+          if (geste.actif) e.preventDefault();
+        }, { passive: false });
+        function finGeste(e) {
+          if (!geste || (e && e.pointerId !== geste.id)) return;
+          var dx = e ? e.clientX - geste.x : 0;
+          var etait = geste.actif;
+          geste = null;
+          if (etait && Math.abs(dx) > 40) aller(dx < 0 ? 1 : -1);
+        }
+        grille.addEventListener("pointerup", finGeste);
+        grille.addEventListener("pointercancel", function () { geste = null; });
+
+        function activer() {
+          grille.classList.add("est-carrousel");
+          if (!points.parentNode) grille.insertAdjacentElement("afterend", points);
+          actif = 0;
+          placer();
+        }
+        function desactiver() {
+          grille.classList.remove("est-carrousel");
+          if (points.parentNode) points.parentNode.removeChild(points);
+          cartes.forEach(function (c) {
+            c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            c.removeAttribute("aria-hidden");
+          });
+          grille.style.height = "";
+        }
+        function appliquer() { mq.matches ? activer() : desactiver(); }
+
+        if (document.fonts) document.fonts.ready.then(function () { if (mq.matches) placer(); });
+        appliquer();
+        if (mq.addEventListener) {
+          mq.addEventListener("change", function () { desactiver(); appliquer(); });
+        } else if (mq.addListener) {
+          mq.addListener(function () { desactiver(); appliquer(); });
+        }
+        window.addEventListener("resize", function () {
+          if (mq.matches) grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+        });
+      })();
+    </script>
   </main>
 
 
