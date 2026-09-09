@@ -8,11 +8,11 @@
   if (!lecteur) return;
 
   const films = [
-    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo", description: "Des messages spontanés et émouvants à conserver pour toujours." },
-    { src: "/videos/panneau.MP4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire pour sublimer votre événement." },
-    { src: "/videos/photobooth.mp4", nom: "Photobooth", description: "Des souvenirs instantanés, élégants et personnalisés." },
-    { src: "/videos/minicascado.mp4", nom: "Mini panneau fontaine", description: "Un format compact et \u00e9l\u00e9gant pour sublimer votre \u00e9v\u00e9nement." },
-    { src: "/videos/panneau2.mp4", nom: "Panneau fontaine", description: "Une mise en sc\u00e8ne spectaculaire pour sublimer votre \u00e9v\u00e9nement." }
+    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo", description: "Des messages spontanés et émouvants\nÀ conserver pour toujours." },
+    { src: "/videos/panneau.MP4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire\nPour sublimer votre événement." },
+    { src: "/videos/photobooth.mp4", nom: "Photobooth", description: "Des souvenirs instantanés,\nÉlégants et personnalisés." },
+    { src: "/videos/minicascado.mp4", nom: "Mini panneau fontaine", description: "Un format compact et élégant\nPour sublimer votre événement." },
+    { src: "/videos/panneau2.mp4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire\nPour sublimer votre événement." }
   ];
   const nom = document.getElementById("films-nom");
   const description = document.getElementById("films-description");
