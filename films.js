@@ -1,4 +1,4 @@
-/* Lecteur unique : les trois prestations défilent dans un ordre fixe.
+/* Lecteur unique : les quatre vidéos défilent dans un ordre fixe.
    - Enchaînement automatique conservé (autoplay, muet, en boucle sur la liste).
    - Navigation manuelle ajoutée : glisser à la souris / au trackpad sur PC,
      swipe gauche-droite au doigt sur mobile. Après un geste, la lecture
