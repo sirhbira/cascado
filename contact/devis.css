@@ -17,6 +17,19 @@
 .devis-choix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .devis-carte { display: flex; align-items: center; gap: 12px; padding: 20px 16px; border: 1px solid var(--or-filet); border-radius: 9px; cursor: pointer; line-height: 1.45; background: var(--noir-2); transition: border-color .2s, background .2s; }
 .devis-carte input { accent-color: var(--or); width: 18px; height: 18px; flex-shrink: 0; }
+/* Un seul indicateur, sans le cercle natif gris propre à chaque navigateur. */
+.devis-carte input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.devis-carte input[type="radio"]:checked { background: var(--or); }
+/* Les modèles ont déjà leur pastille dorée avec coche sur la carte. */
+.devis-modele input[type="radio"] { opacity: 0; }
 .devis-carte:has(:checked) { border-color: var(--or); background: var(--or-voile); color: var(--champagne); }
 .devis-carte:has(:disabled) { opacity: .5; cursor: default; }
 .devis-carte:focus-within { outline: 2px solid var(--or); outline-offset: 3px; }
@@ -56,6 +69,18 @@
 .devis-suivant { isolation: isolate; }
 .devis-suivant:disabled { color: var(--or); border-color: var(--or-filet); opacity: .55; cursor: not-allowed; }
 .devis-suivant:disabled::before { transform: translateY(100%); transition: none; }
+/* Safari tactile : aucun remplissage ni transition dépendant du hover/focus. */
+@media (max-width: 600px) {
+  .devis-page :is(.devis-suivant, .devis-envoyer) {
+    color: var(--or);
+    border-color: var(--or);
+    background: transparent;
+    transition: none;
+  }
+  .devis-page :is(.devis-suivant, .devis-envoyer)::before { display: none; }
+  .devis-page .devis-suivant:disabled { border-color: var(--or-filet); }
+  .devis-page :is(.devis-suivant, .devis-envoyer):focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+}
 .devis-envoyer { width: 100%; }
 .devis-envoyer:disabled { opacity: .65; cursor: wait; }
 .devis-delai { text-align: center; font-size: .85rem; color: var(--champagne); margin-top: 14px; }
