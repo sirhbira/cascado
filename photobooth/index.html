@@ -30,6 +30,17 @@
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
   <style>
+    .photobooth-option { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); max-width: 980px; margin: 64px auto 0; overflow: hidden; border: 1px solid var(--or-filet); border-radius: var(--rayon); background: var(--noir-2); }
+    .photobooth-option-photo { width: 100%; height: 100%; max-height: 440px; object-fit: cover; }
+    .photobooth-option-corps { min-width: 0; padding: 32px; }
+    .photobooth-option h2 { font-size: clamp(1.4rem, 2.5vw, 1.8rem); margin: 18px 0; color: var(--champagne); }
+    .photobooth-option p { font-size: .92rem; color: var(--texte-doux); }
+    .photobooth-option .photobooth-option-supplement { margin: 18px 0 12px; color: var(--champagne); font-weight: 500; }
+    @media (max-width: 600px) {
+      .photobooth-option { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
+      .photobooth-option-photo { height: auto; max-height: none; aspect-ratio: 4 / 3; }
+      .photobooth-option-corps { padding: 24px 22px; }
+    }
     /* Compléments propres à cette page ; le coverflow utilise les styles Panneaux. */
     .galerie.galerie-photobooth { align-items: stretch; }
     .galerie-photobooth .modele { border-color: var(--or-filet); }
@@ -137,6 +148,16 @@
             </div>
           </article>
         </div>
+        <section class="photobooth-option reveal" aria-labelledby="mur-floral-titre">
+          <img class="photobooth-option-photo" src="/images/mur%20floral.jpg" alt="Mur floral proposé en option pour les photos" loading="lazy" decoding="async" />
+          <div class="photobooth-option-corps">
+            <span class="modele-dim">EN OPTION</span>
+            <h2 id="mur-floral-titre">Option décor – Mur floral</h2>
+            <p>Ajoutez un mur floral en option pour créer un véritable espace photo et sublimer vos souvenirs. Une décoration élégante qui s’accorde parfaitement avec nos photobooths.</p>
+            <p class="photobooth-option-supplement">Disponible en supplément.</p>
+            <p>Idéal pour créer un fond photo plus travaillé et renforcer l’effet premium de votre événement.</p>
+          </div>
+        </section>
         <section class="photobooth-avantages reveal" aria-labelledby="avantages-titre">
           <div class="entete-section">
             <span class="surtitre">Chaque détail compte</span>
