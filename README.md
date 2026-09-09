@@ -108,7 +108,7 @@ avec un message pré-rempli.
    git remote add origin https://github.com/VOTRE-COMPTE/cascadoevent.git
    git push -u origin main
    ```
-2. Sur GitHub : `Settings` → `Pages` → Source : branche `main`, dossier `/ (root)`.
+2. Sur GitHub : `Settings` → `Pages` → `Build and deployment` → Source : **GitHub Actions** (à sélectionner une seule fois).
 3. Conservez le domaine personnalisé `cascadoevent.fr` configuré dans Pages
    et dans le fichier `CNAME`.
 
@@ -130,3 +130,14 @@ avec ce site statique.
 - Images de démonstration en SVG légers.
 - Pensez à compresser vos vraies photos (< 300 Ko) et vidéos avant publication.
 - Animations désactivées automatiquement si `prefers-reduced-motion` est actif.
+
+### Mise à jour automatique du cache
+
+Le workflow `.github/workflows/pages.yml` publie le site à chaque push sur `main`.
+Attendez sa réussite dans l’onglet **Actions** : un push seul ne signifie pas que le site est déjà publié.
+
+- `scripts/build_site.py` prépare `dist/` et ajoute une version de déploiement aux URL des CSS, scripts, images et vidéos. Les sources et le design ne sont pas modifiés par la génération.
+- Les pages publiées vérifient la version à leur ouverture et au retour sur un onglet. Une version plus récente déclenche un rechargement unique ; une demande de devis en cours de saisie est préservée.
+- GitHub Pages peut encore avoir un délai de propagation. Une page ouverte avant l’installation de ce mécanisme peut nécessiter un premier rechargement forcé (Ctrl + F5).
+- Pour vérifier la génération en local : `python scripts/build_site.py`, puis `python -m http.server 8000 --directory dist`.
+- `dist/` est généré et ignoré par Git ; ne le modifiez pas directement.

@@ -66,7 +66,7 @@
     premium.querySelectorAll('input').forEach(el => { el.disabled = count === 2 && !el.checked; });
     $('premium-compteur').textContent = `${count} / 2 prestations sélectionnées`;
     $('option-prestige').hidden = type !== 'Pack Prestige';
-    const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or audio-vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : [type];
+    const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : [type];
     const hasPanel = included.includes('Panneau Fontaine'), hasBooth = included.includes('Photobooth');
     const enabled = { panneau: hasPanel, photobooth: hasBooth, livre: included.includes('Livre d’or vidéo') || included.includes('Livre d’or audio-vidéo'), floral: hasBooth && type !== 'Pack Prestige', avantage: type === 'Pack Prestige' };
     steps.forEach(el => {
@@ -113,7 +113,7 @@
   function summary() {
     const type = selection('formule')[0];
     const rows = [['Prestation', type || 'À sélectionner']];
-    const services = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or audio-vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : type ? [type] : [];
+    const services = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : type ? [type] : [];
     if (type === 'Pack Premium') rows.push(['Pack Premium', '2 prestations au choix parmi 3']);
     services.forEach(service => {
       let detail = `✓ ${service}`;
