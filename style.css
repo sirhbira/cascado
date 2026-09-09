@@ -243,7 +243,7 @@ h1, h2, h3, h4 {
 }
 .annonce-contenu {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) 24px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   max-width: 1440px;
@@ -251,7 +251,7 @@ h1, h2, h3, h4 {
   padding: 7px 24px;
   margin: 0 auto;
 }
-.annonce-messages { grid-column: 2; display: grid; min-width: 0; text-align: center; }
+.annonce-messages { display: grid; min-width: 0; text-align: center; }
 .annonce-message {
   grid-area: 1 / 1;
   align-self: center;
@@ -263,18 +263,6 @@ h1, h2, h3, h4 {
 }
 .annonce-message.est-visible { opacity: 1; visibility: visible; pointer-events: auto; }
 a.annonce-message { color: var(--or); }
-.annonce-pause {
-  grid-column: 3;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--or);
-  font: inherit;
-  cursor: pointer;
-}
-.annonce-pause[hidden] { display: none; }
 .annonce-barre :focus-visible { outline: 1px solid var(--or); outline-offset: 3px; }
 @media (max-width: 600px) {
   .annonce-barre { font-size: .7rem; letter-spacing: .015em; }
