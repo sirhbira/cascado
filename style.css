@@ -246,11 +246,14 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 36px;
+  max-width: 1440px;
   min-height: 76px;
 }
 
 /* Nom de la marque */
 .site-header .logo {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -353,11 +356,12 @@ h1, h2, h3, h4 {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 38px;
+  gap: 26px;
   padding: 0;
 }
 
 .menu-nav a {
+  white-space: nowrap;
   position: relative;
   font-size: 0.76rem;
   font-weight: 400;
@@ -2013,7 +2017,7 @@ h1, h2, h3, h4 {
 }
 
 /* Navigation : six liens, menu compact dès les écrans intermédiaires. */
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
 
   /* Navigation : menu déroulant plein largeur */
   .menu-burger {
@@ -2033,7 +2037,7 @@ h1, h2, h3, h4 {
   }
 
   .menu-nav.ouvert {
-    max-height: 380px;
+    max-height: 520px;
   }
 
   .menu-nav ul {
