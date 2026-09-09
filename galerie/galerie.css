@@ -8,6 +8,12 @@
 .est-active .galerie-ruban { will-change: transform; }
 .galerie-photo { flex: 0 0 auto; width: clamp(260px, 26vw, 440px); height: clamp(340px, 34vw, 540px); padding: 0; overflow: hidden; border: 1px solid var(--or-filet); border-radius: 10px; background: var(--noir-2); cursor: inherit; }
 .galerie-photo img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; transition: transform .8s cubic-bezier(.22,1,.36,1); }
+.galerie-video { position: relative; }
+.galerie-photo video { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.galerie-video-badge { position: absolute; bottom: 14px; left: 14px; padding: 6px 12px; border-radius: 18px; color: var(--champagne); background: rgba(13,13,15,.8); font-size: .85rem; pointer-events: none; }
+#lightbox-video { width: 100%; height: calc(100dvh - 155px); object-fit: contain; }
+#galerie-lightbox [hidden] { display: none !important; }
+@media (max-width: 600px) { #lightbox-video { height: calc(100dvh - 190px); } }
 .galerie-photo:focus-visible, .galerie-commandes button:focus-visible, #galerie-lightbox button:focus-visible { outline: 2px solid var(--champagne); outline-offset: -4px; }
 @media (hover: hover) { .galerie-photo:hover img { transform: scale(1.035); } }
 .galerie-commandes { display: none; justify-content: center; gap: 14px; margin: 28px 0 14px; }
