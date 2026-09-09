@@ -83,6 +83,9 @@
 <label class="devis-carte devis-modele"><input type="radio" name="modele_photobooth" value="Photobooth Classique" aria-describedby="erreur-modele_photobooth" /><img src="/images/photobooth-1.jpg" alt="" decoding="async" loading="lazy" /><span>Photobooth Classique</span></label>
 <label class="devis-carte devis-modele"><input type="radio" name="modele_photobooth" value="Photobooth Miroir" aria-describedby="erreur-modele_photobooth" /><img src="/images/photobooth%20miroir.jpg" alt="" decoding="async" loading="lazy" /><span>Photobooth Miroir</span></label>
 </div><p class="devis-erreur" id="erreur-modele_photobooth" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="livre" aria-labelledby="titre-livre" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-livre" tabindex="-1">Choisissez votre livre d’or vidéo</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre livre d’or vidéo</legend><div class="devis-choix devis-modeles">
+<label class="devis-carte devis-modele"><input type="radio" name="modele_livre" value="Livre d’or vidéo 1" data-modele="livre-or-video-1" aria-describedby="erreur-modele_livre" /><img src="/images/livredor-2.jpg" alt="" decoding="async" loading="lazy" /><span>Livre d’or vidéo 1</span></label>
+</div><p class="devis-erreur" id="erreur-modele_livre" aria-live="polite"></p></fieldset></section>
 <section class="devis-etape" data-step="floral" aria-labelledby="titre-floral" hidden><span class="surtitre">Votre option</span><h2 id="titre-floral" tabindex="-1">Souhaitez-vous ajouter un mur floral ?</h2><figure class="devis-floral-photo"><img src="/images/mur%20floral.jpg" alt="" loading="lazy" decoding="async" /><figcaption>Mur floral</figcaption></figure><p class="devis-aide">Disponible en supplément.</p><fieldset class="devis-groupe"><legend class="visually-hidden">Ajouter un mur floral</legend><div class="devis-choix"><label class="devis-carte"><input type="radio" name="mur_floral" value="Oui" aria-describedby="erreur-mur_floral" /><span>Oui</span></label><label class="devis-carte"><input type="radio" name="mur_floral" value="Non" aria-describedby="erreur-mur_floral" /><span>Non</span></label></div><p class="devis-erreur" id="erreur-mur_floral" aria-live="polite"></p></fieldset></section>
 <section class="devis-etape" data-step="avantage" data-label="Choisissez votre avantage offert" aria-labelledby="titre-avantage" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-avantage" tabindex="-1">Choisissez votre avantage offert</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre avantage offert</legend><div class="devis-choix devis-modeles">
 <label class="devis-carte devis-modele"><input type="radio" name="avantage_offert" value="Mur floral offert" aria-describedby="erreur-avantage_offert" /><img src="/images/mur%20floral.jpg" alt="" decoding="async" loading="lazy" /><span>Mur floral offert</span></label>
@@ -266,6 +269,7 @@
   </a>
 
   <script src="/script.js"></script>
+  <script src="/modeles-devis.js"></script>
   <script src="/contact/devis.js"></script>
 </body>
 </html>
