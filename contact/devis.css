@@ -1,0 +1,58 @@
+.devis-page [hidden] { display: none !important; }
+.devis-section { padding-top: 20px; }
+.devis-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 48px; align-items: start; }
+#configurateur-devis { min-width: 0; padding: 36px; border: 1px solid var(--or-filet); border-radius: 16px; background: radial-gradient(ellipse at top left, var(--or-voile), transparent 50%), var(--noir-2); }
+.devis-page .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.devis-progression { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; padding: 0; margin: 0 0 28px; gap: 10px; }
+.devis-progression li { border-bottom: 2px solid var(--noir-3); padding-bottom: 14px; color: var(--texte-doux); font-size: .78rem; }
+.devis-progression span { display: block; font-size: 1.05rem; margin-bottom: 6px; }
+.devis-progression [aria-current] { color: var(--champagne); border-color: var(--or); }
+.devis-progression .terminee { border-color: var(--or-filet); }
+.devis-etape { padding-top: 18px; animation: devis-entree .3s ease; }
+.devis-etape h2 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.3; margin: 12px 0 28px; scroll-margin-top: 110px; }
+.devis-etape h3 { font-size: 1.1rem; margin-bottom: 18px; }
+.devis-groupe, .devis-condition { min-width: 0; border: 0; padding: 0; margin: 0; }
+.devis-condition { margin-top: 28px; padding: 22px; border: 1px solid var(--or-filet); border-radius: 10px; background: var(--or-voile); }
+.devis-condition legend { padding: 0 6px; color: var(--champagne); font-size: 1rem; }
+.devis-choix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.devis-carte { display: flex; align-items: center; gap: 12px; padding: 20px 16px; border: 1px solid var(--or-filet); border-radius: 9px; cursor: pointer; line-height: 1.45; background: var(--noir-2); transition: border-color .2s, background .2s; }
+.devis-carte input { accent-color: var(--or); width: 18px; height: 18px; flex-shrink: 0; }
+.devis-carte:has(:checked) { border-color: var(--or); background: var(--or-voile); color: var(--champagne); }
+.devis-carte:has(:disabled) { opacity: .5; cursor: default; }
+.devis-carte:focus-within { outline: 2px solid var(--or); outline-offset: 3px; }
+.devis-aide { color: var(--texte-doux); font-size: .85rem; margin-bottom: 18px; }
+.devis-inclus { padding: 0; list-style: none; margin: 0 0 24px; }
+.devis-inclus li { margin-bottom: 8px; }
+.devis-inclus li::before { content: '✓'; color: var(--or); margin-right: 10px; }
+.devis-ligne { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.devis-champ { min-width: 0; margin-bottom: 24px; }
+.devis-champ label { display: block; font-size: .95rem; margin-bottom: 10px; }
+.devis-champ input, .devis-champ select, .devis-champ textarea { width: 100%; min-width: 0; min-height: 54px; padding: 15px; font: inherit; font-size: 16px; color: var(--texte); background: var(--noir); border: 1px solid var(--or-filet); border-radius: 8px; transition: border-color .2s, box-shadow .2s; color-scheme: dark; }
+.devis-champ textarea { resize: vertical; }
+.devis-champ input:focus, .devis-champ select:focus, .devis-champ textarea:focus { outline: none; border-color: var(--or); box-shadow: 0 0 0 3px var(--or-voile); }
+.devis-champ input[type=date]::-webkit-calendar-picker-indicator { filter: sepia(1) saturate(2); cursor: pointer; }
+.devis-erreur { font-size: .85rem; color: #ffb7a8; margin-top: 8px; }
+.devis-erreur:empty { display: none; }
+.devis-page [aria-invalid=true] { border-color: #ffb7a8; }
+.devis-ville { position: relative; }
+#villes-liste { position: absolute; top: 88px; left: 0; right: 0; z-index: 5; list-style: none; padding: 6px; margin: 0; max-height: 280px; overflow-y: auto; background: var(--noir-2); border: 1px solid var(--or-filet); border-radius: 8px; box-shadow: 0 16px 40px #0008; }
+#villes-liste li { padding: 14px; min-height: 48px; cursor: pointer; border-radius: 5px; }
+#villes-liste li:hover, #villes-liste [aria-selected=true] { background: var(--or-voile); color: var(--champagne); }
+.devis-recap { padding: 24px; margin-bottom: 24px; border: 1px solid var(--or-filet); border-radius: 10px; background: var(--noir); }
+.devis-recap dt { font-size: .8rem; color: var(--texte-doux); margin-top: 16px; }
+.devis-recap dd { margin: 2px 0 0; overflow-wrap: anywhere; white-space: pre-line; }
+.devis-navigation { display: flex; gap: 16px; justify-content: space-between; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--or-filet); }
+.devis-precedent { border: 0; background: transparent; color: var(--texte); font: inherit; padding: 12px; min-height: 48px; cursor: pointer; }
+.devis-envoyer { width: 100%; }
+.devis-envoyer:disabled { opacity: .65; cursor: wait; }
+.devis-delai { text-align: center; font-size: .85rem; color: var(--champagne); margin-top: 14px; }
+.devis-coordonnees { padding: 28px 0; min-width: 0; }
+.devis-coordonnees h2 { margin: 14px 0; }
+.devis-coordonnees p { color: var(--texte-doux); }
+.devis-coordonnees dt { margin-top: 26px; color: var(--champagne); font-size: .85rem; }
+.devis-coordonnees dd { margin: 6px 0 0; overflow-wrap: anywhere; }
+.devis-coordonnees .bouton { margin-top: 32px; width: 100%; white-space: normal; text-align: center; padding: 18px 14px; letter-spacing: .08em; }
+@keyframes devis-entree { from { opacity: .5; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 1000px) { .devis-layout { grid-template-columns: minmax(0, 1fr); max-width: 800px; } .devis-coordonnees { border-top: 1px solid var(--or-filet); } }
+@media (max-width: 600px) { #configurateur-devis { padding: 24px 18px; } .devis-layout { padding: 0 16px; gap: 32px; } .devis-choix, .devis-ligne { grid-template-columns: minmax(0, 1fr); } .devis-condition { padding: 16px 12px; } .devis-progression { gap: 6px; } .devis-progression li { font-size: .65rem; } .devis-recap { padding: 18px; } .devis-navigation .bouton { padding: 16px 20px; } }
+@media (prefers-reduced-motion: reduce) { .devis-etape { animation: none; } .devis-page * { transition: none !important; } }
