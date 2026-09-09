@@ -1,0 +1,37 @@
+/* Compléments limités au catalogue ; présentation commune de Panneaux Fontaine. */
+.galerie-livre-or .modele-media img {
+  object-fit: contain;
+  padding: 12px;
+}
+
+.galerie-livre-or .modele-disponibilite {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--noir-2);
+}
+
+.galerie-livre-or .bouton {
+  max-width: 100%;
+  justify-content: center;
+  text-align: center;
+  isolation: isolate;
+}
+
+.galerie-livre-or .bouton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  color: var(--or);
+  border-color: var(--or-filet);
+}
+
+.galerie-livre-or .bouton:disabled::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modeles-livre-or *,
+  .modeles-livre-or *::before {
+    transition: none !important;
+  }
+}
