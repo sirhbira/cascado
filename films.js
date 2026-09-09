@@ -1,4 +1,4 @@
-/* Lecteur unique : les trois prestations défilent dans un ordre fixe.
+/* Lecteur unique : les quatre vidéos défilent dans un ordre fixe.
    - Enchaînement automatique conservé (autoplay, muet, en boucle sur la liste).
    - Navigation manuelle ajoutée : glisser à la souris / au trackpad sur PC,
      swipe gauche-droite au doigt sur mobile. Après un geste, la lecture
@@ -8,11 +8,10 @@
   if (!lecteur) return;
 
   const films = [
-    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo", description: "Des messages spontanés et émouvants\nÀ conserver pour toujours." },
     { src: "/videos/panneau.MP4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire\nPour sublimer votre événement." },
+    { src: "/videos/livre-dor.mp4", nom: "Livre d’or vidéo", description: "Des messages spontanés et émouvants\nÀ conserver pour toujours." },
     { src: "/videos/photobooth.mp4", nom: "Photobooth", description: "Des souvenirs instantanés,\nÉlégants et personnalisés." },
     { src: "/videos/minicascado.mp4", nom: "Mini panneau fontaine", description: "Un format compact et élégant\nPour sublimer votre événement." },
-    { src: "/videos/panneau2.mp4", nom: "Panneau fontaine", description: "Une mise en scène spectaculaire\nPour sublimer votre événement." }
   ];
   const nom = document.getElementById("films-nom");
   const description = document.getElementById("films-description");

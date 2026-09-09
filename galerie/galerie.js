@@ -4,6 +4,7 @@
   const originals = [...track.children];
   const dialog = document.getElementById('galerie-lightbox');
   const image = document.getElementById('lightbox-image');
+  const player = document.getElementById('lightbox-video');
   const caption = document.getElementById('lightbox-legende');
   const pauseButton = document.getElementById('galerie-pause');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -15,12 +16,32 @@
     originals.forEach(el => {
       const clone = el.cloneNode(true);
       clone.tabIndex = -1; clone.setAttribute('aria-hidden', 'true');
-      clone.querySelector('img').loading = 'lazy';
+      const thumbnail = clone.querySelector('img');
+      if (thumbnail) thumbnail.loading = 'lazy';
       fragment.append(clone);
     });
     return fragment;
   }
   track.prepend(copy()); track.append(copy());
+  const previews = [...track.querySelectorAll('video')];
+  const visibleVideos = new Set();
+  function syncVideos() {
+    previews.forEach(video => {
+      if (!document.hidden && !dialog.open && !paused && visibleVideos.has(video)) {
+        if (!video.getAttribute('src')) video.src = video.dataset.src;
+        video.muted = true;
+        video.play().catch(() => {});
+      } else video.pause();
+    });
+  }
+  const videoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) visibleVideos.add(entry.target);
+      else visibleVideos.delete(entry.target);
+    });
+    syncVideos();
+  }, { threshold: 0.05 });
+  previews.forEach(video => videoObserver.observe(video));
   function draw() {
     if (!span) return;
     offset = span + ((offset - span) % span + span) % span;
@@ -55,6 +76,7 @@
     pauseButton.textContent = paused ? 'Reprendre' : 'Pause';
     pauseButton.setAttribute('aria-pressed', String(paused));
     pauseButton.setAttribute('aria-label', paused ? 'Reprendre le défilement' : 'Mettre le défilement en pause');
+    syncVideos();
   }
   pauseButton.addEventListener('click', () => { paused = !paused; pauseLabel(); });
   reduced.addEventListener('change', e => { paused = e.matches; pauseLabel(); });
@@ -100,8 +122,15 @@
   });
   function show(index) {
     active = (index + originals.length) % originals.length;
-    const source = originals[active].querySelector('img');
-    image.src = source.src; image.alt = source.alt;
+    player.pause(); player.removeAttribute('src'); player.load();
+    const source = originals[active].querySelector('img, video');
+    const isVideo = source.tagName === 'VIDEO';
+    image.hidden = isVideo; player.hidden = !isVideo;
+    if (isVideo) {
+      player.src = source.dataset.src;
+      player.setAttribute('aria-label', source.getAttribute('aria-label'));
+      player.play().catch(() => {});
+    } else { image.src = source.src; image.alt = source.alt; }
     caption.textContent = `${active + 1} / ${originals.length}`;
   }
   viewport.addEventListener('click', e => {
@@ -109,15 +138,16 @@
     if (!photo || dragged) return;
     motion = null; opener = photo; show(Number(photo.dataset.index));
     oldOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden'; dialog.showModal(); hold();
+    document.body.style.overflow = 'hidden'; dialog.showModal(); hold(); syncVideos();
   });
   dialog.querySelector('.lightbox-fermer').addEventListener('click', () => dialog.close());
   dialog.querySelector('.lightbox-precedent').addEventListener('click', () => show(active - 1));
   dialog.querySelector('.lightbox-suivant').addEventListener('click', () => show(active + 1));
   dialog.addEventListener('keydown', e => {
+    if (e.target === player) return;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); show(active + (e.key === 'ArrowRight' ? 1 : -1)); }
   });
-  dialog.addEventListener('close', () => { document.body.style.overflow = oldOverflow; hold(); restoringFocus = true; opener?.focus({ preventScroll: true }); restoringFocus = false; });
+  dialog.addEventListener('close', () => { player.pause(); player.removeAttribute('src'); player.load(); document.body.style.overflow = oldOverflow; hold(); restoringFocus = true; opener?.focus({ preventScroll: true }); restoringFocus = false; syncVideos(); });
   let swipe = null;
   image.addEventListener('pointerdown', e => { if (e.isPrimary) { swipe = { id: e.pointerId, x: e.clientX, y: e.clientY }; image.setPointerCapture(e.pointerId); } });
   image.addEventListener('pointerup', e => {
@@ -133,4 +163,5 @@
   new ResizeObserver(measure).observe(viewport);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; start(); }, { rootMargin: '100px' }).observe(viewport);
   document.addEventListener('visibilitychange', start);
+  document.addEventListener('visibilitychange', () => { syncVideos(); if (document.hidden) player.pause(); });
 })();
