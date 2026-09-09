@@ -52,10 +52,8 @@
 .devis-recap dd { margin: 2px 0 0; overflow-wrap: anywhere; white-space: pre-line; }
 .devis-navigation { display: flex; gap: 16px; justify-content: space-between; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--or-filet); }
 .devis-precedent { border: 0; background: transparent; color: var(--texte); font: inherit; padding: 12px; min-height: 48px; cursor: pointer; }
-/* L'état du modèle pilote le bouton, indépendamment du survol tactile. */
+/* Conserver le style commun du bouton et son effet de survol. */
 .devis-suivant { isolation: isolate; }
-.devis-suivant.est-pret { color: var(--noir); border-color: var(--champagne); background: var(--or-degrade); transition: none; }
-.devis-suivant.est-pret::before { transform: translateY(0); transition: none; }
 .devis-suivant:disabled { color: var(--or); border-color: var(--or-filet); opacity: .55; cursor: not-allowed; }
 .devis-suivant:disabled::before { transform: translateY(100%); transition: none; }
 .devis-envoyer { width: 100%; }

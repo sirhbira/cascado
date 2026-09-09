@@ -78,7 +78,6 @@
     const models = [...route[step].querySelectorAll('input[type="radio"][name^="modele_"]')];
     const selected = models.some(input => input.checked && !input.matches(':disabled'));
     next.disabled = submitting || sent || (models.length > 0 && !selected);
-    next.classList.toggle('est-pret', models.length > 0 && selected && !next.disabled);
   }
 
   function configure() {
