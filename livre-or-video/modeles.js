@@ -34,7 +34,15 @@
       carte.inert = d !== 0;
     });
     puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); p.setAttribute("aria-pressed", String(i === actif)); });
-    grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+    egaliserHauteurs();
+  }
+
+  function egaliserHauteurs() {
+    cartes.forEach(function (carte) { carte.style.height = ""; });
+    if (!mq.matches) return;
+    var hauteur = Math.max.apply(null, cartes.map(function (carte) { return carte.offsetHeight; }));
+    cartes.forEach(function (carte) { carte.style.height = hauteur + "px"; });
+    grille.style.height = (hauteur + 14) + "px";
   }
 
   function aller(dir) {
@@ -80,6 +88,7 @@
       c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
       c.removeAttribute("aria-hidden");
       c.inert = false;
+      c.style.height = "";
     });
     grille.style.height = "";
   }
@@ -93,6 +102,6 @@
     mq.addListener(function () { desactiver(); appliquer(); });
   }
   window.addEventListener("resize", function () {
-    if (mq.matches) grille.style.height = (cartes[actif].offsetHeight + 14) + "px";
+    egaliserHauteurs();
   });
 })();
