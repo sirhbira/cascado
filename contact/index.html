@@ -26,10 +26,11 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/contact/devis.css" />
 
   <!-- Affichage garanti même si le JavaScript est désactivé -->
   <noscript>
-    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+    <style>.reveal { opacity: 1 !important; transform: none !important; } .devis-envoyer { display: none !important; }</style>
   </noscript>
 </head>
 
@@ -56,115 +57,39 @@
   </header>
 
 
-  <main>
-
-    <!-- EN-TÊTE DE PAGE -->
-    <section class="page-entete">
-      <div class="conteneur">
-        <span class="surtitre">Contact</span>
-        <h1>Parlons de votre événement</h1>
-        <hr class="filet centre" />
-        <p>
-          <!-- À REMPLIR : phrase d'introduction + délai de réponse -->
-          Décrivez votre projet en quelques mots : date, lieu, type d'événement
-          et prestation souhaitée. Réponse sous 48&nbsp;h.
-        </p>
-      </div>
-    </section>
-
-
-    <!-- FORMULAIRE + COORDONNÉES -->
-    <section class="section">
-      <div class="conteneur">
-        <div class="contact-grille reveal">
-
-          <!-- Formulaire de devis : envoi par email via FormSubmit. -->
-          <form
-            class="formulaire"
-            id="formulaire-devis"
-            action="https://formsubmit.co/cascadoevent@gmail.com"
-            method="POST"
-            novalidate
-          >
-
-            <!-- Formule souhaitée (menu déroulant) -->
-            <div class="champ">
-              <label for="formule">Formule souhaitée</label>
-              <select id="formule" name="formule" required>
-                <option value="" disabled selected>Choisissez une formule…</option>
-                <option value="Pack Premium">Pack Premium</option>
-                <option value="Pack Prestige">Pack Prestige</option>
-                <option value="Photobooth seul">Photobooth seul</option>
-                <option value="Panneaux fontaine seuls">Panneaux fontaine seuls</option>
-                <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
-              </select>
-            </div>
-
-            <!-- Nom / prénom -->
-            <div class="champ">
-              <label for="nom">Nom / prénom</label>
-              <input type="text" id="nom" name="nom" placeholder="Votre nom et prénom" required />
-            </div>
-
-            <!-- Moyen de contact : email OU téléphone, un seul champ -->
-            <div class="champ">
-              <label for="contact">Email ou téléphone</label>
-              <input
-                type="text"
-                id="contact"
-                name="contact"
-                placeholder="vous@exemple.com ou 06 12 34 56 78"
-                required
-              />
-            </div>
-
-            <!-- Date de l'événement -->
-            <div class="champ">
-              <label for="date_evenement">Date de l'événement</label>
-              <input type="date" id="date_evenement" name="date_evenement" required />
-            </div>
-
-            <!-- Message libre (optionnel) -->
-            <div class="champ">
-              <label for="message">Message <span class="champ-optionnel">(optionnel)</span></label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Lieu, nombre d'invités, horaires, questions…"
-              ></textarea>
-            </div>
-
-            <!-- Sujet de l'email reçu -->
-            <input type="hidden" name="_subject" value="Nouvelle demande de devis — Cascado Event" />
-
-            <button type="submit" class="bouton">Demander un devis</button>
-
-            <p class="formulaire-retour" id="formulaire-retour" role="status" aria-live="polite"></p>
-
-          </form>
-
-          <!-- Coordonnées -->
-          <aside class="coordonnees">
-            <h3>Coordonnées</h3>
-            <dl>
-              <dt>Email</dt>
-              <dd><!-- À REMPLIR -->cascadoevent@gmail.com</dd>
-
-              <dt>Téléphone</dt>
-              <dd><!-- À REMPLIR -->00&nbsp;00&nbsp;00&nbsp;00&nbsp;00</dd>
-
-              <dt>Zone d'intervention</dt>
-              <dd><!-- À REMPLIR -->[Région / département] et alentours</dd>
-
-              <dt>Réseaux</dt>
-              <dd><!-- À REMPLIR : liens Instagram / Facebook -->@cascadoevent</dd>
-            </dl>
-          </aside>
-
-        </div>
-      </div>
-    </section>
-
+  <main class="devis-page">
+    <section class="page-entete"><div class="conteneur"><span class="surtitre">Votre devis sur mesure</span><h1>Parlons de votre événement</h1><hr class="filet centre" /><p>Quelques informations suffisent pour préparer votre devis personnalisé. Réponse en moins de 24h.</p></div></section>
+    <section class="section devis-section"><div class="conteneur devis-layout">
+      <form id="configurateur-devis" action="https://formsubmit.co/cascadoevent@gmail.com" method="POST">
+        <ol class="devis-progression" aria-label="Étapes de votre demande" hidden>
+          <li aria-current="step"><span>01</span>Prestation</li><li><span>02</span>Événement</li><li><span>03</span>Coordonnées</li><li><span>04</span>Confirmation</li>
+        </ol>
+        <p class="devis-aide">Les champs sont obligatoires sauf mention « facultatif ».</p>
+        <section class="devis-etape" data-step="0" aria-labelledby="titre-prestation">
+          <span class="surtitre">01 — Votre prestation</span><h2 id="titre-prestation" tabindex="-1">Quelle prestation souhaitez-vous ?</h2>
+          <fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre prestation</legend>
+<div class="devis-choix"><label class="devis-carte"><input type="radio" name="formule" value="Pack Premium" aria-describedby="erreur-formule" /><span>Pack Premium</span></label><label class="devis-carte"><input type="radio" name="formule" value="Pack Prestige" aria-describedby="erreur-formule" /><span>Pack Prestige</span></label><label class="devis-carte"><input type="radio" name="formule" value="Panneau Fontaine" aria-describedby="erreur-formule" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="radio" name="formule" value="Photobooth Classique" aria-describedby="erreur-formule" /><span>Photobooth Classique</span></label><label class="devis-carte"><input type="radio" name="formule" value="Photobooth Miroir" aria-describedby="erreur-formule" /><span>Photobooth Miroir</span></label><label class="devis-carte"><input type="radio" name="formule" value="Livre d’or vidéo" aria-describedby="erreur-formule" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-formule" aria-live="polite"></p></fieldset>
+          <fieldset class="devis-condition" id="option-premium" hidden disabled><legend>Choisissez 2 prestations parmi 3 :</legend><p class="devis-aide">2 prestations au choix parmi 3</p>
+<div class="devis-choix"><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Panneau Fontaine" aria-describedby="erreur-prestations_premium" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Photobooth" aria-describedby="erreur-prestations_premium" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Livre d’or vidéo" aria-describedby="erreur-prestations_premium" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-prestations_premium" aria-live="polite"></p><p id="premium-compteur" class="devis-aide" role="status">0 / 2 prestations sélectionnées</p></fieldset>
+          <fieldset class="devis-condition" id="option-prestige" hidden disabled><legend>Toutes les prestations incluses</legend><ul class="devis-inclus"><li>Panneau Fontaine</li><li>Photobooth avec photos illimitées</li><li>Livre d’or audio-vidéo</li></ul><h3>Choisissez votre avantage offert :</h3>
+<div class="devis-choix"><label class="devis-carte"><input type="radio" name="avantage_offert" value="Mur floral offert" aria-describedby="erreur-avantage_offert" /><span>Mur floral offert</span></label><label class="devis-carte"><input type="radio" name="avantage_offert" value="Mini-cascade offerte" aria-describedby="erreur-avantage_offert" /><span>Mini-cascade offerte</span></label></div><p class="devis-erreur" id="erreur-avantage_offert" aria-live="polite"></p></fieldset>
+          <fieldset class="devis-condition" id="option-floral" hidden disabled><legend>Ajouter un mur floral ?</legend><p class="devis-aide">Le mur floral est disponible en supplément, non inclus dans le photobooth individuel.</p>
+<div class="devis-choix"><label class="devis-carte"><input type="radio" name="mur_floral" value="Oui, je souhaite ajouter le mur floral" aria-describedby="erreur-mur_floral" /><span>Oui, je souhaite ajouter le mur floral</span></label><label class="devis-carte"><input type="radio" name="mur_floral" value="Non merci" aria-describedby="erreur-mur_floral" /><span>Non merci</span></label></div><p class="devis-erreur" id="erreur-mur_floral" aria-live="polite"></p></fieldset>
+        </section>
+        <section class="devis-etape" data-step="1" aria-labelledby="titre-evenement"><span class="surtitre">02 — Votre événement</span><h2 id="titre-evenement" tabindex="-1">Le cadre de vos souvenirs</h2>
+          <div class="devis-champ devis-ville"><label for="ville">Ville de l’événement</label><input id="ville" name="ville" placeholder="Commencez à saisir votre ville…" required autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="villes-liste" aria-describedby="ville-aide erreur-ville" /><ul id="villes-liste" role="listbox" aria-label="Villes proposées" hidden></ul><p id="ville-aide" class="devis-aide" role="status">Saisissez au moins 3 lettres ou un code postal.</p><p id="erreur-ville" class="devis-erreur" aria-live="polite"></p></div>
+          <input type="hidden" name="code_postal" id="code_postal" /><input type="hidden" name="departement" id="departement" />
+<div class="devis-champ"><label for="lieu">Adresse ou lieu de réception (facultatif)</label><input id="lieu" name="lieu" type="text" placeholder="Nom de la salle, domaine, château ou adresse"   aria-describedby="erreur-lieu" /><p class="devis-erreur" id="erreur-lieu" aria-live="polite"></p></div><div class="devis-ligne"><div class="devis-champ"><label for="date_evenement">Date de l’événement</label><input id="date_evenement" name="date_evenement" type="date" placeholder="" required lang="fr" aria-describedby="erreur-date_evenement" /><p class="devis-erreur" id="erreur-date_evenement" aria-live="polite"></p></div><div class="devis-champ"><label for="invites">Nombre d’invités</label><select id="invites" name="invites" required aria-describedby="erreur-invites"><option value="">Choisissez une tranche</option><option>Moins de 50</option><option>50 à 100</option><option>100 à 150</option><option>150 à 250</option><option>250 à 400</option><option>Plus de 400</option></select><p id="erreur-invites" class="devis-erreur" aria-live="polite"></p></div></div>
+          <div class="devis-champ"><label for="message">Informations complémentaires (facultatif)</label><textarea id="message" name="message" placeholder="Horaires, type d’événement, thème, demandes particulières…" rows="4"></textarea></div>
+        </section>
+        <section class="devis-etape" data-step="2" aria-labelledby="titre-coordonnees"><span class="surtitre">03 — Vos coordonnées</span><h2 id="titre-coordonnees" tabindex="-1">Comment vous recontacter ?</h2><div class="devis-ligne">
+<div class="devis-champ"><label for="prenom">Prénom</label><input id="prenom" name="prenom" type="text" placeholder="Votre prénom" required autocomplete="given-name" aria-describedby="erreur-prenom" /><p class="devis-erreur" id="erreur-prenom" aria-live="polite"></p></div><div class="devis-champ"><label for="nom">Nom</label><input id="nom" name="nom" type="text" placeholder="Votre nom" required autocomplete="family-name" aria-describedby="erreur-nom" /><p class="devis-erreur" id="erreur-nom" aria-live="polite"></p></div></div><div class="devis-champ"><label for="telephone">Numéro de téléphone</label><input id="telephone" name="telephone" type="tel" placeholder="06 12 34 56 78" required autocomplete="tel" aria-describedby="erreur-telephone" /><p class="devis-erreur" id="erreur-telephone" aria-live="polite"></p></div><div class="devis-champ"><label for="email">Adresse e-mail (facultatif)</label><input id="email" name="email" type="email" placeholder="votre@email.com"  autocomplete="email" aria-describedby="erreur-email" /><p class="devis-erreur" id="erreur-email" aria-live="polite"></p></div></section>
+        <section class="devis-etape" data-step="3" aria-labelledby="titre-confirmation"><span class="surtitre">04 — Votre demande</span><h2 id="titre-confirmation" tabindex="-1">Tout commence ici</h2><div class="devis-recap"><h3>Votre demande</h3><dl id="devis-resume" aria-live="polite"></dl></div><p class="devis-aide">Vous pouvez revenir aux étapes précédentes pour ajuster votre demande.</p><input type="hidden" name="_subject" value="Nouvelle demande de devis — Cascado Event" /><input type="hidden" name="recapitulatif" id="recapitulatif" /><input type="hidden" name="prestations_incluses" id="prestations_incluses" disabled /><button class="bouton devis-envoyer" type="submit">DEMANDER MON DEVIS</button><p class="devis-delai">Réponse en moins de 24h</p><p id="devis-retour" class="devis-erreur" role="status"></p></section>
+        <div class="devis-navigation" hidden><button type="button" class="devis-precedent">Retour</button><button type="button" class="bouton devis-suivant">Continuer <span aria-hidden="true">→</span></button></div>
+        <noscript><p>Activez JavaScript pour configurer les options de votre prestation. Vous pouvez aussi nous joindre directement par téléphone ou WhatsApp.</p></noscript>
+      </form>
+      <aside class="devis-coordonnees"><span class="surtitre">À votre écoute</span><h2>Coordonnées</h2><p>Un échange pour imaginer les détails de votre événement.</p><dl><dt>E-mail</dt><dd><a href="mailto:cascadoevent@gmail.com">cascadoevent@gmail.com</a></dd><dt>Téléphone</dt><dd><a href="tel:+33756944852">07 56 94 48 52</a></dd><dt>Zone d’intervention</dt><dd>Région Centre, Île-de-France et alentours</dd><dt>Réseaux sociaux</dt><dd><a href="https://www.instagram.com/cascadoevent/" target="_blank" rel="noopener noreferrer">@cascadoevent</a></dd></dl><a class="bouton" href="https://wa.me/33756944852?text=Bonjour%20Cascado%20Event%2C%20je%20souhaite%20avoir%20un%20devis" target="_blank" rel="noopener noreferrer">Réservation via WhatsApp</a></aside>
+    </div></section>
   </main>
 
 
@@ -298,5 +223,6 @@
   </a>
 
   <script src="/script.js"></script>
+  <script src="/contact/devis.js"></script>
 </body>
 </html>
