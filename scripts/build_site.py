@@ -9,7 +9,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'dist'
-DIRECTORIES = ('contact', 'panneaux', 'photobooth', 'packs', 'livre-or-video', 'images', 'videos')
+DIRECTORIES = ('contact', 'panneaux', 'photobooth', 'packs', 'livre-or-video', 'galerie', 'images', 'videos')
 ASSET_URL = re.compile(r'''(?P<quote>["'])(?P<url>/(?!/)[^"'\r\n<>]*?\.(?:css|js|jpg|jpeg|png|svg|webp|gif|ico|mp4|webm)(?:\?[^"'\r\n<>]*)?)(?P=quote)''', re.I)
 
 

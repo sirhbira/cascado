@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!-- Cascado Event — Galerie de photos -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta property="og:site_name" content="Cascado Event" />
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/images/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Galerie — Cascado Event</title>
+  <meta name="description" content="Découvrez en images les événements, décors et prestations Cascado Event." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/galerie/galerie.css" />
+
+  <!-- Affichage garanti même si le JavaScript est désactivé -->
+  <noscript>
+    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
+</head>
+
+<body>
+
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Panneaux Fontaine) -->
+  <header class="site-header">
+    <div class="conteneur header-contenu">
+      <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
+      <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="menu-nav" id="menu-nav">
+        <ul>
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/panneaux">Panneaux Fontaine</a></li>
+          <li><a href="/photobooth">Photobooth</a></li>
+          <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+          <li><a href="/packs">Nos Packs</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="galerie-page">
+<section class="page-entete"><div class="conteneur"><span class="surtitre">Instants Cascado Event</span><h1>Galerie</h1><hr class="filet centre" /><p>Des décors, des rencontres et des souvenirs à partager.</p></div></section>
+<section class="galerie-section" aria-label="Photos de nos événements">
+<div class="galerie-fenetre" role="region" aria-roledescription="carrousel" aria-label="Galerie de photos"><div class="galerie-ruban"><button class="galerie-photo" type="button" data-index="0" aria-label="Ouvrir la photo 1 sur 12"><img src="/galerie/1.jpg" alt="Événement Cascado Event — photo 1" loading="eager" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="1" aria-label="Ouvrir la photo 2 sur 12"><img src="/galerie/2.jpg" alt="Événement Cascado Event — photo 2" loading="eager" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="2" aria-label="Ouvrir la photo 3 sur 12"><img src="/galerie/3.jpg" alt="Événement Cascado Event — photo 3" loading="eager" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="3" aria-label="Ouvrir la photo 4 sur 12"><img src="/galerie/4.jpg" alt="Événement Cascado Event — photo 4" loading="eager" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="4" aria-label="Ouvrir la photo 5 sur 12"><img src="/galerie/5.jpg" alt="Événement Cascado Event — photo 5" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="5" aria-label="Ouvrir la photo 6 sur 12"><img src="/galerie/6.jpg" alt="Événement Cascado Event — photo 6" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="6" aria-label="Ouvrir la photo 7 sur 12"><img src="/galerie/7.jpg" alt="Événement Cascado Event — photo 7" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="7" aria-label="Ouvrir la photo 8 sur 12"><img src="/galerie/8.jpg" alt="Événement Cascado Event — photo 8" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="8" aria-label="Ouvrir la photo 9 sur 12"><img src="/galerie/9.jpg" alt="Événement Cascado Event — photo 9" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="9" aria-label="Ouvrir la photo 10 sur 12"><img src="/galerie/10.jpg" alt="Événement Cascado Event — photo 10" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="10" aria-label="Ouvrir la photo 11 sur 12"><img src="/galerie/11.jpg" alt="Événement Cascado Event — photo 11" loading="lazy" decoding="async" /></button>
+<button class="galerie-photo" type="button" data-index="11" aria-label="Ouvrir la photo 12 sur 12"><img src="/galerie/12.jpg" alt="Événement Cascado Event — photo 12" loading="lazy" decoding="async" /></button></div></div>
+<div class="galerie-commandes"><button type="button" data-move="-1" aria-label="Photos précédentes">←</button><button type="button" id="galerie-pause" aria-label="Mettre le défilement en pause" aria-pressed="false">Pause</button><button type="button" data-move="1" aria-label="Photos suivantes">→</button></div>
+<p class="galerie-indication">Faites glisser les photos. Cliquez pour les découvrir en grand.</p>
+</section>
+<dialog id="galerie-lightbox" aria-label="Photo en grand"><button type="button" class="lightbox-fermer" aria-label="Fermer la photo">×</button><button type="button" class="lightbox-precedent" aria-label="Photo précédente">←</button><figure><img id="lightbox-image" alt="" /><figcaption id="lightbox-legende" aria-live="polite"></figcaption></figure><button type="button" class="lightbox-suivant" aria-label="Photo suivante">→</button></dialog>
+</main>
+
+
+  <!-- PIED DE PAGE COMMUN -->
+  <footer class="site-footer">
+    <div class="conteneur">
+      <div class="footer-haut">
+
+        <!-- Présentation -->
+        <div class="footer-col footer-marque">
+          <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
+          <p>
+            Prestations événementielles haut de gamme : panneaux fontaine
+            lumineux, photobooths et livre d’or vidéo.
+          </p>
+          <p>
+            Intervention en région Centre, Île-de-France et alentours pour
+            sublimer vos événements privés et professionnels.
+          </p>
+        </div>
+
+        <!-- Liens utiles -->
+        <nav class="footer-col footer-nav" aria-label="Liens utiles">
+          <span class="footer-titre">Liens utiles</span>
+          <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/panneaux">Panneaux Fontaine</a></li>
+            <li><a href="/photobooth">Photobooth</a></li>
+            <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/packs">Nos Packs</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Coordonnées -->
+        <div class="footer-col footer-contact">
+          <span class="footer-titre">Contact</span>
+          <ul>
+            <li>
+              <span class="footer-label">Téléphone</span>
+              <a href="tel:+33756944852">07&nbsp;56&nbsp;94&nbsp;48&nbsp;52</a>
+            </li>
+            <li>
+              <span class="footer-label">E-mail</span>
+              <a href="mailto:cascadoevent@gmail.com">cascadoevent@gmail.com</a>
+            </li>
+          </ul>
+          <a
+            class="footer-wa"
+            href="https://wa.me/33756944852?text=Bonjour%20Cascado%20Event%2C%20je%20souhaite%20avoir%20un%20devis"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="footer-wa-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="#25D366" d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/>
+              <path fill="#FFFFFF" d="M12.05 21.785h-.004a9.87 9.87 0 0 1-4.71-1.2l-.339-.2-3.5.919.936-3.416-.221-.351a9.878 9.878 0 0 1-1.514-5.26c.002-5.45 4.437-9.884 9.889-9.884a9.821 9.821 0 0 1 6.994 2.898 9.822 9.822 0 0 1 2.895 6.994c-.003 5.45-4.437 9.885-9.887 9.885m5.426-7.403c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347"/>
+            </svg>
+            Réservation via WhatsApp
+          </a>
+        </div>
+
+        <!-- Réseaux sociaux -->
+        <div class="footer-col footer-social">
+          <span class="footer-titre">Suivez-nous</span>
+          <div class="footer-social-liens">
+
+            <a class="footer-social-lien" href="https://www.instagram.com/cascadoevent/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Cascado Event">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="footer-ig-grad" x1="0" y1="1" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FEDA75"/>
+                    <stop offset="25%" stop-color="#FA7E1E"/>
+                    <stop offset="50%" stop-color="#D62976"/>
+                    <stop offset="75%" stop-color="#962FBF"/>
+                    <stop offset="100%" stop-color="#4F5BD5"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#footer-ig-grad)" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.42 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.06 1.17-.26 1.8-.42 2.23a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.42.16-1.06.36-2.23.42-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.06-1.8-.26-2.23-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.42-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.06-1.17.26-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.42C8.42 2.17 8.8 2.16 12 2.16zm0 1.98c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.21-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.6-.07 4.72s.01 3.48.07 4.72c.05 1.14.24 1.76.4 2.17.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.6.07-4.72s-.01-3.48-.07-4.72c-.05-1.14-.24-1.76-.4-2.17a3.64 3.64 0 0 0-.88-1.35 3.64 3.64 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.6-.07-4.74-.07zm0 3.36a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 7.42a2.92 2.92 0 1 0 0-5.84 2.92 2.92 0 0 0 0 5.84zm5.73-7.6a1.05 1.05 0 1 1-2.1 0 1.05 1.05 0 0 1 2.1 0z"/>
+              </svg>
+            </a>
+
+            <a class="footer-social-lien" href="https://www.tiktok.com/@cascadoevent" target="_blank" rel="noopener noreferrer" aria-label="TikTok Cascado Event">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="#25F4EE" transform="translate(-0.9,-0.9)" d="M12.53 0h3.9c.09 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.6-1.62-.94-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                <path fill="#FE2C55" transform="translate(0.9,0.9)" d="M12.53 0h3.9c.09 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.6-1.62-.94-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                <path fill="#FFFFFF" d="M12.53 0h3.9c.09 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.6-1.62-.94-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              </svg>
+            </a>
+
+            <a class="footer-social-lien" href="https://wa.me/33756944852" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Cascado Event">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="#25D366" d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/>
+                <path fill="#FFFFFF" d="M12.05 21.785h-.004a9.87 9.87 0 0 1-4.71-1.2l-.339-.2-3.5.919.936-3.416-.221-.351a9.878 9.878 0 0 1-1.514-5.26c.002-5.45 4.437-9.884 9.889-9.884a9.821 9.821 0 0 1 6.994 2.898 9.822 9.822 0 0 1 2.895 6.994c-.003 5.45-4.437 9.885-9.887 9.885m5.426-7.403c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347"/>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bas">
+        <span>&copy; <span id="annee">2026</span> Cascado Event. Tous droits réservés.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!--
+    ============================================================
+    BOUTON WHATSAPP FLOTTANT — présent sur toutes les pages
+    ------------------------------------------------------------
+    À REMPLIR : numéro au format international, sans « + » ni espaces
+    (exemple pour la France : 33612345678).
+    Remplacez « VOTRE_NUMERO_WHATSAPP » dans le href ci-dessous.
+    Le message pré-rempli est déjà encodé pour l'URL ; vous pouvez
+    le modifier en gardant l'encodage (%20 = espace, %2C = virgule…).
+    ============================================================
+  -->
+  <a
+    class="wa-flottant"
+    href="https://wa.me/33756944852?text=Bonjour%20Cascado%20Event%2C%20je%20souhaite%20avoir%20un%20devis."
+    target="_blank"
+    rel="noopener"
+    aria-label="Réservation via WhatsApp"
+  >
+    <!-- Icône WhatsApp (SVG intégré, aucun fichier externe à charger) -->
+    <svg class="wa-icone" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M16.004 0h-.008C7.174 0 .002 7.174.002 16c0 3.5 1.128 6.744 3.046 9.376L1.05 31.36l6.19-1.98A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.826 32 16S24.826 0 16.004 0zm9.312 22.594c-.386 1.09-1.918 1.994-3.14 2.258-.836.178-1.928.32-5.604-1.204-4.7-1.948-7.726-6.724-7.962-7.034-.226-.31-1.9-2.53-1.9-4.826s1.174-3.424 1.65-3.91c.394-.404.87-.588 1.4-.588.17 0 .322.008.46.014.406.018.61.042.878.684.33.804 1.15 2.798 1.248 3.004.1.206.166.446.03.756-.128.32-.24.446-.446.686-.206.24-.402.424-.608.682-.188.224-.4.466-.164.87.236.396 1.05 1.73 2.254 2.802 1.552 1.384 2.82 1.826 3.266 2.012.332.138.728.106.97-.152.308-.33.688-.878 1.074-1.42.274-.388.62-.436.984-.3.37.128 2.354 1.11 2.756 1.31.402.2.668.296.766.462.098.166.098.964-.288 2.054z"/>
+    </svg>
+    <span class="wa-texte">Réservation via WhatsApp</span>
+  </a>
+
+  <script src="/script.js"></script>
+  <script src="/galerie/galerie.js"></script>
+</body>
+</html>
