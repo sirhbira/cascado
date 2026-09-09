@@ -1,0 +1,5 @@
+/* Cette feuille n'est chargée que sur l'accueil. Aucun effet sur la géométrie. */
+.accueil-scroll-attente { opacity: 0 !important; }
+@media (prefers-reduced-motion: reduce), print {
+  .accueil-scroll-attente { opacity: revert !important; }
+}
