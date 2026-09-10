@@ -7,6 +7,10 @@
      3. Apparition douce des sections au défilement (une seule fois)
      4. Vignettes vidéo cliquables -> ouverture dans une fenêtre légère
      5. Formulaire de contact (validation + envoi par email)
+     6. Carrousel des packs (mobile)
+     7. Suivi Google Ads / Analytics (clics devis, WhatsApp, téléphone,
+        choix de modèle) — l'envoi réussi du devis est suivi séparément
+        dans contact/devis.js, au moment réel de la confirmation.
    ------------------------------------------------------------
    Le script est chargé en fin de page (voir la balise <script>).
    ============================================================ */
@@ -332,6 +336,46 @@ document.addEventListener("DOMContentLoaded", function () {
       mq.addEventListener("change", appliquer);
     } else if (mq.addListener) {
       mq.addListener(appliquer);
+    }
+  });
+
+
+  /* --------------------------------------------------------
+     7. SUIVI GOOGLE ADS / ANALYTICS (clics)
+     --------------------------------------------------------
+     Un seul écouteur délégué, déclenché uniquement par un clic
+     réel (jamais au chargement de la page). Chaque branche fait
+     un "return" : un même clic ne peut jamais déclencher deux
+     événements. L'envoi réussi du devis est suivi séparément,
+     dans contact/devis.js, au moment réel de la confirmation.
+     -------------------------------------------------------- */
+  document.addEventListener("click", function (e) {
+    if (typeof window.gtag !== "function") return;
+
+    const lien = e.target.closest("a");
+    if (!lien) return;
+
+    const href = lien.getAttribute("href") || "";
+
+    if (lien.classList.contains("wa-flottant") || href.indexOf("wa.me") !== -1) {
+      window.gtag("event", "click_whatsapp");
+      return;
+    }
+
+    if (href.indexOf("tel:") === 0) {
+      window.gtag("event", "click_phone");
+      return;
+    }
+
+    const texte = (lien.textContent || "").trim().toLowerCase();
+
+    if (texte.indexOf("devis") !== -1) {
+      window.gtag("event", "generate_lead");
+      return;
+    }
+
+    if (texte.indexOf("choisir") !== -1) {
+      window.gtag("event", "click_choose_model");
     }
   });
 

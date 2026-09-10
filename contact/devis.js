@@ -281,6 +281,8 @@
       const result = await response.json();
       if (result.success !== true && result.success !== 'true') throw new Error('Envoi non confirmé');
       sent = true;
+      // Suivi Google Ads / Analytics : uniquement ici, sur un envoi réellement confirmé.
+      if (typeof window.gtag === 'function') window.gtag('event', 'quote_request');
       feedback.classList.add('succes');
       feedback.textContent = '✓ Votre demande a bien été envoyée.\nNous revenons vers vous en moins de 24h.';
       button.textContent = 'DEMANDE ENVOYÉE ✓';
