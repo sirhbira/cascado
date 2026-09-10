@@ -6,6 +6,9 @@
   if (reduced.matches || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
 
   const mobile = matchMedia('(max-width: 1100px)');
+  // En dessous de 720px, la photo équipe a son propre panoramique CSS continu :
+  // on évite de la faire aussi animer ici pour ne pas figer les deux effets l'un sur l'autre.
+  const equipePanCss = matchMedia('(max-width: 720px)');
   const pending = new Map();
   const running = new Map();
   const observer = new IntersectionObserver(entries => {
@@ -56,7 +59,9 @@
       add('.pack', { y: 14, scale: 0.98, duration: 850, stagger: 100 });
     }
     add('.faq-item', { y: 8, duration: 600, stagger: 45 });
-    add('.equipe-image', { scale: 1.025, duration: 900 });
+    if (!equipePanCss.matches) {
+      add('.equipe-image', { scale: 1.025, duration: 900 });
+    }
     add('.site-footer', { duration: 800 });
   } catch (_) {
     pending.forEach((_, el) => reveal(el, true));
