@@ -1574,7 +1574,10 @@ a.annonce-message { color: var(--or); }
   padding: clamp(72px, 11vw, 140px) 24px;
   overflow: hidden;
   isolation: isolate;
-  background: var(--noir);
+  /* Placeholder très discret (couleur de surface, pas de noir pur) :
+     évite tout flash sombre le temps que la photo de bandeau charge.
+     Aucune animation. */
+  background: var(--noir-2);
   text-align: center;
 }
 
