@@ -11,10 +11,16 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'dist'
 DIRECTORIES = ('contact', 'panneaux', 'photobooth', 'packs', 'livre-or-video', 'galerie', 'images', 'videos')
 ASSET_URL = re.compile(r'''(?P<quote>["'])(?P<url>/(?!/)[^"'\r\n<>]*?\.(?:css|js|jpg|jpeg|png|svg|webp|gif|ico|mp4|webm)(?:\?[^"'\r\n<>]*)?)(?P=quote)''', re.I)
+# Icônes de site : leur URL doit rester STABLE d'un déploiement à l'autre
+# (Google met le favicon en cache par URL ; un ?v= qui change à chaque
+# commit empêche Google de le récupérer et il retombe sur l'icône globe).
+STABLE_ASSETS = re.compile(r'/(?:favicon\.ico|favicon-\d+x\d+\.png|apple-touch-icon(?:-precomposed)?\.png|favicon\.svg|site\.webmanifest)$', re.I)
 
 
 def version_url(match, version):
     parts = urlsplit(match['url'])
+    if STABLE_ASSETS.search(parts.path):
+        return match.group(0)
     query = [(key, value) for key, value in parse_qsl(parts.query) if key != 'v']
     query.append(('v', version))
     url = urlunsplit(('', '', parts.path, urlencode(query), parts.fragment))
@@ -29,7 +35,7 @@ def build():
         shutil.rmtree(OUTPUT)
     OUTPUT.mkdir()
     for source in ROOT.iterdir():
-        if source.is_file() and (source.suffix in ('.html', '.css', '.js', '.ico', '.xml', '.txt') or source.name == 'CNAME'):
+        if source.is_file() and (source.suffix in ('.html', '.css', '.js', '.ico', '.png', '.svg', '.webmanifest', '.xml', '.txt') or source.name == 'CNAME'):
             shutil.copy2(source, OUTPUT / source.name)
     for name in DIRECTORIES:
         if (ROOT / name).is_dir():
