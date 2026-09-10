@@ -174,6 +174,58 @@
     $('recapitulatif').value = rows.map(([label, text]) => `${label} : ${text}`).join('\n');
   }
 
+  function emailPayload() {
+    const type = selection('formule')[0];
+    const date = value('date_evenement').split('-').reverse().join('/');
+    const client = `${value('prenom')} ${value('nom')}`.replace(/[\r\n]+/g, ' ');
+    const requestId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const services = type === 'Pack Prestige'
+      ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo']
+      : type === 'Pack Premium' ? selection('prestations_premium') : [type];
+    const models = {
+      'Panneau Fontaine': 'modele_panneau',
+      Photobooth: 'modele_photobooth',
+      'Livre d’or vidéo': 'modele_livre',
+      'Livre d’or audio-vidéo': 'modele_livre'
+    };
+    const prestations = services.map(service => {
+      const lines = [`✓ ${service}`];
+      const model = models[service] && selection(models[service])[0];
+      if (model) lines.push(`Modèle : ${model}`);
+      if (service === 'Photobooth' && type !== 'Pack Prestige') {
+        const floral = selection('mur_floral')[0];
+        lines.push(`Mur floral : ${floral}${floral === 'Oui' ? ' (en supplément)' : ''}`);
+      }
+      return lines.join('\n');
+    }).join('\n\n');
+
+    // Liste explicite : aucun champ brut ni récapitulatif en double.
+    const payload = {
+      _subject: `Nouvelle demande de devis — ${date} — ${client} — ${requestId}`,
+      _template: 'basic',
+      'NOUVELLE DEMANDE DE DEVIS — CASCADO EVENT': '',
+      Client: [
+        `Prénom : ${value('prenom')}`,
+        `Nom : ${value('nom')}`,
+        `Téléphone : ${value('telephone')}`,
+        `E-mail : ${value('email') || 'Non renseigné'}`
+      ].join('\n'),
+      'Événement': [
+        `Date : ${date}`,
+        `Ville : ${value('ville')}`,
+        `Lieu : ${value('lieu') || 'Non renseigné'}`,
+        `Nombre d’invités : ${value('invites')}`
+      ].join('\n'),
+      'Formule choisie': type,
+      Prestations: prestations
+    };
+    if (type === 'Pack Prestige') payload['Avantage offert'] = selection('avantage_offert')[0];
+    payload['Message du client'] = value('message') || 'Aucun message';
+    // Adresse de réponse uniquement, sans seconde ligne visible dans le mail.
+    if (value('email')) payload._replyto = value('email');
+    return payload;
+  }
+
   function advance() {
     if (submitting || sent) return;
     if (validate(step)) showStep(Math.min(route.length - 1, step + 1));
@@ -206,12 +258,7 @@
       if (!validate(i)) { showStep(i); route[i].querySelector('[aria-invalid="true"]:not(:disabled)')?.focus(); return; }
     }
     summary();
-    const payload = {};
-    for (const [name, text] of new FormData(form)) {
-      payload[name] = name in payload ? `${payload[name]} ; ${text}` : text;
-    }
-    if (!payload.email) delete payload.email;
-    payload._template = 'table';
+    const payload = emailPayload();
     const controls = [...form.querySelectorAll('input, select, textarea, button')];
     const disabled = controls.map(el => el.disabled);
     const button = form.querySelector('[type="submit"]');
