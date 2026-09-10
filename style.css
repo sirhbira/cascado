@@ -314,6 +314,13 @@ a.annonce-message { color: var(--or); }
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.05), 0 3px 12px rgba(0, 0, 0, 0.25);
 }
 
+/* Le <picture> qui enveloppe le logo (WebP + repli JPEG) ne doit pas
+   se comporter différemment de l'ancien <img> seul dans le flex du header. */
+.site-header .logo picture {
+  display: block;
+  flex-shrink: 0;
+}
+
 @media (max-width: 720px) {
   .site-header .logo {
     gap: 10px;

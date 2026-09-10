@@ -92,7 +92,7 @@
 
   <header class="site-header">
     <div class="conteneur header-contenu">
-      <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
+      <a href="/" class="logo"><picture><source srcset="/images/logo-header.webp" type="image/webp" /><img class="header-logo-image" src="/images/logo-header.jpg" alt="" width="44" height="44" /></picture><span><span class="texte-or">Cascado</span> Event</span></a>
 
       <button
         class="menu-burger"
@@ -139,23 +139,20 @@
     <section class="hero">
 
       <!--
-        À REMPLIR : vidéo de fond du hero.
-        - Format conseillé : .mp4 (H.264), 1920x1080, muette, ~10-20 s en boucle,
-          compressée (< 5 Mo si possible, GitHub Pages sert des fichiers statiques).
-        - Ajoutez aussi une version .webm pour alléger si vous le souhaitez.
-        - "poster" = image affichée avant le chargement de la vidéo.
+        À REMPLIR (optionnel) : vidéo de fond du hero.
+        Retirée le temps qu'un vrai fichier soit disponible : la balise
+        pointait vers /images/hero.mp4 et /images/poster-hero.svg, qui
+        n'existent pas — deux requêtes 404 juste avant le premier affichage,
+        ce qui dégradait fortement le LCP mobile. Le fond reste géré par
+        .hero-overlay (dégradé) le temps qu'une vraie vidéo soit ajoutée.
+        Si vous en ajoutez une : fournissez un vrai poster (image, pas de
+        404), gardez preload="none" ou "metadata" si elle n'est pas
+        strictement nécessaire au premier affichage, et compressez-la
+        fortement (< 3-4 Mo idéalement pour du mobile).
+        <video class="hero-video" autoplay muted loop playsinline poster="/images/VOTRE-POSTER.jpg">
+          <source src="/images/VOTRE-VIDEO.mp4" type="video/mp4" />
+        </video>
       -->
-      <video
-        class="hero-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        poster="/images/poster-hero.svg"
-      >
-        <source src="/images/hero.mp4" type="video/mp4" />
-        <!-- <source src="/images/hero.webm" type="video/webm" /> -->
-      </video>
 
       <!-- Voile sombre pour la lisibilité du texte -->
       <div class="hero-overlay"></div>
@@ -187,7 +184,7 @@
             autoplay
             muted
             playsinline
-            preload="auto"
+            preload="metadata"
             disablepictureinpicture
             disableremoteplayback
             aria-label="Présentation vidéo des prestations Cascado Event, sans son"
@@ -223,7 +220,12 @@ Pour sublimer votre événement.</p>
 
           <!-- Univers 1 : Panneaux fontaine -->
           <a href="/panneaux" class="univers-carte">
-            <div class="univers-media"><img src="/images/panneau-1.jpg" alt="Panneau fontaine lumineux personnalisé pour un mariage" loading="lazy" /></div>
+            <div class="univers-media">
+              <picture>
+                <source srcset="/images/panneau-1-thumb.webp" type="image/webp" />
+                <img src="/images/panneau-1-thumb.jpg" alt="Panneau fontaine lumineux personnalisé pour un mariage" width="606" height="1050" loading="lazy" decoding="async" />
+              </picture>
+            </div>
             <div class="univers-texte">
               <h3>Panneaux Fontaine</h3>
               <p>Accueillez vos invités avec élégance et une touche de luxe.</p>
@@ -233,7 +235,12 @@ Pour sublimer votre événement.</p>
 
           <!-- Univers 2 : Photobooth -->
           <a href="/photobooth" class="univers-carte">
-            <div class="univers-media"><img src="/images/photobooth-1.jpg" alt="Borne photobooth éclairée dans une salle de réception" loading="lazy" /></div>
+            <div class="univers-media">
+              <picture>
+                <source srcset="/images/photobooth-1-thumb.webp" type="image/webp" />
+                <img src="/images/photobooth-1-thumb.jpg" alt="Borne photobooth éclairée dans une salle de réception" width="800" height="1017" loading="lazy" decoding="async" />
+              </picture>
+            </div>
             <div class="univers-texte">
               <h3>Photobooth</h3>
               <p>Capturez les plus beaux instants et repartez avec des souvenirs inoubliables.</p>
@@ -241,7 +248,12 @@ Pour sublimer votre événement.</p>
             </div>
           </a>
           <a href="/livre-or-video" class="univers-carte">
-            <div class="univers-media"><img src="/images/livredor-1.jpg" alt="Livre d’or vidéo avec tablette et téléphone dans une cabine lumineuse" loading="lazy" /></div>
+            <div class="univers-media">
+              <picture>
+                <source srcset="/images/livredor-1-thumb.webp" type="image/webp" />
+                <img src="/images/livredor-1-thumb.jpg" alt="Livre d’or vidéo avec tablette et téléphone dans une cabine lumineuse" width="591" height="1050" loading="lazy" decoding="async" />
+              </picture>
+            </div>
             <div class="univers-texte">
               <h3>Livre d’or vidéo</h3>
               <p>Le livre d’or vidéo capture les messages de vos invités pour revivre leurs mots et leurs émotions, même 5 ans plus tard.</p>
@@ -347,14 +359,18 @@ Pour sublimer votre événement.</p>
          NOTRE ÉQUIPE — bandeau pleine largeur (bas de page)
          ====================================================== -->
     <section class="equipe" aria-label="Notre équipe">
-      <img
-        class="equipe-image"
-        src="/images/team.png"
-        alt="L'équipe Cascado Event en intervention lors d'un événement"
-        loading="lazy"
-        width="2172"
-        height="724"
-      />
+      <picture>
+        <source srcset="/images/team-banner.webp" type="image/webp" />
+        <img
+          class="equipe-image"
+          src="/images/team-banner.jpg"
+          alt="L'équipe Cascado Event en intervention lors d'un événement"
+          loading="lazy"
+          decoding="async"
+          width="1600"
+          height="533"
+        />
+      </picture>
       <div class="equipe-voile"></div>
       <div class="equipe-contenu reveal">
         <span class="surtitre">Savoir-faire</span>
@@ -635,10 +651,10 @@ Pour sublimer votre événement.</p>
     <span class="wa-texte">Réservation via WhatsApp</span>
   </a>
 
-  <script src="/accueil-scroll.js"></script>
-  <script src="/script.js"></script>
-  <script src="/announcement.js"></script>
-  <script src="/films.js?v=5-videos-2"></script>
-  <script src="/prestations.js"></script>
+  <script src="/accueil-scroll.js" defer></script>
+  <script src="/script.js" defer></script>
+  <script src="/announcement.js" defer></script>
+  <script src="/films.js?v=5-videos-2" defer></script>
+  <script src="/prestations.js" defer></script>
 </body>
 </html>
