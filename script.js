@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Sous-navigation mobile : on s'assure que l'onglet actif est visible
+  const sousNavActif = document.querySelector(".sous-nav-liste a.actif");
+  if (sousNavActif) {
+    sousNavActif.scrollIntoView({ block: "nearest", inline: "center" });
+  }
+
 
   /* --------------------------------------------------------
      2. ANNÉE AUTOMATIQUE (pied de page)
