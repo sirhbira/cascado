@@ -29,7 +29,7 @@ def build():
         shutil.rmtree(OUTPUT)
     OUTPUT.mkdir()
     for source in ROOT.iterdir():
-        if source.is_file() and (source.suffix in ('.html', '.css', '.js') or source.name == 'CNAME'):
+        if source.is_file() and (source.suffix in ('.html', '.css', '.js', '.ico', '.xml', '.txt') or source.name == 'CNAME'):
             shutil.copy2(source, OUTPUT / source.name)
     for name in DIRECTORIES:
         if (ROOT / name).is_dir():
