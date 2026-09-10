@@ -442,6 +442,69 @@ a.annonce-message { color: var(--or); }
   transform: scaleX(1);
 }
 
+/* Sous-navigation mobile : bandeau d'onglets défilable au doigt (masqué sur desktop) */
+.sous-nav {
+  display: none;
+}
+
+.sous-nav-liste {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sous-nav-liste::-webkit-scrollbar {
+  display: none;
+}
+
+.sous-nav-liste li {
+  flex: 0 0 auto;
+}
+
+.sous-nav-liste a {
+  display: block;
+  white-space: nowrap;
+  position: relative;
+  padding: 12px 0 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+  transition: color var(--transition);
+}
+
+.sous-nav-liste a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--or-degrade);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition);
+}
+
+.sous-nav-liste a.actif {
+  color: var(--champagne);
+}
+
+.sous-nav-liste a.actif::after {
+  transform: scaleX(1);
+}
+
 /* Bouton hamburger (mobile uniquement) */
 .menu-burger {
   display: none;
@@ -2086,6 +2149,12 @@ a.annonce-message { color: var(--or); }
   /* Navigation : menu déroulant plein largeur */
   .menu-burger {
     display: flex;
+  }
+
+  /* Sous-navigation : bandeau d'onglets défilable, sous le header */
+  .sous-nav {
+    display: block;
+    border-top: 1px solid var(--or-filet);
   }
 
   .menu-nav {
