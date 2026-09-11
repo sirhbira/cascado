@@ -7,14 +7,27 @@
    contient aucune valeur de note, de nombre d'avis ou de texte.
    ============================================================ */
 
+.avis {
+  /* Palette locale au résumé/carrousel — score et étoiles façon
+     Trustpilot/Google (bleu vif + jaune/orange), cartes claires.
+     Le reste de la section (fond, titre) garde l'identité noir/or. */
+  --avis-bleu: #1a73e8;
+  --avis-bleu-clair: rgba(26, 115, 232, 0.12);
+  --avis-etoile: #ffb400;
+  --avis-carte-fond: #ffffff;
+  --avis-carte-bordure: #e4e4ea;
+  --avis-carte-texte: #1c1c1e;
+  --avis-carte-texte-doux: #6b6b72;
+}
+
 .avis-corps {
   max-width: 1100px;
   margin: 0 auto;
 }
 
 
-/* ---- Résumé premium : score à gauche, confiance + répartition
-   à droite. Deux colonnes sur desktop, empilé sur mobile. -------- */
+/* ---- Résumé : gros score + étoiles/total/lien à gauche,
+   confiance + répartition à droite. Empilé sur mobile. ---------- */
 
 .avis-resume {
   display: grid;
@@ -30,30 +43,39 @@
 
 .avis-resume-gauche {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
   padding-right: 48px;
   border-right: 1px solid var(--or-filet);
+}
+
+.avis-resume-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
 }
 
 .avis-resume-droite {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .avis-note-valeur {
-  font-family: var(--serif);
-  font-size: clamp(3rem, 5vw, 4.2rem);
-  font-weight: 600;
-  color: var(--or);
+  font-family: var(--sans);
+  font-size: clamp(3.6rem, 6vw, 5rem);
+  font-weight: 800;
+  color: var(--avis-bleu);
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 /* Rangée d'étoiles générique : 5 étoiles muettes en fond, une
-   rangée dorée superposée et rognée à --pourcentage pour un
-   rendu fractionnaire (ex : 4,7 / 5). */
+   rangée jaune/orange superposée et rognée à --pourcentage pour
+   un rendu fractionnaire (ex : 4,7 / 5). */
 .avis-etoiles {
   position: relative;
   display: inline-flex;
@@ -74,49 +96,49 @@
 }
 
 .avis-etoiles-fond {
-  color: var(--or-filet);
+  color: rgba(255, 255, 255, 0.18);
 }
 
 .avis-etoiles-plein {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  color: var(--or);
+  color: var(--avis-etoile);
   width: var(--pourcentage, 0%);
 }
 
 .avis-resume-total {
   font-family: var(--sans);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   color: var(--texte);
 }
 
 .avis-lien-google {
   font-family: var(--sans);
   font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--or);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--avis-bleu);
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), color var(--transition);
 }
 
 .avis-lien-google:hover,
 .avis-lien-google:focus-visible {
-  color: var(--champagne);
-  border-color: var(--or-filet);
+  color: var(--avis-bleu);
+  border-color: var(--avis-bleu);
 }
 
 .avis-resume-confiance {
-  font-family: var(--serif);
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--texte);
-  max-width: 46ch;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--texte-doux);
+  max-width: 42ch;
 }
 
 
-/* ---- Répartition par étoile (barres longues, pleine largeur) --- */
+/* ---- Répartition par étoile (barres longues, fines, arrondies) --- */
 
 .avis-repartition {
   display: flex;
@@ -140,7 +162,7 @@
 
 .avis-repartition-piste {
   position: relative;
-  height: 8px;
+  height: 6px;
   border-radius: 999px;
   background: var(--noir-3);
   overflow: hidden;
@@ -202,20 +224,22 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 30px 26px;
-  background: var(--noir-2);
-  border: 1px solid var(--or-filet);
-  border-radius: var(--rayon);
-  transition: border-color var(--transition);
+  padding: 28px 26px;
+  background: var(--avis-carte-fond);
+  border: 1px solid var(--avis-carte-bordure);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .avis-carte:hover {
-  border-color: var(--or);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.38);
 }
 
 .avis-carte-entete {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   margin-bottom: 14px;
 }
@@ -226,31 +250,33 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 1px solid var(--or-filet);
 }
 
 .avis-avatar {
   object-fit: cover;
+  border: 1px solid var(--avis-carte-bordure);
 }
 
 .avis-avatar-initiale {
   display: grid;
   place-items: center;
-  background: var(--or-voile);
-  color: var(--or);
-  font-family: var(--serif);
+  background: var(--avis-bleu-clair);
+  color: var(--avis-bleu);
+  font-family: var(--sans);
+  font-weight: 700;
   font-size: 1.05rem;
 }
 
 .avis-identite {
+  flex: 1;
   min-width: 0;
 }
 
 .avis-nom {
   font-family: var(--sans);
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--texte);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--avis-carte-texte);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -258,15 +284,31 @@
 
 .avis-date {
   font-size: 0.76rem;
-  color: var(--texte-tres-doux);
+  color: var(--avis-carte-texte-doux);
+}
+
+.avis-carte-google {
+  flex-shrink: 0;
+  display: inline-flex;
+  margin-left: auto;
+}
+
+.avis-carte-google svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
 .avis-carte .avis-etoiles {
   margin-bottom: 12px;
 }
 
+.avis-carte .avis-etoiles-fond {
+  color: rgba(0, 0, 0, 0.14);
+}
+
 .avis-texte {
-  color: var(--texte-doux);
+  color: var(--avis-carte-texte);
   font-size: 0.92rem;
   line-height: 1.65;
   margin-bottom: 8px;
@@ -283,48 +325,21 @@
 
 .avis-lire-plus {
   align-self: flex-start;
+  margin-top: auto;
   font-family: var(--sans);
   font-size: 0.74rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--or);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--avis-carte-texte-doux);
   background: none;
   border: 0;
   padding: 0;
-  margin-bottom: 14px;
   cursor: pointer;
 }
 
 .avis-lire-plus:hover,
 .avis-lire-plus:focus-visible {
-  color: var(--champagne);
-}
-
-.avis-source {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid var(--or-filet);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: var(--texte-tres-doux);
-}
-
-.avis-source-icone {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-}
-
-a.avis-source {
-  transition: color var(--transition);
-}
-
-a.avis-source:hover,
-a.avis-source:focus-visible {
-  color: var(--or);
+  color: var(--avis-carte-texte);
 }
 
 
@@ -336,12 +351,13 @@ a.avis-source:focus-visible {
   place-items: center;
   width: 46px;
   height: 46px;
-  color: var(--champagne);
-  background: transparent;
-  border: 1px solid var(--or-filet);
+  color: var(--avis-carte-texte);
+  background: var(--avis-carte-fond);
+  border: 0;
   border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   cursor: pointer;
-  transition: border-color var(--transition), background var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .avis-fleche svg {
@@ -351,14 +367,15 @@ a.avis-source:focus-visible {
 
 .avis-fleche:hover,
 .avis-fleche:focus-visible {
-  border-color: var(--or);
-  background: var(--or-voile);
+  transform: scale(1.06);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
 
 .avis-fleche:disabled {
-  opacity: 0.32;
+  opacity: 0.35;
   cursor: default;
-  background: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 
@@ -427,8 +444,9 @@ a.avis-source:focus-visible {
   }
 
   .avis-resume-gauche {
+    justify-content: center;
     align-items: center;
-    text-align: center;
+    text-align: left;
     padding-right: 0;
     padding-bottom: 26px;
     border-right: 0;

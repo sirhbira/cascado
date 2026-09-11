@@ -129,7 +129,7 @@
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('class', 'avis-source-icone');
+    svg.setAttribute('class', 'avis-google-icone');
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable', 'false');
     svg.innerHTML =
@@ -188,10 +188,12 @@
 
     const gauche = creer('div', { classe: 'avis-resume-gauche' });
     gauche.append(creer('p', { classe: 'avis-note-valeur', texte: moyenneTexte }));
-    gauche.append(rangeeEtoiles((moyenne / 5) * 100, { label: `Note moyenne ${moyenneTexte} sur 5` }));
-    gauche.append(creer('p', { classe: 'avis-resume-total', texte: `${TOTAL_AVIS_GOOGLE} avis Google` }));
+
+    const details = creer('div', { classe: 'avis-resume-details' });
+    details.append(rangeeEtoiles((moyenne / 5) * 100, { label: `Note moyenne ${moyenneTexte} sur 5` }));
+    details.append(creer('p', { classe: 'avis-resume-total', texte: `+ ${TOTAL_AVIS_GOOGLE} avis Google` }));
     if (LIEN_FICHE_GOOGLE) {
-      gauche.append(
+      details.append(
         creer('a', {
           classe: 'avis-lien-google',
           texte: 'Voir tous les avis →',
@@ -199,6 +201,7 @@
         })
       );
     }
+    gauche.append(details);
     bloc.append(gauche);
 
     const droite = creer('div', { classe: 'avis-resume-droite' });
@@ -228,6 +231,16 @@
     identite.append(creer('p', { classe: 'avis-nom', texte: avis.nom || '' }));
     if (avis.date) identite.append(creer('p', { classe: 'avis-date', texte: avis.date }));
     entete.append(identite);
+
+    const googleEntete = creer(avis.lien ? 'a' : 'span', {
+      classe: 'avis-carte-google',
+      attrs: avis.lien
+        ? { href: avis.lien, target: '_blank', rel: 'noopener noreferrer', 'aria-label': 'Voir l’avis sur Google' }
+        : { 'aria-hidden': 'true' },
+    });
+    googleEntete.append(iconeGoogle());
+    entete.append(googleEntete);
+
     carte.append(entete);
 
     const note = Math.max(0, Math.min(5, Math.round(Number(avis.note) || 0)));
@@ -246,14 +259,6 @@
       boutonPlus.textContent = etendu ? 'Réduire' : 'Lire la suite';
     });
     carte.append(boutonPlus);
-
-    const source = creer(avis.lien ? 'a' : 'span', {
-      classe: 'avis-source',
-      attrs: avis.lien ? { href: avis.lien, target: '_blank', rel: 'noopener noreferrer' } : {},
-    });
-    source.append(iconeGoogle());
-    source.append(document.createTextNode('Publié sur Google'));
-    carte.append(source);
 
     requestAnimationFrame(() => {
       if (texte.scrollHeight - texte.clientHeight > 2) boutonPlus.hidden = false;
