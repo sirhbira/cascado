@@ -300,7 +300,8 @@
   }
 
   function construireCarrousel(avis) {
-    const zone = creer('div', { classe: 'avis-carrousel avis-anime' });
+    const groupe = creer('div', { classe: 'avis-carrousel-groupe avis-anime' });
+    const zone = creer('div', { classe: 'avis-carrousel' });
 
     const flecheGauche = creer('button', {
       classe: 'avis-fleche avis-fleche-gauche',
@@ -323,6 +324,16 @@
 
     zone.append(flecheGauche, fenetre, flecheDroite);
 
+    /* Barre de progression (mobile uniquement, voir CSS) : un curseur
+       continu, pas de points, synchronisé avec le scroll réel. */
+    const progression = creer('div', { classe: 'avis-progression', attrs: { 'aria-hidden': 'true' } });
+    const progressionPiste = creer('div', { classe: 'avis-progression-piste' });
+    const progressionBarre = creer('div', { classe: 'avis-progression-barre' });
+    progressionPiste.append(progressionBarre);
+    progression.append(progressionPiste);
+
+    groupe.append(zone, progression);
+
     function decaler(sens) {
       const premiereCarte = piste.querySelector('.avis-carte');
       if (!premiereCarte) return;
@@ -337,6 +348,15 @@
       flecheGauche.disabled = fenetre.scrollLeft <= 0;
       flecheDroite.disabled = max <= 0 || fenetre.scrollLeft >= max;
     }
+
+    function majProgression() {
+      const max = fenetre.scrollWidth - fenetre.clientWidth;
+      const largeur = Math.min(100, Math.max(10, (fenetre.clientWidth / fenetre.scrollWidth) * 100));
+      const ratio = max > 0 ? fenetre.scrollLeft / max : 0;
+      progressionBarre.style.setProperty('--avis-progression-largeur', largeur + '%');
+      progressionBarre.style.setProperty('--avis-progression-position', ratio * (100 - largeur) + '%');
+    }
+
     let planifie = false;
     fenetre.addEventListener(
       'scroll',
@@ -345,15 +365,22 @@
         planifie = true;
         requestAnimationFrame(() => {
           majFleches();
+          majProgression();
           planifie = false;
         });
       },
       { passive: true }
     );
-    window.addEventListener('resize', majFleches);
-    requestAnimationFrame(majFleches);
+    window.addEventListener('resize', () => {
+      majFleches();
+      majProgression();
+    });
+    requestAnimationFrame(() => {
+      majFleches();
+      majProgression();
+    });
 
-    return zone;
+    return groupe;
   }
 
   function animerApparition(elements) {
