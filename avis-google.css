@@ -8,16 +8,14 @@
    ============================================================ */
 
 .avis {
-  /* Palette locale au résumé/carrousel — score et étoiles façon
-     Trustpilot/Google (bleu vif + jaune/orange), cartes claires.
-     Le reste de la section (fond, titre) garde l'identité noir/or. */
-  --avis-bleu: #1a73e8;
-  --avis-bleu-clair: rgba(26, 115, 232, 0.12);
+  /* Palette locale au résumé/carrousel : score et étoiles dorés
+     (identité Cascado Event), cartes claires façon Google Reviews. */
   --avis-etoile: #ffb400;
   --avis-carte-fond: #ffffff;
   --avis-carte-bordure: #e4e4ea;
   --avis-carte-texte: #1c1c1e;
   --avis-carte-texte-doux: #6b6b72;
+  --avis-carte-neutre: #f0f0f3;
 }
 
 .avis-corps {
@@ -68,9 +66,13 @@
   font-family: var(--sans);
   font-size: clamp(3.6rem, 6vw, 5rem);
   font-weight: 800;
-  color: var(--avis-bleu);
   line-height: 1;
   letter-spacing: -0.02em;
+  background: var(--or-degrade);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Rangée d'étoiles générique : 5 étoiles muettes en fond, une
@@ -118,15 +120,15 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--avis-bleu);
+  color: var(--or);
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), color var(--transition);
 }
 
 .avis-lien-google:hover,
 .avis-lien-google:focus-visible {
-  color: var(--avis-bleu);
-  border-color: var(--avis-bleu);
+  color: var(--champagne);
+  border-color: var(--or-filet);
 }
 
 .avis-resume-confiance {
@@ -254,14 +256,13 @@
 
 .avis-avatar {
   object-fit: cover;
-  border: 1px solid var(--avis-carte-bordure);
 }
 
 .avis-avatar-initiale {
   display: grid;
   place-items: center;
-  background: var(--avis-bleu-clair);
-  color: var(--avis-bleu);
+  background: var(--avis-carte-neutre);
+  color: var(--avis-carte-texte);
   font-family: var(--sans);
   font-weight: 700;
   font-size: 1.05rem;
@@ -299,12 +300,36 @@
   display: block;
 }
 
-.avis-carte .avis-etoiles {
+.avis-carte-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 12px;
 }
 
 .avis-carte .avis-etoiles-fond {
   color: rgba(0, 0, 0, 0.14);
+}
+
+/* Petit badge "Vérifié" : rendu proche d'un badge Google Reviews,
+   fin et discret, aligné avec les étoiles. */
+.avis-badge-verifie {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #1a73e8;
+  line-height: 1;
+}
+
+.avis-badge-verifie-icone {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: block;
 }
 
 .avis-texte {

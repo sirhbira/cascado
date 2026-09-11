@@ -12,11 +12,17 @@
    les avis suivants restent utilisés pour le calcul mais ne sont
    pas montrés sur la page.
 
+   Le champ date affiche une date fixe (mois + année), jamais une
+   valeur relative du type "il y a 3 jours" : ces formulations
+   deviennent fausses avec le temps puisque les avis sont copiés
+   à la main. Utiliser le mois et l'année de publication réels de
+   l'avis sur Google (ex : "Septembre 2026").
+
    Exemple d'objet à copier :
    {
      nom: "Nom affiché sur Google",
      note: 5,
-     date: "il y a 2 semaines",
+     date: "Septembre 2026",
      texte: "Texte exact de l'avis Google",
      avatar: "",
      lien: ""
@@ -39,7 +45,7 @@
      (lien "Voir tous les avis →" + bouton final + état vide).
      Tant qu'il est vide, ces éléments restent masqués : mieux vaut
      ne rien afficher qu'un lien qui ne mène nulle part. */
-  const LIEN_FICHE_GOOGLE = '';
+  const LIEN_FICHE_GOOGLE = 'https://maps.app.goo.gl/hgHzewLNQ7wS4Uqe9';
 
   /* Court texte de confiance affiché à côté du score. */
   const TEXTE_CONFIANCE = 'Nos clients nous font confiance pour rendre leurs événements inoubliables.';
@@ -56,7 +62,7 @@
     {
       nom: "Abdesamad",
       note: 5,
-      date: "il y a une heure",
+      date: "Septembre 2026",
       texte: "Franchement très satisfait de la prestation, tout était nickel du début à la fin. L’installation était super et ça a vraiment fait son effet auprès des invités. Je recommande sans hésiter !",
       avatar: "",
       lien: ""
@@ -64,7 +70,7 @@
     {
       nom: "Kar",
       note: 5,
-      date: "il y a 2 heures",
+      date: "Septembre 2026",
       texte: "On a pris le Pack Prestige pour notre mariage et franchement ça vaut vraiment le coup. Tout s’est super bien passé, l’équipe est sérieuse et le rendu était vraiment top. On a eu que des bons retours de nos invités, je recommande !",
       avatar: "",
       lien: ""
@@ -72,7 +78,7 @@
     {
       nom: "Ali-Akbar Boudjemai",
       note: 5,
-      date: "il y a 16 heures",
+      date: "Septembre 2026",
       texte: "Prestataire très sérieux, arrangeant et ponctuel. Je recommande !",
       avatar: "",
       lien: ""
@@ -80,7 +86,7 @@
     {
       nom: "Alaa-Eddine Boukebeche",
       note: 5,
-      date: "il y a 16 heures",
+      date: "Septembre 2026",
       texte: "Excellent service. J’ai appelé à la dernière minute pour un Photobooth et un panneau fontaine et ils ont été très réactifs. Merci !!",
       avatar: "",
       lien: ""
@@ -88,7 +94,7 @@
     {
       nom: "chaimaa T",
       note: 5,
-      date: "il y a 18 heures",
+      date: "Septembre 2026",
       texte: "Très professionnel, à l’écoute de ses clients et de leurs demandes, prix accessible je recommande mille fois",
       avatar: "",
       lien: ""
@@ -140,6 +146,22 @@
     return svg;
   }
 
+  function badgeVerifie() {
+    const badge = creer('span', { classe: 'avis-badge-verifie' });
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('class', 'avis-badge-verifie-icone');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.innerHTML =
+      '<circle cx="12" cy="12" r="12" fill="#1a73e8"/>' +
+      '<path d="M9.5 12.8 7.4 10.7 6 12.1l3.5 3.5 7-7-1.4-1.4z" fill="#ffffff"/>';
+    badge.append(svg);
+    badge.append(creer('span', { texte: 'Vérifié' }));
+    return badge;
+  }
+
   function construireVide() {
     const bloc = creer('div', { classe: 'avis-vide' });
     bloc.append(creer('p', { texte: 'Découvrez les avis de nos clients sur Google' }));
@@ -157,7 +179,7 @@
 
   function construireRepartition(avis, total) {
     const liste = creer('div', { classe: 'avis-repartition' });
-    for (let etoile = 5; etoile >= 1; etoile -= 1) {
+    for (const etoile of [5, 4, 3]) {
       const nombre = avis.filter(a => Math.round(Number(a.note) || 0) === etoile).length;
       const pourcentage = total ? Math.round((nombre / total) * 100) : 0;
 
@@ -191,7 +213,7 @@
 
     const details = creer('div', { classe: 'avis-resume-details' });
     details.append(rangeeEtoiles((moyenne / 5) * 100, { label: `Note moyenne ${moyenneTexte} sur 5` }));
-    details.append(creer('p', { classe: 'avis-resume-total', texte: `+ ${TOTAL_AVIS_GOOGLE} avis Google` }));
+    details.append(creer('p', { classe: 'avis-resume-total', texte: `+ ${TOTAL_AVIS_GOOGLE} avis Google vérifiés` }));
     if (LIEN_FICHE_GOOGLE) {
       details.append(
         creer('a', {
@@ -244,7 +266,10 @@
     carte.append(entete);
 
     const note = Math.max(0, Math.min(5, Math.round(Number(avis.note) || 0)));
-    carte.append(rangeeEtoiles((note / 5) * 100, { petite: true, label: `Note ${note} sur 5` }));
+    const ligneNote = creer('div', { classe: 'avis-carte-note' });
+    ligneNote.append(rangeeEtoiles((note / 5) * 100, { petite: true, label: `Note ${note} sur 5` }));
+    ligneNote.append(badgeVerifie());
+    carte.append(ligneNote);
 
     const texte = creer('p', { classe: 'avis-texte', texte: avis.texte || '' });
     carte.append(texte);
