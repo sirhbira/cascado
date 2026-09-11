@@ -386,6 +386,30 @@ Pour sublimer votre événement.</p>
 
 
     <!-- ======================================================
+         AVIS GOOGLE — Widget SociableKIT (Google Reviews)
+         Tous les avis affichés proviennent exclusivement du widget
+         SociableKIT relié à la fiche Google Cascado Event.
+         Ne jamais ajouter d'avis, de note ou de compteur en dur ici :
+         toute donnée manquante doit être masquée, jamais inventée.
+         ====================================================== -->
+    <section class="section avis-google" aria-label="Avis Google de nos clients">
+      <div class="conteneur">
+        <div class="entete-section reveal">
+          <span class="surtitre">Ils nous ont fait confiance</span>
+          <h2 class="section-titre">Vos avis <span class="texte-or">parlent pour nous</span></h2>
+          <hr class="filet centre" />
+        </div>
+
+        <div class="avis-google-cadre reveal">
+          <!-- Widget SociableKIT : contenu (avis, note, avatars, dates…)
+               entièrement géré côté SociableKIT / Google, non modifiable ici. -->
+          <div class="sk-ww-google-reviews" data-embed-id="2571271"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================
          FAQ — accordéon (bas de page, juste avant le footer)
          ====================================================== -->
     <section class="section faq-section" aria-label="Questions fréquentes">
@@ -656,5 +680,8 @@ Pour sublimer votre événement.</p>
   <script src="/announcement.js" defer></script>
   <script src="/films.js?v=5-videos-2" defer></script>
   <script src="/prestations.js" defer></script>
+
+  <!-- Widget Avis Google (SociableKIT) — chargé une seule fois, en defer -->
+  <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
 </body>
 </html>

@@ -940,6 +940,68 @@ a.annonce-message { color: var(--or); }
 }
 
 
+/* 8bis. AVIS GOOGLE — WIDGET SOCIABLEKIT (ACCUEIL) ------ */
+
+.avis-google {
+  background-image: radial-gradient(
+    900px 360px at 50% 0%,
+    rgba(212, 175, 55, 0.08),
+    transparent 70%
+  );
+}
+
+.avis-google .entete-section {
+  margin-bottom: 56px;
+}
+
+/* Cadre premium autour du widget : le contenu interne (avis, notes,
+   avatars…) appartient à SociableKIT et n'est jamais recréé ici.
+   Si SociableKIT isole son rendu (styles scellés / iframe), on se
+   limite volontairement à ce cadre extérieur : fond, bordure, arrondi
+   et respiration — sans jamais forcer l'intérieur du widget. */
+.avis-google-cadre {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  overflow-x: hidden;
+  min-height: 420px;
+  transition: border-color var(--transition);
+}
+
+.avis-google-cadre:hover {
+  border-color: var(--or);
+}
+
+.avis-google-cadre .sk-ww-google-reviews {
+  width: 100%;
+}
+
+/* Si le widget s'appuie sur une iframe : on l'intègre proprement
+   sans jamais toucher à son contenu. */
+.avis-google-cadre iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+  border-radius: var(--rayon);
+}
+
+@media (max-width: 720px) {
+  .avis-google-cadre {
+    padding: 32px 18px;
+    min-height: 360px;
+  }
+
+  .avis-google .entete-section {
+    margin-bottom: 40px;
+  }
+}
+
+
 /* 9. GALERIES DE MODÈLES (panneaux / photobooth) -------- */
 
 .galerie {
