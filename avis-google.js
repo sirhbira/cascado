@@ -343,15 +343,9 @@
     }
 
     let animationEnCours = null;
-    function decaler(sens) {
-      const premiereCarte = piste.querySelector('.avis-carte');
-      if (!premiereCarte) return;
-      const pas = premiereCarte.getBoundingClientRect().width + 24;
-      const max = fenetre.scrollWidth - fenetre.clientWidth;
-      const depart = fenetre.scrollLeft;
-      const cible = Math.max(0, Math.min(max, depart + sens * pas));
-
+    function animerVersPosition(cible) {
       if (animationEnCours) cancelAnimationFrame(animationEnCours);
+      const depart = fenetre.scrollLeft;
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         fenetre.scrollLeft = cible;
@@ -367,8 +361,72 @@
       };
       animationEnCours = requestAnimationFrame(etape);
     }
-    flecheGauche.addEventListener('click', () => decaler(-1));
-    flecheDroite.addEventListener('click', () => decaler(1));
+
+    function decaler(sens) {
+      const premiereCarte = piste.querySelector('.avis-carte');
+      if (!premiereCarte) return;
+      const pas = premiereCarte.getBoundingClientRect().width + 24;
+      const max = fenetre.scrollWidth - fenetre.clientWidth;
+      animerVersPosition(Math.max(0, Math.min(max, fenetre.scrollLeft + sens * pas)));
+    }
+
+    flecheGauche.addEventListener('click', () => {
+      decaler(-1);
+      planifierAuto();
+    });
+    flecheDroite.addEventListener('click', () => {
+      decaler(1);
+      planifierAuto();
+    });
+
+    /* Défilement automatique : une carte toutes les 5s, boucle au
+       dernier avis. En pause au survol/toucher, onglet masqué ou
+       préférence "mouvement réduit" — jamais pendant que le
+       visiteur lit ou interagit. */
+    const DELAI_AUTO = 5000;
+    let minuteurAuto = null;
+    let autoEnPause = false;
+
+    function arreterAuto() {
+      if (minuteurAuto) {
+        clearTimeout(minuteurAuto);
+        minuteurAuto = null;
+      }
+    }
+
+    function planifierAuto() {
+      arreterAuto();
+      if (autoEnPause || document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      minuteurAuto = setTimeout(() => {
+        const max = fenetre.scrollWidth - fenetre.clientWidth;
+        if (fenetre.scrollLeft >= max - 2) {
+          animerVersPosition(0);
+        } else {
+          decaler(1);
+        }
+        planifierAuto();
+      }, DELAI_AUTO);
+    }
+
+    function suspendreAuto() {
+      autoEnPause = true;
+      arreterAuto();
+    }
+    function reprendreAuto() {
+      autoEnPause = false;
+      planifierAuto();
+    }
+
+    zone.addEventListener('mouseenter', suspendreAuto);
+    zone.addEventListener('mouseleave', reprendreAuto);
+    zone.addEventListener('focusin', suspendreAuto);
+    zone.addEventListener('focusout', reprendreAuto);
+    fenetre.addEventListener('pointerdown', suspendreAuto, { passive: true });
+    fenetre.addEventListener('pointerup', reprendreAuto, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) arreterAuto();
+      else planifierAuto();
+    });
 
     function majFleches() {
       const max = fenetre.scrollWidth - fenetre.clientWidth - 2;
@@ -406,6 +464,8 @@
       majFleches();
       majProgression();
     });
+
+    planifierAuto();
 
     return groupe;
   }
