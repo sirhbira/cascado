@@ -404,15 +404,6 @@
 }
 
 
-/* ---- Bouton final (sous le carrousel) ---------------------------- */
-
-.avis-final {
-  display: flex;
-  justify-content: center;
-  margin-top: 44px;
-}
-
-
 /* ---- État vide -------------------------------------------------- */
 
 .avis-vide {

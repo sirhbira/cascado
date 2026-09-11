@@ -42,10 +42,10 @@
   const TOTAL_AVIS_GOOGLE = 12;
 
   /* Lien vers la page d'avis de la fiche Google Cascado Event
-     (lien "Voir tous les avis →" + bouton final + état vide).
+     (lien "Voir tous les avis →" du résumé + état vide).
      Tant qu'il est vide, ces éléments restent masqués : mieux vaut
      ne rien afficher qu'un lien qui ne mène nulle part. */
-  const LIEN_FICHE_GOOGLE = 'https://maps.app.goo.gl/hgHzewLNQ7wS4Uqe9';
+  const LIEN_FICHE_GOOGLE = 'https://www.google.com/search?sca_esv=f9ef68dc8fb50d5d&rlz=1C1YTUH_frFR1179FR1179&sxsrf=APpeQnsVwaKih0MPcvEPEOO-YWe_LY30ww:1789129281550&q=cascado+event+&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_3_oyN4mLZLyj5nJtgnO7cGV3kj32NrxVBQdnYPr2CZ5Ezq_bwlR_1HTv-aMUxPw5WLVgL4%3D&uds=AJ5uw18ugXvqDbJNSvbGMdx0hJ418wXF5On2MAzdmk8ZtLXAYIl727ggRNibjnMV4gBq5OjJcEx6CT-185OYQeiMeG_qs3wVPn7b8pntNl7mYrGxvcWsWv0&sa=X&ved=2ahUKEwiQuKL6weaWAxWFK_sDHRTxEgIQ3PALegQILRAF&biw=1536&bih=826&dpr=1.25&sei=1fujaozeHsCpkdUPssq18QI#sv=CAESzQEKuQEStgEKd0FKaVQ0dElpdGljcTNjdmhJLU9qQU1WUDVWVGJsbEVONkpzUnowU01WWFIxUzcxTWVUTE9IejY2dHVaakdSNHZxNjEtUl9CV1pQckE1WUV4V2ZyWjVZX0V3Vl9XejFMQTFSWktaS0JTNFNHeEhGUkxVdWFCSkMwEhdRX0tqYXVMaEo4T2JrZFVQLXEzeW9BcxoiQURzcjlmU1RmUkVEM2ZpUzREZ0NwSjU3LTJ6TGxvdkhjURIEODA1MRoBMyoAMAA4AUAAGAAg6O-dzwY6AEoCEAE';
 
   /* Court texte de confiance affiché à côté du score. */
   const TEXTE_CONFIANCE = 'Nos clients nous font confiance pour rendre leurs événements inoubliables.';
@@ -96,6 +96,14 @@
       note: 5,
       date: "Septembre 2026",
       texte: "Très professionnel, à l’écoute de ses clients et de leurs demandes, prix accessible je recommande mille fois",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Souh",
+      note: 5,
+      date: "Septembre 2026",
+      texte: "J’ai offert le panneau de bienvenue à un ami pour son mariage et franchement le rendu était magnifique! Il a adoré, tout comme ses invités. Merci à Cascado Event pour la prestation, je recommande 👌🏻",
       avatar: "",
       lien: ""
     }
@@ -158,7 +166,6 @@
       '<circle cx="12" cy="12" r="12" fill="#1a73e8"/>' +
       '<path d="M9.5 12.8 7.4 10.7 6 12.1l3.5 3.5 7-7-1.4-1.4z" fill="#ffffff"/>';
     badge.append(svg);
-    badge.append(creer('span', { texte: 'Vérifié' }));
     return badge;
   }
 
@@ -368,19 +375,6 @@
     elements.forEach(el => observateur.observe(el));
   }
 
-  function construireBoutonFinal() {
-    if (!LIEN_FICHE_GOOGLE) return null;
-    const bloc = creer('div', { classe: 'avis-final avis-anime' });
-    bloc.append(
-      creer('a', {
-        classe: 'bouton fantome',
-        texte: 'Découvrir tous les avis Google',
-        attrs: { href: LIEN_FICHE_GOOGLE, target: '_blank', rel: 'noopener noreferrer' },
-      })
-    );
-    return bloc;
-  }
-
   function construire() {
     racine.innerHTML = '';
     if (!avisGoogle.length) {
@@ -391,15 +385,9 @@
 
     const resume = construireResume(avisGoogle);
     const carrousel = construireCarrousel(avisAffiches);
-    const boutonFinal = construireBoutonFinal();
 
-    const elements = [resume, carrousel];
     racine.append(resume, carrousel);
-    if (boutonFinal) {
-      racine.append(boutonFinal);
-      elements.push(boutonFinal);
-    }
-    animerApparition(elements);
+    animerApparition([resume, carrousel]);
   }
 
   construire();
