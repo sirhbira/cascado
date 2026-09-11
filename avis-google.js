@@ -33,14 +33,46 @@
      AVIS GOOGLE — à modifier ici uniquement.
      --------------------------------------------------------------- */
   const avisGoogle = [
-    // {
-    //   nom: "Nom affiché sur Google",
-    //   note: 5,
-    //   date: "il y a 2 semaines",
-    //   texte: "Texte exact de l'avis Google",
-    //   avatar: "",
-    //   lien: ""
-    // },
+    {
+      nom: "Abdesamad",
+      note: 5,
+      date: "il y a une heure",
+      texte: "Franchement très satisfait de la prestation, tout était nickel du début à la fin. L’installation était super et ça a vraiment fait son effet auprès des invités. Je recommande sans hésiter !",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Kar",
+      note: 5,
+      date: "il y a 2 heures",
+      texte: "On a pris le Pack Prestige pour notre mariage et franchement ça vaut vraiment le coup. Tout s’est super bien passé, l’équipe est sérieuse et le rendu était vraiment top. On a eu que des bons retours de nos invités, je recommande !",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Ali-Akbar Boudjemai",
+      note: 5,
+      date: "il y a 16 heures",
+      texte: "Prestataire très sérieux, arrangeant et ponctuel. Je recommande !",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Alaa-Eddine Boukebeche",
+      note: 5,
+      date: "il y a 16 heures",
+      texte: "Excellent service. J’ai appelé à la dernière minute pour un Photobooth et un panneau fontaine et ils ont été très réactifs. Merci !!",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "chaimaa T",
+      note: 5,
+      date: "il y a 18 heures",
+      texte: "Très professionnel, à l’écoute de ses clients et de leurs demandes, prix accessible je recommande mille fois",
+      avatar: "",
+      lien: ""
+    }
   ];
   /* --------------------------------------------------------------- */
 
