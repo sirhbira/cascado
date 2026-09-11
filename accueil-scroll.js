@@ -55,7 +55,6 @@
       add('.univers-media img', { scale: 1.025, duration: 850, stagger: 90 });
       add('.pack', { y: 14, scale: 0.98, duration: 850, stagger: 100 });
     }
-    add('.avis-google-cadre', { y: 16, duration: 800 });
     add('.faq-item', { y: 8, duration: 600, stagger: 45 });
     add('.equipe-image', { scale: 1.025, duration: 900 });
     add('.site-footer', { duration: 800 });

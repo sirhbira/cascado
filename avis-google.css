@@ -1,0 +1,421 @@
+/* ============================================================
+   Avis Google — Cascado Event (accueil uniquement)
+   ------------------------------------------------------------
+   Styles isolés à la section .avis : résumé, répartition par
+   étoile, carrousel de cartes et état vide. Les données sont
+   entièrement injectées par /avis-google.js ; ce fichier ne
+   contient aucune valeur de note, de nombre d'avis ou de texte.
+   ============================================================ */
+
+.avis-corps {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+
+/* ---- Résumé premium (note moyenne, étoiles, lien fiche) --- */
+
+.avis-resume {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 48px 40px 44px;
+  margin-bottom: 40px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+}
+
+.avis-note-valeur {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 6vw, 3.4rem);
+  font-weight: 600;
+  color: var(--or);
+  line-height: 1;
+}
+
+/* Rangée d'étoiles générique : 5 étoiles muettes en fond, une
+   rangée dorée superposée et rognée à --pourcentage pour un
+   rendu fractionnaire (ex : 4,7 / 5). */
+.avis-etoiles {
+  position: relative;
+  display: inline-flex;
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.avis-etoiles.avis-etoiles--petit {
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+}
+
+.avis-etoiles-fond,
+.avis-etoiles-plein {
+  display: block;
+  white-space: nowrap;
+}
+
+.avis-etoiles-fond {
+  color: var(--or-filet);
+}
+
+.avis-etoiles-plein {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--or);
+  width: var(--pourcentage, 0%);
+}
+
+.avis-resume-detail {
+  color: var(--texte-doux);
+  font-size: 0.95rem;
+}
+
+.avis-resume-source {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--texte-tres-doux);
+  margin-top: 4px;
+}
+
+.avis-bouton-google {
+  margin-top: 18px;
+}
+
+
+/* ---- Répartition par étoile (barres horizontales) ---------- */
+
+.avis-repartition {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+  margin: 28px auto 0;
+}
+
+.avis-repartition-ligne {
+  display: grid;
+  grid-template-columns: 40px 1fr 34px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: var(--texte-doux);
+}
+
+.avis-repartition-etoile {
+  color: var(--or);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.avis-repartition-piste {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--noir-3);
+  overflow: hidden;
+}
+
+.avis-repartition-barre {
+  position: absolute;
+  inset: 0;
+  width: var(--pourcentage, 0%);
+  background: var(--or-degrade);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.avis-repartition-pourcentage {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--texte-tres-doux);
+}
+
+
+/* ---- Carrousel ----------------------------------------------- */
+
+.avis-carrousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.avis-piste-fenetre {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* Barre de défilement native masquée : la navigation se fait
+     au swipe ou via les flèches, pas au scrollbar. */
+  scrollbar-width: none;
+}
+
+.avis-piste-fenetre::-webkit-scrollbar {
+  display: none;
+}
+
+.avis-piste {
+  display: flex;
+  gap: 24px;
+  padding: 4px 2px 14px;
+}
+
+.avis-carte {
+  flex: 0 0 calc((100% - 2 * 24px) / 3);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 30px 26px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  transition: border-color var(--transition);
+}
+
+.avis-carte:hover {
+  border-color: var(--or);
+}
+
+.avis-carte-entete {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.avis-avatar,
+.avis-avatar-initiale {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--or-filet);
+}
+
+.avis-avatar {
+  object-fit: cover;
+}
+
+.avis-avatar-initiale {
+  display: grid;
+  place-items: center;
+  background: var(--or-voile);
+  color: var(--or);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+}
+
+.avis-identite {
+  min-width: 0;
+}
+
+.avis-nom {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--texte);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avis-date {
+  font-size: 0.76rem;
+  color: var(--texte-tres-doux);
+}
+
+.avis-carte .avis-etoiles {
+  margin-bottom: 12px;
+}
+
+.avis-texte {
+  color: var(--texte-doux);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+.avis-texte.avis-texte--etendu {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.avis-lire-plus {
+  align-self: flex-start;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--or);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.avis-lire-plus:hover,
+.avis-lire-plus:focus-visible {
+  color: var(--champagne);
+}
+
+.avis-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--or-filet);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--texte-tres-doux);
+}
+
+.avis-source-icone {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+a.avis-source {
+  transition: color var(--transition);
+}
+
+a.avis-source:hover,
+a.avis-source:focus-visible {
+  color: var(--or);
+}
+
+
+/* ---- Flèches de navigation ----------------------------------- */
+
+.avis-fleche {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--champagne);
+  background: transparent;
+  border: 1px solid var(--or-filet);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.avis-fleche svg {
+  width: 18px;
+  height: 18px;
+}
+
+.avis-fleche:hover,
+.avis-fleche:focus-visible {
+  border-color: var(--or);
+  background: var(--or-voile);
+}
+
+.avis-fleche:disabled {
+  opacity: 0.32;
+  cursor: default;
+  background: transparent;
+}
+
+
+/* ---- État vide -------------------------------------------------- */
+
+.avis-vide {
+  text-align: center;
+  padding: 64px 32px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  color: var(--texte-doux);
+}
+
+.avis-vide p {
+  margin-bottom: 22px;
+  font-size: 1.05rem;
+}
+
+
+/* ---- Apparition douce (respecte prefers-reduced-motion) -------- */
+
+.avis-anime {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.avis-anime.avis-anime--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avis-anime {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .avis-repartition-barre {
+    transition: none;
+  }
+}
+
+
+/* ---- Responsive -------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .avis-carte {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+}
+
+@media (max-width: 680px) {
+  .avis-resume {
+    padding: 36px 22px 34px;
+  }
+
+  .avis-repartition {
+    max-width: 100%;
+  }
+
+  .avis-carrousel {
+    gap: 0;
+  }
+
+  .avis-fleche {
+    display: none;
+  }
+
+  .avis-piste-fenetre {
+    margin: 0 -4px;
+  }
+
+  .avis-piste {
+    padding: 4px 4px 14px;
+  }
+
+  .avis-carte {
+    flex-basis: 88%;
+  }
+}

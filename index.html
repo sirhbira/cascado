@@ -53,6 +53,7 @@
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/prestations.css" />
   <link rel="stylesheet" href="/accueil-scroll.css" />
+  <link rel="stylesheet" href="/avis-google.css" />
 
   <!-- Sécurité : si le JavaScript est désactivé, on affiche quand même
        tout le contenu (les animations d'apparition sont neutralisées). -->
@@ -386,13 +387,12 @@ Pour sublimer votre événement.</p>
 
 
     <!-- ======================================================
-         AVIS GOOGLE — Widget SociableKIT (Google Reviews)
-         Tous les avis affichés proviennent exclusivement du widget
-         SociableKIT relié à la fiche Google Cascado Event.
-         Ne jamais ajouter d'avis, de note ou de compteur en dur ici :
-         toute donnée manquante doit être masquée, jamais inventée.
+         AVIS GOOGLE — avis ajoutés manuellement (voir avis-google.js)
+         Aucun avis, note ou compteur n'est écrit en dur ici : tout
+         (résumé, répartition, cartes) est généré depuis le tableau
+         avisGoogle défini dans /avis-google.js.
          ====================================================== -->
-    <section class="section avis-google" aria-label="Avis Google de nos clients">
+    <section class="section avis" aria-label="Avis Google de nos clients" id="avis">
       <div class="conteneur">
         <div class="entete-section reveal">
           <span class="surtitre">Ils nous ont fait confiance</span>
@@ -400,11 +400,7 @@ Pour sublimer votre événement.</p>
           <hr class="filet centre" />
         </div>
 
-        <div class="avis-google-cadre reveal">
-          <!-- Widget SociableKIT : contenu (avis, note, avatars, dates…)
-               entièrement géré côté SociableKIT / Google, non modifiable ici. -->
-          <div class="sk-ww-google-reviews" data-embed-id="2571271"></div>
-        </div>
+        <div class="avis-corps" data-avis-corps></div>
       </div>
     </section>
 
@@ -680,8 +676,6 @@ Pour sublimer votre événement.</p>
   <script src="/announcement.js" defer></script>
   <script src="/films.js?v=5-videos-2" defer></script>
   <script src="/prestations.js" defer></script>
-
-  <!-- Widget Avis Google (SociableKIT) — chargé une seule fois, en defer -->
-  <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
+  <script src="/avis-google.js" defer></script>
 </body>
 </html>
