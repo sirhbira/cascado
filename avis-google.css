@@ -8,29 +8,44 @@
    ============================================================ */
 
 .avis-corps {
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 
-/* ---- Résumé premium (note moyenne, étoiles, lien fiche) --- */
+/* ---- Résumé premium : score à gauche, confiance + répartition
+   à droite. Deux colonnes sur desktop, empilé sur mobile. -------- */
 
 .avis-resume {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
   align-items: center;
-  text-align: center;
-  gap: 10px;
-  padding: 48px 40px 44px;
+  gap: 8px 64px;
+  padding: 44px 48px;
   margin-bottom: 40px;
   background: var(--noir-2);
   border: 1px solid var(--or-filet);
   border-radius: var(--rayon);
 }
 
+.avis-resume-gauche {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-right: 48px;
+  border-right: 1px solid var(--or-filet);
+}
+
+.avis-resume-droite {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
 .avis-note-valeur {
   font-family: var(--serif);
-  font-size: clamp(2.6rem, 6vw, 3.4rem);
+  font-size: clamp(3rem, 5vw, 4.2rem);
   font-weight: 600;
   color: var(--or);
   line-height: 1;
@@ -70,43 +85,51 @@
   width: var(--pourcentage, 0%);
 }
 
-.avis-resume-detail {
-  color: var(--texte-doux);
-  font-size: 0.95rem;
-}
-
-.avis-resume-source {
+.avis-resume-total {
   font-family: var(--sans);
-  font-size: 0.7rem;
+  font-size: 0.98rem;
+  color: var(--texte);
+}
+
+.avis-lien-google {
+  font-family: var(--sans);
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--texte-tres-doux);
-  margin-top: 4px;
+  letter-spacing: 0.06em;
+  color: var(--or);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition), color var(--transition);
 }
 
-.avis-bouton-google {
-  margin-top: 18px;
+.avis-lien-google:hover,
+.avis-lien-google:focus-visible {
+  color: var(--champagne);
+  border-color: var(--or-filet);
+}
+
+.avis-resume-confiance {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--texte);
+  max-width: 46ch;
 }
 
 
-/* ---- Répartition par étoile (barres horizontales) ---------- */
+/* ---- Répartition par étoile (barres longues, pleine largeur) --- */
 
 .avis-repartition {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 420px;
-  margin: 28px auto 0;
+  gap: 9px;
 }
 
 .avis-repartition-ligne {
   display: grid;
-  grid-template-columns: 40px 1fr 34px;
+  grid-template-columns: 34px 1fr 38px;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-size: 0.78rem;
-  color: var(--texte-doux);
 }
 
 .avis-repartition-etoile {
@@ -117,7 +140,7 @@
 
 .avis-repartition-piste {
   position: relative;
-  height: 6px;
+  height: 8px;
   border-radius: 999px;
   background: var(--noir-3);
   overflow: hidden;
@@ -339,6 +362,15 @@ a.avis-source:focus-visible {
 }
 
 
+/* ---- Bouton final (sous le carrousel) ---------------------------- */
+
+.avis-final {
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
+}
+
+
 /* ---- État vide -------------------------------------------------- */
 
 .avis-vide {
@@ -388,15 +420,30 @@ a.avis-source:focus-visible {
   .avis-carte {
     flex-basis: calc((100% - 24px) / 2);
   }
+
+  .avis-resume {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .avis-resume-gauche {
+    align-items: center;
+    text-align: center;
+    padding-right: 0;
+    padding-bottom: 26px;
+    border-right: 0;
+    border-bottom: 1px solid var(--or-filet);
+  }
+
+  .avis-resume-confiance {
+    max-width: 100%;
+    text-align: center;
+  }
 }
 
 @media (max-width: 680px) {
   .avis-resume {
-    padding: 36px 22px 34px;
-  }
-
-  .avis-repartition {
-    max-width: 100%;
+    padding: 34px 24px;
   }
 
   .avis-carrousel {

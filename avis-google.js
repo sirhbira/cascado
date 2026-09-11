@@ -6,9 +6,11 @@
    sur la fiche Google Cascado Event. Ne jamais inventer ni
    reformuler un avis.
 
-   La note moyenne, le nombre d'avis, la répartition par étoile
-   et le carrousel sont recalculés et reconstruits automatiquement
-   à partir de ce tableau : rien d'autre à modifier dans le site.
+   La note moyenne et la répartition par étoile sont recalculées
+   automatiquement à partir de TOUS les avis de ce tableau. Le
+   carrousel, lui, n'affiche que les 6 premiers (voir plus bas) :
+   les avis suivants restent utilisés pour le calcul mais ne sont
+   pas montrés sur la page.
 
    Exemple d'objet à copier :
    {
@@ -23,11 +25,29 @@
 (() => {
   'use strict';
 
+  /* =================================================================
+     RÉGLAGES — à modifier ici, sans toucher au reste du fichier.
+     ================================================================= */
+
+  /* Nombre total et réel d'avis sur la fiche Google Cascado Event
+     (visible sur Google, pas seulement ceux copiés ci-dessous).
+     Affiché tel quel dans le résumé ("X avis Google") : à mettre à
+     jour à la main quand un nouvel avis arrive sur la fiche. */
+  const TOTAL_AVIS_GOOGLE = 12;
+
   /* Lien vers la page d'avis de la fiche Google Cascado Event
-     (bouton "Voir tous les avis sur Google" + état vide).
-     Tant qu'il est vide, ces boutons restent masqués : mieux vaut
+     (lien "Voir tous les avis →" + bouton final + état vide).
+     Tant qu'il est vide, ces éléments restent masqués : mieux vaut
      ne rien afficher qu'un lien qui ne mène nulle part. */
   const LIEN_FICHE_GOOGLE = '';
+
+  /* Court texte de confiance affiché à côté du score. */
+  const TEXTE_CONFIANCE = 'Nos clients nous font confiance pour rendre leurs événements inoubliables.';
+
+  /* Nombre d'avis affichés dans le carrousel de la page d'accueil
+     (le tableau avisGoogle peut en contenir davantage : la moyenne
+     et la répartition ci-dessous utilisent, elles, tout le tableau). */
+  const NB_AVIS_CARROUSEL = 6;
 
   /* ---------------------------------------------------------------
      AVIS GOOGLE — à modifier ici uniquement.
@@ -156,31 +176,36 @@
     return liste;
   }
 
+  /* Résumé en deux colonnes : score + étoiles + total + lien à
+     gauche, texte de confiance + répartition à droite. La moyenne
+     et la répartition utilisent TOUT le tableau avisGoogle ; le
+     nombre affiché vient uniquement de TOTAL_AVIS_GOOGLE. */
   function construireResume(avis) {
-    const total = avis.length;
-    const moyenne = avis.reduce((somme, a) => somme + (Number(a.note) || 0), 0) / total;
+    const moyenne = avis.reduce((somme, a) => somme + (Number(a.note) || 0), 0) / avis.length;
     const moyenneTexte = moyenne.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
     const bloc = creer('div', { classe: 'avis-resume avis-anime' });
-    bloc.append(creer('p', { classe: 'avis-note-valeur', texte: moyenneTexte }));
-    bloc.append(rangeeEtoiles((moyenne / 5) * 100, { label: `Note moyenne ${moyenneTexte} sur 5` }));
-    bloc.append(
-      creer('p', {
-        classe: 'avis-resume-detail',
-        texte: `${total} avis Google affiché${total > 1 ? 's' : ''} ici`,
-      })
-    );
-    bloc.append(creer('p', { classe: 'avis-resume-source', texte: 'Avis publiés sur Google' }));
+
+    const gauche = creer('div', { classe: 'avis-resume-gauche' });
+    gauche.append(creer('p', { classe: 'avis-note-valeur', texte: moyenneTexte }));
+    gauche.append(rangeeEtoiles((moyenne / 5) * 100, { label: `Note moyenne ${moyenneTexte} sur 5` }));
+    gauche.append(creer('p', { classe: 'avis-resume-total', texte: `${TOTAL_AVIS_GOOGLE} avis Google` }));
     if (LIEN_FICHE_GOOGLE) {
-      bloc.append(
+      gauche.append(
         creer('a', {
-          classe: 'bouton fantome avis-bouton-google',
-          texte: 'Voir tous les avis sur Google →',
+          classe: 'avis-lien-google',
+          texte: 'Voir tous les avis →',
           attrs: { href: LIEN_FICHE_GOOGLE, target: '_blank', rel: 'noopener noreferrer' },
         })
       );
     }
-    bloc.append(construireRepartition(avis, total));
+    bloc.append(gauche);
+
+    const droite = creer('div', { classe: 'avis-resume-droite' });
+    droite.append(creer('p', { classe: 'avis-resume-confiance', texte: TEXTE_CONFIANCE }));
+    droite.append(construireRepartition(avis, avis.length));
+    bloc.append(droite);
+
     return bloc;
   }
 
@@ -313,16 +338,38 @@
     elements.forEach(el => observateur.observe(el));
   }
 
+  function construireBoutonFinal() {
+    if (!LIEN_FICHE_GOOGLE) return null;
+    const bloc = creer('div', { classe: 'avis-final avis-anime' });
+    bloc.append(
+      creer('a', {
+        classe: 'bouton fantome',
+        texte: 'Découvrir tous les avis Google',
+        attrs: { href: LIEN_FICHE_GOOGLE, target: '_blank', rel: 'noopener noreferrer' },
+      })
+    );
+    return bloc;
+  }
+
   function construire() {
     racine.innerHTML = '';
     if (!avisGoogle.length) {
       racine.append(construireVide());
       return;
     }
+    const avisAffiches = avisGoogle.slice(0, NB_AVIS_CARROUSEL);
+
     const resume = construireResume(avisGoogle);
-    const carrousel = construireCarrousel(avisGoogle);
+    const carrousel = construireCarrousel(avisAffiches);
+    const boutonFinal = construireBoutonFinal();
+
+    const elements = [resume, carrousel];
     racine.append(resume, carrousel);
-    animerApparition([resume, carrousel]);
+    if (boutonFinal) {
+      racine.append(boutonFinal);
+      elements.push(boutonFinal);
+    }
+    animerApparition(elements);
   }
 
   construire();
