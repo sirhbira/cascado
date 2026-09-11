@@ -334,11 +334,38 @@
 
     groupe.append(zone, progression);
 
+    /* Défilement animé « à la main » (au lieu du scrollBy natif) pour
+       garantir une seule carte à la fois, avec une durée et un easing
+       précis — le scrollBy natif ne permet de contrôler ni l'un ni
+       l'autre et pouvait laisser dériver de plusieurs cartes. */
+    function easeVersLaCarte(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    let animationEnCours = null;
     function decaler(sens) {
       const premiereCarte = piste.querySelector('.avis-carte');
       if (!premiereCarte) return;
       const pas = premiereCarte.getBoundingClientRect().width + 24;
-      fenetre.scrollBy({ left: sens * pas, behavior: 'smooth' });
+      const max = fenetre.scrollWidth - fenetre.clientWidth;
+      const depart = fenetre.scrollLeft;
+      const cible = Math.max(0, Math.min(max, depart + sens * pas));
+
+      if (animationEnCours) cancelAnimationFrame(animationEnCours);
+
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        fenetre.scrollLeft = cible;
+        return;
+      }
+
+      const duree = 420;
+      const debut = performance.now();
+      const etape = maintenant => {
+        const t = Math.min(1, (maintenant - debut) / duree);
+        fenetre.scrollLeft = depart + (cible - depart) * easeVersLaCarte(t);
+        animationEnCours = t < 1 ? requestAnimationFrame(etape) : null;
+      };
+      animationEnCours = requestAnimationFrame(etape);
     }
     flecheGauche.addEventListener('click', () => decaler(-1));
     flecheDroite.addEventListener('click', () => decaler(1));
