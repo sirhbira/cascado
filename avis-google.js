@@ -139,6 +139,48 @@
     return enveloppe;
   }
 
+  /* Anonymise le nom affiché sur les cartes d'avis : le prénom est
+     conservé tel quel, le dernier mot du nom est réduit à son
+     initiale ("Ali-Akbar Boudjemai" -> "Ali-Akbar B."). Un nom d'un
+     seul mot est laissé intact. Ne modifie jamais avis.nom : sert
+     uniquement à l'affichage. */
+  function formaterNomAvis(nom) {
+    const brut = (nom || '').trim();
+    if (!brut) return '';
+    const mots = brut.split(/\s+/).filter(Boolean);
+    if (mots.length <= 1) return brut;
+    const dernierMot = mots[mots.length - 1];
+    const initiale = dernierMot.charAt(0).toUpperCase();
+    const prenom = mots.slice(0, -1).join(' ');
+    return `${prenom} ${initiale}.`;
+  }
+
+  /* Palette de couleurs pour les avatars à initiale (pas de photo).
+     Choisie via un hash déterministe du nom : un même client garde
+     toujours la même couleur d'une visite à l'autre. */
+  const couleursAvatar = [
+    '#E67E22', // orange
+    '#27AE60', // vert
+    '#2980B9', // bleu
+    '#8E44AD', // violet
+    '#D6336C', // rose
+    '#16A085', // turquoise
+    '#C0392B', // rouge doux
+  ];
+
+  function hashNom(nom) {
+    const chaine = String(nom || '');
+    let hash = 0;
+    for (let i = 0; i < chaine.length; i++) {
+      hash = (hash * 31 + chaine.charCodeAt(i)) >>> 0;
+    }
+    return hash;
+  }
+
+  function couleurAvatarPour(nom) {
+    return couleursAvatar[hashNom(nom) % couleursAvatar.length];
+  }
+
   function iconeGoogle() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -254,10 +296,13 @@
       );
     } else {
       const initiale = (avis.nom || '').trim().charAt(0).toUpperCase() || '?';
-      entete.append(creer('span', { classe: 'avis-avatar-initiale', texte: initiale, attrs: { 'aria-hidden': 'true' } }));
+      const avatarInitiale = creer('span', { classe: 'avis-avatar-initiale', texte: initiale, attrs: { 'aria-hidden': 'true' } });
+      avatarInitiale.style.backgroundColor = couleurAvatarPour(avis.nom);
+      avatarInitiale.style.color = '#ffffff';
+      entete.append(avatarInitiale);
     }
     const identite = creer('div', { classe: 'avis-identite' });
-    identite.append(creer('p', { classe: 'avis-nom', texte: avis.nom || '' }));
+    identite.append(creer('p', { classe: 'avis-nom', texte: formaterNomAvis(avis.nom) }));
     if (avis.date) identite.append(creer('p', { classe: 'avis-date', texte: avis.date }));
     entete.append(identite);
 
