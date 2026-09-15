@@ -53,7 +53,7 @@
   /* Nombre d'avis affichés dans le carrousel de la page d'accueil
      (le tableau avisGoogle peut en contenir davantage : la moyenne
      et la répartition ci-dessous utilisent, elles, tout le tableau). */
-  const NB_AVIS_CARROUSEL = 6;
+  const NB_AVIS_CARROUSEL = 8;
 
   /* ---------------------------------------------------------------
      AVIS GOOGLE — à modifier ici uniquement.
