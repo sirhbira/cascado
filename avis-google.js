@@ -39,7 +39,7 @@
      (visible sur Google, pas seulement ceux copiés ci-dessous).
      Affiché tel quel dans le résumé ("X avis Google") : à mettre à
      jour à la main quand un nouvel avis arrive sur la fiche. */
-  const TOTAL_AVIS_GOOGLE = 12;
+  const TOTAL_AVIS_GOOGLE = 13;
 
   /* Lien vers la page d'avis de la fiche Google Cascado Event
      (lien "Voir tous les avis →" du résumé + état vide).
@@ -104,6 +104,22 @@
       note: 5,
       date: "Septembre 2026",
       texte: "J’ai offert le panneau de bienvenue à un ami pour son mariage et franchement le rendu était magnifique! Il a adoré, tout comme ses invités. Merci à Cascado Event pour la prestation, je recommande 👌🏻",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Abdessami Jabri",
+      note: 5,
+      date: "Septembre 2026",
+      texte: "Je recommande à 100 % ! Ils répondent très rapidement, sont très à l’écoute et surtout très professionnels. Un travail de qualité pour un très bon prix.",
+      avatar: "",
+      lien: ""
+    },
+    {
+      nom: "Club De Wish",
+      note: 5,
+      date: "Septembre 2026",
+      texte: "Nous avons fait appel à Cascado Event pour le mariage de ma soeur et nous avons été ravis de leur prestation du début à la fin ! 🥰\n\nDès la prise de contact, l’équipe s’est montrée très professionnelle, à l’écoute et disponible. Les échanges ont été fluides, le tarif était très correct et tout a été parfaitement expliqué.\n\nLe jour du mariage, leur équipe a été au top : sérieux, professionnalisme, bonne organisation et une prestation à la hauteur de nos attentes. Ils ont largement contribué à faire de cette journée un magnifique souvenir. 💗\n\nUn grand merci à toute l’équipe de Cascado Event pour leur travail, leur gentillesse et leur professionnalisme. Nous les recommandons sans hésiter pour vos événements ! 👏✨",
       avatar: "",
       lien: ""
     }
