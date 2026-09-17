@@ -9,7 +9,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'dist'
-DIRECTORIES = ('contact', 'panneaux', 'photobooth', 'packs', 'livre-or-video', 'galerie', 'images', 'videos')
+DIRECTORIES = ('contact', 'livre-or-video', 'galerie', 'images', 'videos')
 ASSET_URL = re.compile(r'''(?P<quote>["'])(?P<url>/(?!/)[^"'\r\n<>]*?\.(?:css|js|jpg|jpeg|png|svg|webp|gif|ico|mp4|webm)(?:\?[^"'\r\n<>]*)?)(?P=quote)''', re.I)
 # Icônes de site : leur URL doit rester STABLE d'un déploiement à l'autre
 # (Google met le favicon en cache par URL ; un ?v= qui change à chaque

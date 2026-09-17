@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  Cascado Event — PAGE PHOTOBOOTH (photobooth/index.html)
+  Cascado Event — PAGE CONTACT (contact/index.html)
   ------------------------------------------------------------
-  Galerie des modèles de photobooth.
-  Photobooth Classique et Photobooth Miroir.
+  Formulaire de devis (formule, nom, contact, date, message)
+  + coordonnées.
+  Les demandes sont envoyées à cascadoevent@gmail.com via FormSubmit.
+  Activez la réception avec le lien reçu lors du premier envoi.
   ============================================================
 -->
 <html lang="fr">
@@ -18,8 +20,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Photobooth événementiel — Cascado Event</title>
-  <meta name="description" content="Découvrez les modèles de photobooth Cascado Event : bornes élégantes et tirages personnalisés pour vos invités." />
+  <title>Contact — Cascado Event</title>
+  <meta name="description" content="Contactez Cascado Event pour votre mariage, anniversaire ou soirée d'entreprise. Devis personnalisé sous 24 h." />
+  <link rel="canonical" href="https://cascadoevent.fr/contact" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,49 +31,12 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/contact/devis.css" />
 
   <!-- Affichage garanti même si le JavaScript est désactivé -->
   <noscript>
-    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+    <style>.reveal { opacity: 1 !important; transform: none !important; } .devis-envoyer { display: none !important; }</style>
   </noscript>
-  <style>
-    .photobooth-option { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); max-width: 980px; margin: 64px auto 0; overflow: hidden; border: 1px solid var(--or-filet); border-radius: var(--rayon); background: var(--noir-2); }
-    .photobooth-option-photo { width: 100%; height: 100%; max-height: 440px; object-fit: cover; }
-    .photobooth-option-corps { min-width: 0; padding: 32px; }
-    .photobooth-option h2 { font-size: clamp(1.4rem, 2.5vw, 1.8rem); margin: 18px 0; color: var(--champagne); }
-    .photobooth-option p { font-size: .92rem; color: var(--texte-doux); }
-    .photobooth-option .photobooth-option-supplement { margin: 18px 0 12px; color: var(--champagne); font-weight: 500; }
-    @media (max-width: 600px) {
-      .photobooth-option { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
-      .photobooth-option-photo { height: auto; max-height: none; aspect-ratio: 4 / 3; }
-      .photobooth-option-corps { padding: 24px 22px; }
-    }
-    /* Compléments propres à cette page ; le coverflow utilise les styles Panneaux. */
-    .galerie.galerie-photobooth { align-items: stretch; }
-    .galerie-photobooth .modele { border-color: var(--or-filet); }
-    .galerie-photobooth .modele-corps { flex: 1; }
-    .galerie-photobooth .modele-corps h2 { font-size: 1.35rem; line-height: 1.25; }
-    .galerie-photobooth .modele-corps .photobooth-atouts { color: var(--champagne); font-size: .8rem; }
-    .galerie-photobooth .pack-liste { width: 100%; margin: 8px 0 0; padding: 20px 0 0; border-bottom: 0; }
-    .galerie-photobooth .pack-liste li { color: var(--texte); font-size: .86rem; }
-    .galerie-photobooth .pack-liste li:last-child { margin-bottom: 0; }
-    .photobooth-avantages { max-width: 980px; margin: 90px auto 0; }
-    .photobooth-avantages-grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
-    .photobooth-avantages-grille article { padding: 26px 20px; border: 1px solid var(--or-filet); border-radius: var(--rayon); background: var(--noir-2); }
-    .photobooth-avantages-grille h3 { font-size: 1.15rem; margin: 12px 0; }
-    .photobooth-avantages-grille p { font-size: .9rem; color: var(--texte-doux); }
-    .photobooth-page .panneaux-cta p { margin-bottom: 28px; color: var(--texte-doux); }
-    @media (max-width: 900px) { .photobooth-avantages-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 600px) {
-      .galerie-photobooth .modele-corps h2 { font-size: 1.25rem; }
-      .photobooth-avantages { margin-top: 76px; }
-      .photobooth-avantages-grille { grid-template-columns: 1fr; }
-    }
-    @media (hover: none) { .galerie-photobooth .modele:hover .modele-media img { transform: none; } }
-    @media (prefers-reduced-motion: reduce) {
-      .galerie-photobooth.est-carrousel, .galerie-photobooth.est-carrousel .modele, .galerie-photobooth .modele-media img { transition: none; }
-    }
-  </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGM8MF3BRY"></script>
   <script>
@@ -83,7 +49,7 @@
 
 <body>
 
-  <!-- EN-TÊTE COMMUN (classe "actif" sur Photobooth) -->
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Contact) -->
   <aside class="annonce-barre" aria-label="Les informations Cascado Event">
     <div class="annonce-contenu">
       <div class="annonce-messages" aria-live="off">
@@ -104,10 +70,10 @@
         <ul>
           <li><a href="/">Accueil</a></li>
           <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth" class="actif">Photobooth</a></li>
+          <li><a href="/photobooth">Photobooth</a></li>
           <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
           <li><a href="/packs">Nos Packs</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><a href="/contact" class="actif">Contact</a></li>
           <li><a href="/galerie">Galerie</a></li>
         </ul>
       </nav>
@@ -117,218 +83,62 @@
       <ul class="sous-nav-liste">
         <li><a href="/">Accueil</a></li>
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
-        <li><a href="/photobooth" class="actif" aria-current="page">Photobooth</a></li>
+        <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
         <li><a href="/packs">Nos Packs</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/contact" class="actif" aria-current="page">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main class="photobooth-page">
-    <section class="page-entete">
-      <div class="conteneur">
-        <span class="surtitre">Nos prestations</span>
-        <h1>Photobooth</h1>
-        <hr class="filet centre" />
-        <p>Découvrez nos photobooths conçus pour créer des souvenirs spontanés, élégants et personnalisés tout au long de votre événement.</p>
-      </div>
-    </section>
-    <section class="section" aria-label="Nos modèles de photobooth">
-      <div class="conteneur">
-        <div class="entete-section reveal">
-          <span class="surtitre">NOS MODÈLES</span>
-          <h2 class="section-titre">Choisissez le photobooth qui vous correspond</h2>
-          <hr class="filet centre" />
-        </div>
-        <div class="galerie galerie-panneaux galerie-photobooth reveal" data-prestation="photobooth">
-          <article class="modele">
-            <div class="modele-media">
-              <img src="/images/photobooth-1.jpg" alt="Photobooth Classique — Cascado Event" decoding="async" />
-            </div>
-            <div class="modele-corps">
-              <span class="modele-dim">Souvenirs instantanés</span>
-              <h2>Photobooth Classique</h2>
-              <p>Un photobooth élégant et intuitif, idéal pour permettre à vos invités de capturer leurs plus beaux moments et de repartir immédiatement avec leurs souvenirs imprimés.</p>
-              <p class="photobooth-atouts">Qualité photo · Impression rapide · Simplicité · Personnalisation</p>
-              <ul class="pack-liste">
-                <li>Appareil photo Canon</li>
-                <li>Imprimante professionnelle DNP</li>
-                <li>Cadre photo entièrement personnalisable</li>
-                <li>Éclairage LED personnalisable</li>
-                <li>Écran tactile intuitif</li>
-                <li>Impression des photos directement sur place</li>
-                <li>Personnalisation avec prénoms, date, thème ou logo</li>
-                <li>Design élégant adapté aux mariages, anniversaires et événements professionnels</li>
-              </ul>
-              <a href="/contact?prestation=photobooth&amp;modele=photobooth-classique" class="bouton">CHOISIR CE MODÈLE</a>
-            </div>
-          </article>
-          <article class="modele">
-            <div class="modele-media">
-              <img src="/images/photobooth%20miroir.jpg" alt="Photobooth Miroir interactif — Cascado Event" decoding="async" />
-            </div>
-            <div class="modele-corps">
-              <span class="modele-dim">Expérience Premium</span>
-              <h2>Photobooth Miroir</h2>
-              <p>Une expérience photo immersive et haut de gamme grâce à un miroir interactif qui transforme chaque prise de vue en véritable animation.</p>
-              <p class="photobooth-atouts">Effet WOW · Haut de gamme · Interactivité · Originalité et élégance</p>
-              <ul class="pack-liste">
-                <li>Miroir interactif grand format</li>
-                <li>Appareil photo Canon</li>
-                <li>Imprimante professionnelle DNP</li>
-                <li>Cadre photo entièrement personnalisable</li>
-                <li>Éclairage LED personnalisable</li>
-                <li>Interface tactile intégrée au miroir</li>
-                <li>Animations visuelles pendant la prise de photo</li>
-                <li>Impression immédiate des photos</li>
-                <li>Personnalisation avec prénoms, date, thème ou identité visuelle</li>
-              </ul>
-              <a href="/contact?prestation=photobooth&amp;modele=photobooth-miroir" class="bouton">CHOISIR CE MODÈLE</a>
-            </div>
-          </article>
-        </div>
-        <section class="photobooth-option reveal" aria-labelledby="mur-floral-titre">
-          <img class="photobooth-option-photo" src="/images/mur%20floral.jpg" alt="Mur floral proposé en option pour les photos" loading="lazy" decoding="async" />
-          <div class="photobooth-option-corps">
-            <span class="modele-dim">EN OPTION</span>
-            <h2 id="mur-floral-titre">Option décor – Mur floral</h2>
-            <p>Ajoutez un mur floral en option pour créer un véritable espace photo et sublimer vos souvenirs. Une décoration élégante qui s’accorde parfaitement avec nos photobooths.</p>
-            <p class="photobooth-option-supplement">Disponible en supplément.</p>
-            <p>Idéal pour créer un fond photo plus travaillé et renforcer l’effet premium de votre événement.</p>
-          </div>
+  <main class="devis-page">
+    <section class="page-entete"><div class="conteneur"><span class="surtitre">Votre devis sur mesure</span><h1>Parlons de votre événement</h1><hr class="filet centre" /><p>Quelques informations suffisent pour préparer votre devis personnalisé. Réponse en moins de 24h.</p></div></section>
+    <section class="section devis-section"><div class="conteneur devis-layout">
+      <form id="configurateur-devis" action="https://formsubmit.co/ajax/cascadoevent@gmail.com" method="POST">
+        <ol class="devis-progression" aria-label="Étapes de votre demande" hidden>
+          <li aria-current="step"><span>01</span>Prestation</li><li><span>02</span>Événement</li><li><span>03</span>Coordonnées</li><li><span>04</span>Confirmation</li>
+        </ol>
+        <p class="devis-aide">Les champs sont obligatoires sauf mention « facultatif ».</p>
+        <section class="devis-etape" data-step="0" aria-labelledby="titre-prestation">
+          <span class="surtitre">01 — Votre prestation</span><h2 id="titre-prestation" tabindex="-1">Quelle prestation souhaitez-vous ?</h2>
+          <fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre prestation</legend>
+<div class="devis-choix"><label class="devis-carte"><input type="radio" name="formule" value="Pack Premium" aria-describedby="erreur-formule" /><span>Pack Premium</span></label><label class="devis-carte"><input type="radio" name="formule" value="Pack Prestige" aria-describedby="erreur-formule" /><span>Pack Prestige</span></label><label class="devis-carte"><input type="radio" name="formule" value="Panneau Fontaine" aria-describedby="erreur-formule" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="radio" name="formule" value="Photobooth" aria-describedby="erreur-formule" /><span>Photobooth</span></label><label class="devis-carte"><input type="radio" name="formule" value="Livre d’or vidéo" aria-describedby="erreur-formule" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-formule" aria-live="polite"></p></fieldset>
+          <fieldset class="devis-condition" id="option-premium" hidden disabled><legend>Choisissez 2 prestations parmi 3 :</legend><p class="devis-aide">2 prestations au choix parmi 3</p>
+<div class="devis-choix"><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Panneau Fontaine" aria-describedby="erreur-prestations_premium" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Photobooth" aria-describedby="erreur-prestations_premium" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Livre d’or vidéo" aria-describedby="erreur-prestations_premium" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-prestations_premium" aria-live="polite"></p><p id="premium-compteur" class="devis-aide" role="status">0 / 2 prestations sélectionnées</p></fieldset>
+          <div class="devis-condition" id="option-prestige" hidden><h3>Toutes les prestations incluses + 1 avantage offert</h3><ul class="devis-inclus"><li>Panneau Fontaine</li><li>Photobooth</li><li>Livre d’or vidéo</li></ul></div>
         </section>
-        <section class="photobooth-avantages reveal" aria-labelledby="avantages-titre">
-          <div class="entete-section">
-            <span class="surtitre">Chaque détail compte</span>
-            <h2 id="avantages-titre">Des souvenirs à votre image</h2>
-            <hr class="filet centre" />
-          </div>
-          <div class="photobooth-avantages-grille">
-            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Qualité professionnelle</h3><p>Appareil photo Canon et impression DNP pour obtenir des photos nettes et des impressions de qualité.</p></article>
-            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Personnalisation complète</h3><p>Cadre photo, prénoms, date, couleurs et thème adaptés à votre événement.</p></article>
-            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Souvenirs immédiats</h3><p>Vos invités peuvent repartir directement avec leurs photos imprimées.</p></article>
-            <article><span class="texte-or" aria-hidden="true">✧</span><h3>Animation conviviale</h3><p>Une expérience simple et interactive qui crée naturellement des moments spontanés et mémorables.</p></article>
-          </div>
+<section class="devis-etape" data-step="panneau" data-label="Choisissez votre modèle de panneau" aria-labelledby="titre-panneau" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-panneau" tabindex="-1">Choisissez votre modèle de panneau</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre modèle de panneau</legend><div class="devis-choix devis-modeles">
+<label class="devis-carte devis-modele"><input type="radio" name="modele_panneau" value="Panneau Angle Droit" aria-describedby="erreur-modele_panneau" /><img src="/images/panneau-1.jpg" alt="" decoding="async" loading="lazy" /><span>Panneau Angle Droit</span></label>
+<label class="devis-carte devis-modele"><input type="radio" name="modele_panneau" value="Panneau Arche" aria-describedby="erreur-modele_panneau" /><img src="/images/panneau-1.2.jpg" alt="" decoding="async" loading="lazy" /><span>Panneau Arche</span></label>
+<label class="devis-carte devis-modele"><input type="radio" name="modele_panneau" value="Panneau Flouté" aria-describedby="erreur-modele_panneau" /><img src="/images/panneau-2.jpg" alt="" decoding="async" loading="lazy" /><span>Panneau Flouté</span></label>
+<label class="devis-carte devis-modele"><input type="radio" name="modele_panneau" value="Mini Panneau" aria-describedby="erreur-modele_panneau" /><img src="/images/panneau-3.jpg" alt="" decoding="async" loading="lazy" /><span>Mini Panneau</span></label>
+</div><p class="devis-erreur" id="erreur-modele_panneau" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="photobooth" data-label="Choisissez votre modèle de photobooth" aria-labelledby="titre-photobooth" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-photobooth" tabindex="-1">Choisissez votre modèle de photobooth</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre modèle de photobooth</legend><div class="devis-choix devis-modeles">
+<label class="devis-carte devis-modele"><input type="radio" name="modele_photobooth" value="Photobooth Classique" aria-describedby="erreur-modele_photobooth" /><img src="/images/photobooth-1.jpg" alt="" decoding="async" loading="lazy" /><span>Photobooth Classique</span></label>
+<label class="devis-carte devis-modele"><input type="radio" name="modele_photobooth" value="Photobooth Miroir" aria-describedby="erreur-modele_photobooth" /><img src="/images/photobooth%20miroir.jpg" alt="" decoding="async" loading="lazy" /><span>Photobooth Miroir</span></label>
+</div><p class="devis-erreur" id="erreur-modele_photobooth" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="livre" aria-labelledby="titre-livre" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-livre" tabindex="-1">Choisissez votre livre d’or vidéo</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre livre d’or vidéo</legend><div class="devis-choix devis-modeles">
+<label class="devis-carte devis-modele"><input type="radio" name="modele_livre" value="Livre d’or vidéo 1" data-modele="livre-or-video-1" aria-describedby="erreur-modele_livre" /><img src="/images/livredor-2.jpg" alt="" decoding="async" loading="lazy" /><span>Livre d’or vidéo 1</span></label>
+</div><p class="devis-erreur" id="erreur-modele_livre" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="floral" aria-labelledby="titre-floral" hidden><span class="surtitre">Votre option</span><h2 id="titre-floral" tabindex="-1">Souhaitez-vous ajouter un mur floral ?</h2><figure class="devis-floral-photo"><img src="/images/mur%20floral.jpg" alt="" loading="lazy" decoding="async" /><figcaption>Mur floral</figcaption></figure><p class="devis-aide">Disponible en supplément.</p><fieldset class="devis-groupe"><legend class="visually-hidden">Ajouter un mur floral</legend><div class="devis-choix"><label class="devis-carte"><input type="radio" name="mur_floral" value="Oui" aria-describedby="erreur-mur_floral" /><span>Oui</span></label><label class="devis-carte"><input type="radio" name="mur_floral" value="Non" aria-describedby="erreur-mur_floral" /><span>Non</span></label></div><p class="devis-erreur" id="erreur-mur_floral" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="avantage" data-label="Choisissez votre avantage offert" aria-labelledby="titre-avantage" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-avantage" tabindex="-1">Choisissez votre avantage offert</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre avantage offert</legend><div class="devis-choix devis-modeles">
+<label class="devis-carte devis-modele"><input type="radio" name="avantage_offert" value="Mur floral offert" aria-describedby="erreur-avantage_offert" /><img src="/images/mur%20floral.jpg" alt="" decoding="async" loading="lazy" /><span>Mur floral offert</span></label>
+<label class="devis-carte devis-modele"><input type="radio" name="avantage_offert" value="Mini-cascade offerte" aria-describedby="erreur-avantage_offert" /><img src="/images/panneau-3.jpg" alt="" decoding="async" loading="lazy" /><span>Mini-cascade offerte</span></label>
+</div><p class="devis-erreur" id="erreur-avantage_offert" aria-live="polite"></p></fieldset></section>
+        <section class="devis-etape" data-step="1" aria-labelledby="titre-evenement"><span class="surtitre">02 — Votre événement</span><h2 id="titre-evenement" tabindex="-1">Le cadre de vos souvenirs</h2>
+          <div class="devis-champ"><label for="ville">Ville de l’événement</label><input id="ville" name="ville" placeholder="Ex. Orléans" required autocomplete="off" aria-describedby="erreur-ville" /><p id="erreur-ville" class="devis-erreur" aria-live="polite"></p></div>
+<div class="devis-champ"><label for="lieu">Lieu / salle de réception (facultatif)</label><input id="lieu" name="lieu" type="text" placeholder="Nom du domaine, château, salle ou adresse"   aria-describedby="erreur-lieu" /><p class="devis-erreur" id="erreur-lieu" aria-live="polite"></p></div><div class="devis-ligne"><div class="devis-champ"><label for="date_evenement">Date de l’événement</label><input id="date_evenement" name="date_evenement" type="date" placeholder="" required lang="fr" aria-describedby="erreur-date_evenement" /><p class="devis-erreur" id="erreur-date_evenement" aria-live="polite"></p></div><div class="devis-champ"><label for="invites">Nombre d’invités</label><select id="invites" name="invites" required aria-describedby="erreur-invites"><option value="">Choisissez une tranche</option><option>Moins de 50</option><option>50 à 100</option><option>100 à 150</option><option>150 à 250</option><option>250 à 400</option><option>Plus de 400</option></select><p id="erreur-invites" class="devis-erreur" aria-live="polite"></p></div></div>
+          <div class="devis-champ"><label for="message">Informations complémentaires (facultatif)</label><textarea id="message" name="message" placeholder="Horaires, type d’événement, thème, demandes particulières…" rows="4"></textarea></div>
         </section>
-        <div class="panneaux-cta reveal">
-          <hr class="filet centre" />
-          <h2 class="panneaux-cta-titre">Choisissez le photobooth qui correspond à <span class="texte-or">votre événement</span></h2>
-          <p>Recevez une proposition personnalisée en moins de 24h.</p>
-          <a href="/contact" class="bouton">DEMANDER UN DEVIS</a>
-        </div>
-      </div>
-    </section>
-  <script src="/modeles-devis.js"></script>
-    <script>
-      /* Photobooth — carrousel 3D (coverflow) sur téléphone uniquement.
-         PC / tablette : la grille reste inchangée. */
-      (function () {
-        var grille = document.querySelector(".galerie-panneaux");
-        if (!grille) return;
-        var cartes = Array.prototype.slice.call(grille.querySelectorAll(".modele"));
-        if (cartes.length < 2) return;
-
-        var mq = window.matchMedia("(max-width: 600px)");
-        var actif = 0;
-        var points = document.createElement("div");
-        points.className = "galerie-points";
-        var puces = cartes.map(function (_, i) {
-          var b = document.createElement("button");
-          b.type = "button";
-          b.setAttribute("aria-label", "Voir le modèle " + (i + 1));
-          b.addEventListener("click", function () { actif = i; placer(); });
-          points.appendChild(b);
-          return b;
-        });
-
-        function placer() {
-          var n = cartes.length;
-          cartes.forEach(function (carte, i) {
-            var d = (i - actif + n) % n;
-            var pos = "pos-cachee";
-            if (d === 0) pos = "pos-centre";
-            else if (n === 2) pos = i > actif ? "pos-droite" : "pos-gauche";
-            else if (d === 1) pos = "pos-droite";
-            else if (d === n - 1) pos = "pos-gauche";
-            carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
-            carte.classList.add(pos);
-            carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
-            carte.inert = d !== 0;
-          });
-          puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); p.setAttribute("aria-pressed", i === actif ? "true" : "false"); });
-          egaliserHauteurs();
-        }
-
-        function egaliserHauteurs() {
-          cartes.forEach(function (carte) { carte.style.height = ""; });
-          var hauteur = Math.max.apply(null, cartes.map(function (carte) { return carte.offsetHeight; }));
-          cartes.forEach(function (carte) { carte.style.height = hauteur + "px"; });
-          grille.style.height = (hauteur + 14) + "px";
-        }
-
-        function aller(dir) {
-          actif = (actif + dir + cartes.length) % cartes.length;
-          placer();
-        }
-
-        var geste = null;
-        grille.addEventListener("pointerdown", function (e) {
-          if (!mq.matches) return;
-          geste = { x: e.clientX, y: e.clientY, id: e.pointerId, actif: false };
-        });
-        grille.addEventListener("pointermove", function (e) {
-          if (!geste || e.pointerId !== geste.id) return;
-          var dx = e.clientX - geste.x, dy = e.clientY - geste.y;
-          if (!geste.actif && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
-            geste.actif = true;
-            try { grille.setPointerCapture(geste.id); } catch (err) {}
-          }
-          if (geste.actif) e.preventDefault();
-        }, { passive: false });
-        function finGeste(e) {
-          if (!geste || (e && e.pointerId !== geste.id)) return;
-          var dx = e ? e.clientX - geste.x : 0;
-          var etait = geste.actif;
-          geste = null;
-          if (etait && Math.abs(dx) > 40) aller(dx < 0 ? 1 : -1);
-        }
-        grille.addEventListener("pointerup", finGeste);
-        grille.addEventListener("pointercancel", function () { geste = null; });
-
-        function activer() {
-          grille.classList.add("est-carrousel");
-          if (!points.parentNode) grille.insertAdjacentElement("afterend", points);
-          actif = 0;
-          placer();
-        }
-        function desactiver() {
-          grille.classList.remove("est-carrousel");
-          if (points.parentNode) points.parentNode.removeChild(points);
-          cartes.forEach(function (c) {
-            c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
-            c.removeAttribute("aria-hidden");
-            c.inert = false;
-            c.style.height = "";
-          });
-          grille.style.height = "";
-        }
-        function appliquer() { mq.matches ? activer() : desactiver(); }
-
-        if (document.fonts) document.fonts.ready.then(function () { if (mq.matches) placer(); });
-        appliquer();
-        if (mq.addEventListener) {
-          mq.addEventListener("change", function () { desactiver(); appliquer(); });
-        } else if (mq.addListener) {
-          mq.addListener(function () { desactiver(); appliquer(); });
-        }
-        window.addEventListener("resize", function () {
-          if (mq.matches) egaliserHauteurs();
-        });
-      })();
-    </script>
+        <section class="devis-etape" data-step="2" aria-labelledby="titre-coordonnees"><span class="surtitre">03 — Vos coordonnées</span><h2 id="titre-coordonnees" tabindex="-1">Comment vous recontacter ?</h2><div class="devis-ligne">
+<div class="devis-champ"><label for="prenom">Prénom</label><input id="prenom" name="prenom" type="text" placeholder="Votre prénom" required autocomplete="given-name" aria-describedby="erreur-prenom" /><p class="devis-erreur" id="erreur-prenom" aria-live="polite"></p></div><div class="devis-champ"><label for="nom">Nom</label><input id="nom" name="nom" type="text" placeholder="Votre nom" required autocomplete="family-name" aria-describedby="erreur-nom" /><p class="devis-erreur" id="erreur-nom" aria-live="polite"></p></div></div><div class="devis-champ"><label for="telephone">Numéro de téléphone</label><input id="telephone" name="telephone" type="tel" placeholder="06 12 34 56 78" required autocomplete="tel" aria-describedby="erreur-telephone" /><p class="devis-erreur" id="erreur-telephone" aria-live="polite"></p></div><div class="devis-champ"><label for="email">Adresse e-mail (facultatif)</label><input id="email" name="email" type="email" placeholder="votre@email.com"  autocomplete="email" aria-describedby="erreur-email" /><p class="devis-erreur" id="erreur-email" aria-live="polite"></p></div></section>
+        <section class="devis-etape" data-step="3" aria-labelledby="titre-confirmation"><span class="surtitre">04 — Votre demande</span><h2 id="titre-confirmation" tabindex="-1">Tout commence ici</h2><div class="devis-recap"><h3>Votre demande</h3><dl id="devis-resume" aria-live="polite"></dl></div><p class="devis-aide">Vous pouvez revenir aux étapes précédentes pour ajuster votre demande.</p><input type="hidden" name="_subject" value="Nouvelle demande de devis — Cascado Event" /><input type="hidden" name="recapitulatif" id="recapitulatif" /><input type="hidden" name="prestations_incluses" id="prestations_incluses" disabled /><button class="bouton devis-envoyer" type="submit">DEMANDER MON DEVIS</button><p class="devis-delai">Réponse en moins de 24h</p><div id="devis-retour" class="devis-retour" role="status" aria-live="polite" tabindex="-1"></div></section>
+        <div class="devis-navigation" hidden><button type="button" class="devis-precedent">Retour</button><button type="button" class="bouton devis-suivant">Continuer <span aria-hidden="true">→</span></button></div>
+        <noscript><p>Activez JavaScript pour configurer les options de votre prestation. Vous pouvez aussi nous joindre directement par téléphone ou WhatsApp.</p></noscript>
+      </form>
+    </div></section>
   </main>
 
 
@@ -464,5 +274,7 @@
 
   <script src="/script.js"></script>
   <script src="/announcement.js"></script>
+  <script src="/modeles-devis.js"></script>
+  <script src="/contact/devis.js"></script>
 </body>
 </html>
