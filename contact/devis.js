@@ -203,7 +203,11 @@
 
     // Lien WhatsApp : 06 12 34 56 78 → 33612345678, +33 / 0033 sans double 33.
     const whatsappNumber = value('telephone').replace(/[\s.()\-]/g, '').replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '33');
-    const whatsappMessage = `Bonjour, j’espère que vous allez bien 😊\n\nJe viens vers vous suite à votre demande de devis pour votre événement du ${date} à ${value('lieu') || value('ville')}.`;
+    const [year, month, day] = value('date_evenement').split('-').map(Number);
+    const whatsappDate = new Date(year, month - 1, day).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    // Pack : son nom seul. Prestations individuelles : « A, B et C ».
+    const whatsappServices = type.startsWith('Pack ') ? type : new Intl.ListFormat('fr', { type: 'conjunction' }).format(selection('formule'));
+    const whatsappMessage = `Bonjour, j’espère que vous allez bien 😊\n\nJe viens vers vous suite à votre demande de devis pour votre événement du ${whatsappDate} à ${value('lieu') || value('ville')}.\n\nVous avez manifesté votre intérêt pour : ${whatsappServices}.`;
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
     // Liste explicite : aucun champ brut ni récapitulatif en double.
