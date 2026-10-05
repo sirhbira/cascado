@@ -16,6 +16,8 @@
   const checked = name => [...form.querySelectorAll(`input[name="${name}"]:checked`)].filter(el => !el.matches(':disabled'));
   const selection = name => checked(name).map(el => el.value);
   const value = id => $(id).value.trim();
+  // Packs : choix unique. Prestations individuelles : cumulables (cases à cocher).
+  const formule = () => { const choix = selection('formule'); return choix[0]?.startsWith('Pack ') ? choix[0] : choix.join(' + '); };
   let step = 0;
   let submitting = false;
   form.noValidate = true;
@@ -100,7 +102,7 @@
     premium.querySelectorAll('input').forEach(el => { el.disabled = count === 2 && !el.checked; });
     $('premium-compteur').textContent = `${count} / 2 prestations sélectionnées`;
     $('option-prestige').hidden = type !== 'Pack Prestige';
-    const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : [type];
+    const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
     const hasPanel = included.includes('Panneau Fontaine'), hasBooth = included.includes('Photobooth');
     const enabled = { panneau: hasPanel, photobooth: hasBooth, livre: included.includes('Livre d’or vidéo') || included.includes('Livre d’or audio-vidéo'), floral: hasBooth && type !== 'Pack Prestige', avantage: type === 'Pack Prestige' };
     steps.forEach(el => {
@@ -149,8 +151,8 @@
 
   function summary() {
     const type = selection('formule')[0];
-    const rows = [['Prestation', type || 'À sélectionner']];
-    const services = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : type ? [type] : [];
+    const rows = [['Prestation', formule() || 'À sélectionner']];
+    const services = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
     if (type === 'Pack Premium') rows.push(['Pack Premium', '2 prestations au choix parmi 3']);
     services.forEach(service => {
       let detail = `✓ ${service}`;
@@ -181,7 +183,7 @@
     const requestId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const services = type === 'Pack Prestige'
       ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo']
-      : type === 'Pack Premium' ? selection('prestations_premium') : [type];
+      : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
     const models = {
       'Panneau Fontaine': 'modele_panneau',
       Photobooth: 'modele_photobooth',
@@ -222,7 +224,7 @@
         `Lieu : ${value('lieu') || 'Non renseigné'}`,
         `Nombre d’invités : ${value('invites')}`
       ].join('\n'),
-      'Formule choisie': type,
+      'Formule choisie': formule(),
       Prestations: prestations
     };
     if (type === 'Pack Prestige') payload['Avantage offert'] = selection('avantage_offert')[0];
@@ -242,6 +244,12 @@
   form.addEventListener('change', e => {
     if (submitting || sent) return;
     const choice = e.target.type === 'radio' || e.target.type === 'checkbox';
+    // Un pack désélectionne les prestations individuelles, et inversement.
+    if (e.target.name === 'formule' && e.target.checked) {
+      form.querySelectorAll('input[name="formule"]').forEach(input => {
+        if (input !== e.target && (input.type === 'radio' || e.target.type === 'radio')) input.checked = false;
+      });
+    }
     // Sur téléphone, un choix de modèle ne reconstruit pas toutes les étapes.
     if (choice && (!mobile.matches || e.target.name === 'formule' || e.target.name === 'prestations_premium')) configure();
     if ($(`erreur-${e.target.name}`)?.textContent) validate(step);
