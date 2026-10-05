@@ -1,0 +1,535 @@
+/* ============================================================
+   Avis Google — Cascado Event (accueil uniquement)
+   ------------------------------------------------------------
+   Styles isolés à la section .avis : résumé, répartition par
+   étoile, carrousel de cartes et état vide. Les données sont
+   entièrement injectées par /avis-google.js ; ce fichier ne
+   contient aucune valeur de note, de nombre d'avis ou de texte.
+   ============================================================ */
+
+.avis {
+  /* Palette locale au résumé/carrousel : score et étoiles dorés
+     (identité Cascado Event), cartes claires façon Google Reviews. */
+  --avis-etoile: #ffb400;
+  --avis-carte-fond: #ffffff;
+  --avis-carte-bordure: #e4e4ea;
+  --avis-carte-texte: #1c1c1e;
+  --avis-carte-texte-doux: #6b6b72;
+  --avis-carte-neutre: #f0f0f3;
+}
+
+.avis-corps {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* ---- Résumé : gros score + étoiles/total/lien à gauche,
+   confiance + répartition à droite. Empilé sur mobile. ---------- */
+
+.avis-resume {
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  align-items: center;
+  gap: 8px 64px;
+  padding: 44px 48px;
+  margin-bottom: 40px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+}
+
+.avis-resume-gauche {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  padding-right: 48px;
+  border-right: 1px solid var(--or-filet);
+}
+
+.avis-resume-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.avis-resume-droite {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avis-note-valeur {
+  font-family: var(--sans);
+  font-size: clamp(3.6rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: var(--or-degrade);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Rangée d'étoiles générique : 5 étoiles muettes en fond, une
+   rangée jaune/orange superposée et rognée à --pourcentage pour
+   un rendu fractionnaire (ex : 4,7 / 5). */
+.avis-etoiles {
+  position: relative;
+  display: inline-flex;
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.avis-etoiles.avis-etoiles--petit {
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+}
+
+.avis-etoiles-fond,
+.avis-etoiles-plein {
+  display: block;
+  white-space: nowrap;
+}
+
+.avis-etoiles-fond {
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.avis-etoiles-plein {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--avis-etoile);
+  width: var(--pourcentage, 0%);
+}
+
+.avis-resume-total {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--texte);
+}
+
+.avis-lien-google {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--or);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.avis-lien-google:hover,
+.avis-lien-google:focus-visible {
+  color: var(--champagne);
+  border-color: var(--or-filet);
+}
+
+.avis-resume-confiance {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--texte-doux);
+  max-width: 42ch;
+}
+
+
+/* ---- Répartition par étoile (barres longues, fines, arrondies) --- */
+
+.avis-repartition {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.avis-repartition-ligne {
+  display: grid;
+  grid-template-columns: 34px 1fr 38px;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.78rem;
+}
+
+.avis-repartition-etoile {
+  color: var(--or);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.avis-repartition-piste {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--noir-3);
+  overflow: hidden;
+}
+
+.avis-repartition-barre {
+  position: absolute;
+  inset: 0;
+  width: var(--pourcentage, 0%);
+  background: var(--or-degrade);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.avis-repartition-pourcentage {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--texte-tres-doux);
+}
+
+
+/* ---- Carrousel ----------------------------------------------- */
+
+.avis-carrousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+/* Barre de progression continue (desktop + mobile) : un curseur
+   fin qui suit le scroll réel du carrousel, sans points ni texte. */
+.avis-progression {
+  display: block;
+}
+
+.avis-progression-piste {
+  position: relative;
+  width: 70%;
+  max-width: 320px;
+  height: 3px;
+  margin: 22px auto 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.avis-progression-barre {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--avis-progression-position, 0%);
+  width: var(--avis-progression-largeur, 30%);
+  border-radius: 999px;
+  background: var(--or-degrade);
+  transition: left 0.2s ease-out, width 0.2s ease-out;
+}
+
+.avis-piste-fenetre {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* Barre de défilement native masquée : la navigation se fait
+     au swipe ou via les flèches, pas au scrollbar. */
+  scrollbar-width: none;
+}
+
+.avis-piste-fenetre::-webkit-scrollbar {
+  display: none;
+}
+
+.avis-piste {
+  display: flex;
+  gap: 24px;
+  padding: 4px 2px 14px;
+}
+
+.avis-carte {
+  flex: 0 0 calc((100% - 2 * 24px) / 3);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 28px 26px;
+  background: var(--avis-carte-fond);
+  border: 1px solid var(--avis-carte-bordure);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.avis-carte:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.38);
+}
+
+.avis-carte-entete {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.avis-avatar,
+.avis-avatar-initiale {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.avis-avatar {
+  object-fit: cover;
+}
+
+.avis-avatar-initiale {
+  display: grid;
+  place-items: center;
+  background: var(--avis-carte-neutre);
+  color: var(--avis-carte-texte);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.avis-identite {
+  flex: 1;
+  min-width: 0;
+}
+
+.avis-nom {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--avis-carte-texte);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avis-date {
+  font-size: 0.76rem;
+  color: var(--avis-carte-texte-doux);
+}
+
+.avis-carte-google {
+  flex-shrink: 0;
+  display: inline-flex;
+  margin-left: auto;
+}
+
+.avis-carte-google svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.avis-carte-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.avis-carte .avis-etoiles-fond {
+  color: rgba(0, 0, 0, 0.14);
+}
+
+/* Petit badge "Vérifié" : rendu proche d'un badge Google Reviews,
+   fin et discret, aligné avec les étoiles. */
+.avis-badge-verifie {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #1a73e8;
+  line-height: 1;
+}
+
+.avis-badge-verifie-icone {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.avis-texte {
+  color: var(--avis-carte-texte);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+.avis-texte.avis-texte--etendu {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.avis-lire-plus {
+  align-self: flex-start;
+  margin-top: auto;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--avis-carte-texte-doux);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.avis-lire-plus:hover,
+.avis-lire-plus:focus-visible {
+  color: var(--avis-carte-texte);
+}
+
+
+/* ---- Flèches de navigation ----------------------------------- */
+
+.avis-fleche {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--avis-carte-texte);
+  background: var(--avis-carte-fond);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.avis-fleche svg {
+  width: 18px;
+  height: 18px;
+}
+
+.avis-fleche:hover,
+.avis-fleche:focus-visible {
+  transform: scale(1.06);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+.avis-fleche:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ---- État vide -------------------------------------------------- */
+
+.avis-vide {
+  text-align: center;
+  padding: 64px 32px;
+  background: var(--noir-2);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  color: var(--texte-doux);
+}
+
+.avis-vide p {
+  margin-bottom: 22px;
+  font-size: 1.05rem;
+}
+
+
+/* ---- Apparition douce (respecte prefers-reduced-motion) -------- */
+
+.avis-anime {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.avis-anime.avis-anime--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avis-anime {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .avis-repartition-barre,
+  .avis-progression-barre {
+    transition: none;
+  }
+}
+
+
+/* ---- Responsive -------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .avis-carte {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+
+  .avis-resume {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .avis-resume-gauche {
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    padding-right: 0;
+    padding-bottom: 26px;
+    border-right: 0;
+    border-bottom: 1px solid var(--or-filet);
+  }
+
+  .avis-resume-confiance {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .avis-resume {
+    padding: 34px 24px;
+  }
+
+  .avis-carrousel {
+    gap: 0;
+  }
+
+  .avis-fleche {
+    display: none;
+  }
+
+  .avis-progression-piste {
+    width: 80%;
+  }
+
+  .avis-piste-fenetre {
+    margin: 0 -4px;
+  }
+
+  .avis-piste {
+    padding: 4px 4px 14px;
+  }
+
+  .avis-carte {
+    flex-basis: 88%;
+  }
+}

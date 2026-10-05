@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  Cascado Event — PAGE PACKS (packs/index.html)
+  Cascado Event — PAGE PANNEAUX FONTAINE (panneaux/index.html)
   ------------------------------------------------------------
-  Deux formules côte à côte : Premium et Prestige.
-  Le Prestige est mis en avant (classe "prestige").
-  Complétez les listes « À REMPLIR » avec vos prestations
-  et remplacez « Sur devis » par vos tarifs si vous les affichez.
+  Catalogue des 4 modèles de panneaux fontaine de bienvenue.
   ============================================================
 -->
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta property="og:site_name" content="Cascado Event" />
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/images/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Packs Premium &amp; Prestige — Cascado Event</title>
-  <meta name="description" content="Les formules Cascado Event : Premium et Prestige. Panneaux fontaine et photobooth réunis dans des packs clés en main." />
+  <title>Panneaux Fontaine lumineux — Cascado Event</title>
+  <meta name="description" content="Découvrez les modèles de panneaux fontaine lumineux Cascado Event pour vos entrées, discours et ouvertures de bal." />
+  <link rel="canonical" href="https://cascadoevent.fr/panneaux" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,11 +34,19 @@
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGM8MF3BRY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HGM8MF3BRY');
+  </script>
 </head>
 
 <body>
 
-  <!-- EN-TÊTE COMMUN (classe "actif" sur Packs) -->
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Panneaux Fontaine) -->
   <aside class="annonce-barre" aria-label="Les informations Cascado Event">
     <div class="annonce-contenu">
       <div class="annonce-messages" aria-live="off">
@@ -48,17 +59,17 @@
 
   <header class="site-header">
     <div class="conteneur header-contenu">
-      <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
+      <a href="/" class="logo"><picture><source srcset="/images/logo-header.webp" type="image/webp" /><img class="header-logo-image" src="/images/logo-header.jpg" alt="" width="44" height="44" /></picture><span><span class="texte-or">Cascado</span> Event</span></a>
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
       <nav class="menu-nav" id="menu-nav">
         <ul>
           <li><a href="/">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
+          <li><a href="/panneaux" class="actif">Panneaux Fontaine</a></li>
           <li><a href="/photobooth">Photobooth</a></li>
           <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
-          <li><a href="/packs" class="actif">Nos Packs</a></li>
+          <li><a href="/packs">Nos Packs</a></li>
           <li><a href="/contact">Contact</a></li>
           <li><a href="/galerie">Galerie</a></li>
         </ul>
@@ -68,10 +79,10 @@
     <nav class="sous-nav" aria-label="Navigation rapide">
       <ul class="sous-nav-liste">
         <li><a href="/">Accueil</a></li>
-        <li><a href="/panneaux">Panneaux Fontaine</a></li>
+        <li><a href="/panneaux" class="actif" aria-current="page">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
-        <li><a href="/packs" class="actif" aria-current="page">Nos Packs</a></li>
+        <li><a href="/packs">Nos Packs</a></li>
         <li><a href="/contact">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
       </ul>
@@ -84,77 +95,198 @@
     <!-- EN-TÊTE DE PAGE -->
     <section class="page-entete">
       <div class="conteneur">
-        <span class="surtitre">Formules</span>
-        <h1>Nos Packs</h1>
+        <span class="surtitre">Nos prestations</span>
+        <h1>Panneaux Fontaine</h1>
         <hr class="filet centre" />
         <p>
-          <!-- À REMPLIR : phrase d'introduction sur vos formules -->
-          Deux formules clés en main, pensées pour s'adapter à l'ampleur de votre
-          événement. Devis personnalisé sous 48&nbsp;h.
+          Découvrez nos panneaux fontaine personnalisables avec effet d’eau en cascade, pensés pour créer une entrée élégante, immersive et mémorable dès l’arrivée de vos invités.
         </p>
       </div>
     </section>
 
 
-    <!-- LES DEUX PACKS -->
+    <!-- CATALOGUE DES MODÈLES -->
     <section class="section">
       <div class="conteneur">
         <div class="entete-section reveal">
-          <span class="surtitre">NOS FORMULES</span>
-          <h2 class="section-titre">Choisissez le pack qui sublimera votre événement</h2>
+          <span class="surtitre">NOS MODÈLES</span>
+          <h2 class="section-titre">Choisissez votre panneau fontaine</h2>
           <hr class="filet centre" />
         </div>
-        <div class="packs-grille reveal">
+        <div class="galerie galerie-panneaux reveal" data-prestation="panneau-fontaine">
 
-          <!-- ============ PACK PREMIUM ============ -->
-          <div class="pack">
-            <h3 class="pack-nom">Premium</h3>
-            <p class="pack-accroche">
-              Composez votre expérience : choisissez 2 prestations parmi nos
-              3 incontournables.
-            </p>
-            <div class="pack-prix">
-              Sur devis
+          <!-- Panneau Angle Droit -->
+          <article class="modele">
+            <div class="modele-media">
+              <img src="/images/panneau-1.jpg" alt="Panneau fontaine de bienvenue « Panneau Angle Droit » — Cascado Event" decoding="async" />
             </div>
-
-            <p class="pack-choix">2 prestations au choix parmi 3</p>
-            <ul class="pack-liste">
-              <li>Panneau fontaine</li>
-              <li>Photobooth avec photos illimitées</li>
-              <li>Livre d’or vidéo</li>
-            </ul>
-
-            <a href="/contact" class="bouton fantome">Choisir Premium</a>
-          </div>
-
-
-          <!-- ============ PACK PRESTIGE (mis en avant) ============ -->
-          <div class="pack prestige">
-            <span class="pack-badge">L'offre supérieure</span>
-            <h3 class="pack-nom">Prestige</h3>
-            <p class="pack-accroche">
-              L’expérience Cascado Event la plus complète, pensée pour un
-              événement sans compromis.
-            </p>
-            <div class="pack-prix">
-              Sur devis
+            <div class="modele-corps">
+              <h3>Panneau Angle Droit</h3>
+              <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
+              <p>Un panneau de bienvenue au design droit et structuré, sublimé par un élégant effet d’eau, un éclairage raffiné et une décoration florale personnalisable. Idéal pour une entrée moderne, chic et haut de gamme.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-angle-droit" class="bouton">CHOISIR CE MODÈLE</a>
             </div>
+          </article>
 
-            <p class="pack-choix">Toutes les prestations incluses + 1 avantage offert</p>
-            <ul class="pack-liste">
-              <li>Panneau fontaine</li>
-              <li>Photobooth avec photos illimitées</li>
-              <li>Livre d’or vidéo</li>
-              <li class="pack-plus">Au choix : mur floral offert ou mini-cascade offerte</li>
-            </ul>
+          <!-- Panneau Arche -->
+          <article class="modele">
+            <div class="modele-media">
+              <img src="/images/panneau-1.2.jpg" alt="Panneau fontaine de bienvenue « Panneau Arche » — Cascado Event" decoding="async" />
+            </div>
+            <div class="modele-corps">
+              <h3>Panneau Arche</h3>
+              <span class="modele-dim">1,20&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
+              <p>Un panneau de bienvenue au design arrondi et élégant, sublimé par un effet d’eau lumineux et une composition florale raffinée. Idéal pour apporter une touche douce, moderne et prestigieuse à l’entrée de votre événement.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-arche" class="bouton">CHOISIR CE MODÈLE</a>
+            </div>
+          </article>
 
-            <a href="/contact" class="bouton">Choisir Prestige</a>
-          </div>
+          <!-- Panneau Flouté -->
+          <article class="modele">
+            <div class="modele-media">
+              <img src="/images/panneau-2.jpg" alt="Panneau fontaine de bienvenue « Panneau Flouté » — Cascado Event" decoding="async" />
+            </div>
+            <div class="modele-corps">
+              <h3>Panneau Flouté</h3>
+              <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;2&nbsp;m</span>
+              <p>Un panneau de bienvenue au rendu doux et élégant, avec effet d’eau diffus et éclairage intégré. Son design épuré apporte une touche moderne et raffinée à l’entrée de votre événement.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=panneau-floute" class="bouton">CHOISIR CE MODÈLE</a>
+            </div>
+          </article>
+
+          <!-- Mini Panneau -->
+          <article class="modele">
+            <div class="modele-media">
+              <img src="/images/panneau-3.jpg" alt="Panneau fontaine de bienvenue « Mini Panneau » — Cascado Event" decoding="async" />
+            </div>
+            <div class="modele-corps">
+              <h3>Mini Panneau</h3>
+              <span class="modele-dim">1&nbsp;m&nbsp;×&nbsp;50&nbsp;cm</span>
+              <p>Un format compact et élégant, idéal pour apporter une touche lumineuse et personnalisée à votre événement. Parfait pour les petits espaces, les coins décoratifs, les buffets ou une mise en scène plus discrète mais raffinée.</p>
+              <a href="/contact?prestation=panneau-fontaine&amp;modele=mini-panneau" class="bouton">CHOISIR CE MODÈLE</a>
+            </div>
+          </article>
 
         </div>
 
+        <!-- Appel à l'action -->
+        <div class="panneaux-cta reveal">
+          <hr class="filet centre" />
+          <h2 class="panneaux-cta-titre">
+            Offrez à vos invités <span class="texte-or">une entrée inoubliable</span>
+          </h2>
+          <a href="/contact" class="bouton">Demander un devis</a>
+        </div>
       </div>
     </section>
+
+  <script src="/modeles-devis.js"></script>
+    <script>
+      /* Panneaux Fontaine — carrousel 3D (coverflow) sur téléphone uniquement.
+         PC / tablette : la grille reste inchangée. */
+      (function () {
+        var grille = document.querySelector(".galerie-panneaux");
+        if (!grille) return;
+        var cartes = Array.prototype.slice.call(grille.querySelectorAll(".modele"));
+        if (cartes.length < 3) return;
+
+        var mq = window.matchMedia("(max-width: 600px)");
+        var actif = 0;
+        var points = document.createElement("div");
+        points.className = "galerie-points";
+        var puces = cartes.map(function (_, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", "Voir le modèle " + (i + 1));
+          b.addEventListener("click", function () { actif = i; placer(); });
+          points.appendChild(b);
+          return b;
+        });
+
+        function placer() {
+          var n = cartes.length;
+          cartes.forEach(function (carte, i) {
+            var d = (i - actif + n) % n;
+            var pos = "pos-cachee";
+            if (d === 0) pos = "pos-centre";
+            else if (d === 1) pos = "pos-droite";
+            else if (d === n - 1) pos = "pos-gauche";
+            carte.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            carte.classList.add(pos);
+            carte.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+            carte.inert = d !== 0;
+          });
+          puces.forEach(function (p, i) { p.classList.toggle("actif", i === actif); });
+          egaliserHauteurs();
+        }
+
+        function egaliserHauteurs() {
+          cartes.forEach(function (carte) { carte.style.height = ""; });
+          var hauteur = Math.max.apply(null, cartes.map(function (carte) { return carte.offsetHeight; }));
+          cartes.forEach(function (carte) { carte.style.height = hauteur + "px"; });
+          grille.style.height = (hauteur + 14) + "px";
+        }
+
+        function aller(dir) {
+          actif = (actif + dir + cartes.length) % cartes.length;
+          placer();
+        }
+
+        var geste = null;
+        grille.addEventListener("pointerdown", function (e) {
+          if (!mq.matches) return;
+          geste = { x: e.clientX, y: e.clientY, id: e.pointerId, actif: false };
+        });
+        grille.addEventListener("pointermove", function (e) {
+          if (!geste || e.pointerId !== geste.id) return;
+          var dx = e.clientX - geste.x, dy = e.clientY - geste.y;
+          if (!geste.actif && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+            geste.actif = true;
+            try { grille.setPointerCapture(geste.id); } catch (err) {}
+          }
+          if (geste.actif) e.preventDefault();
+        }, { passive: false });
+        function finGeste(e) {
+          if (!geste || (e && e.pointerId !== geste.id)) return;
+          var dx = e ? e.clientX - geste.x : 0;
+          var etait = geste.actif;
+          geste = null;
+          if (etait && Math.abs(dx) > 40) aller(dx < 0 ? 1 : -1);
+        }
+        grille.addEventListener("pointerup", finGeste);
+        grille.addEventListener("pointercancel", finGeste);
+
+        function activer() {
+          grille.classList.add("est-carrousel");
+          if (!points.parentNode) grille.insertAdjacentElement("afterend", points);
+          actif = 0;
+          placer();
+        }
+        function desactiver() {
+          grille.classList.remove("est-carrousel");
+          if (points.parentNode) points.parentNode.removeChild(points);
+          cartes.forEach(function (c) {
+            c.classList.remove("pos-centre", "pos-gauche", "pos-droite", "pos-cachee");
+            c.removeAttribute("aria-hidden");
+            c.inert = false;
+            c.style.height = "";
+          });
+          grille.style.height = "";
+        }
+        function appliquer() { mq.matches ? activer() : desactiver(); }
+
+        if (document.fonts) document.fonts.ready.then(function () { if (mq.matches) placer(); });
+        appliquer();
+        if (mq.addEventListener) {
+          mq.addEventListener("change", function () { desactiver(); appliquer(); });
+        } else if (mq.addListener) {
+          mq.addListener(function () { desactiver(); appliquer(); });
+        }
+        window.addEventListener("resize", function () {
+          if (mq.matches) egaliserHauteurs();
+        });
+      })();
+    </script>
 
   </main>
 

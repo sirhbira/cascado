@@ -13,11 +13,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta property="og:site_name" content="Cascado Event" />
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/images/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Contact — Cascado Event</title>
   <meta name="description" content="Contactez Cascado Event pour votre mariage, anniversaire ou soirée d'entreprise. Devis personnalisé sous 24 h." />
+  <link rel="canonical" href="https://cascadoevent.fr/contact" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,6 +38,14 @@
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; } .devis-envoyer { display: none !important; }</style>
   </noscript>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGM8MF3BRY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HGM8MF3BRY');
+  </script>
 </head>
 
 <body>
@@ -49,7 +63,7 @@
 
   <header class="site-header">
     <div class="conteneur header-contenu">
-      <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
+      <a href="/" class="logo"><picture><source srcset="/images/logo-header.webp" type="image/webp" /><img class="header-logo-image" src="/images/logo-header.jpg" alt="" width="44" height="44" /></picture><span><span class="texte-or">Cascado</span> Event</span></a>
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>

@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<!-- Cascado Event — Galerie de photos et vidéos -->
+<!--
+  ============================================================
+  Cascado Event — PAGE PACKS (packs/index.html)
+  ------------------------------------------------------------
+  Deux formules côte à côte : Premium et Prestige.
+  Le Prestige est mis en avant (classe "prestige").
+  Complétez les listes « À REMPLIR » avec vos prestations
+  et remplacez « Sur devis » par vos tarifs si vous les affichez.
+  ============================================================
+-->
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta property="og:site_name" content="Cascado Event" />
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/images/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Galerie — Cascado Event</title>
-  <meta name="description" content="Découvrez en images les événements, décors et prestations Cascado Event." />
+  <title>Packs Premium &amp; Prestige — Cascado Event</title>
+  <meta name="description" content="Les formules Cascado Event : Premium et Prestige. Panneaux fontaine et photobooth réunis dans des packs clés en main." />
+  <link rel="canonical" href="https://cascadoevent.fr/packs" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,17 +32,24 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="/galerie/galerie.css" />
 
   <!-- Affichage garanti même si le JavaScript est désactivé -->
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGM8MF3BRY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HGM8MF3BRY');
+  </script>
 </head>
 
 <body>
 
-  <!-- EN-TÊTE COMMUN (classe "actif" sur Panneaux Fontaine) -->
+  <!-- EN-TÊTE COMMUN (classe "actif" sur Packs) -->
   <aside class="annonce-barre" aria-label="Les informations Cascado Event">
     <div class="annonce-contenu">
       <div class="annonce-messages" aria-live="off">
@@ -40,7 +62,7 @@
 
   <header class="site-header">
     <div class="conteneur header-contenu">
-      <a href="/" class="logo"><img class="header-logo-image" src="/images/logo.jpeg" alt="" width="44" height="44" /><span><span class="texte-or">Cascado</span> Event</span></a>
+      <a href="/" class="logo"><picture><source srcset="/images/logo-header.webp" type="image/webp" /><img class="header-logo-image" src="/images/logo-header.jpg" alt="" width="44" height="44" /></picture><span><span class="texte-or">Cascado</span> Event</span></a>
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
@@ -50,9 +72,9 @@
           <li><a href="/panneaux">Panneaux Fontaine</a></li>
           <li><a href="/photobooth">Photobooth</a></li>
           <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
-          <li><a href="/packs">Nos Packs</a></li>
+          <li><a href="/packs" class="actif">Nos Packs</a></li>
           <li><a href="/contact">Contact</a></li>
-          <li><a href="/galerie" class="actif" aria-current="page">Galerie</a></li>
+          <li><a href="/galerie">Galerie</a></li>
         </ul>
       </nav>
     </div>
@@ -63,44 +85,92 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
-        <li><a href="/packs">Nos Packs</a></li>
+        <li><a href="/packs" class="actif" aria-current="page">Nos Packs</a></li>
         <li><a href="/contact">Contact</a></li>
-        <li><a href="/galerie" class="actif" aria-current="page">Galerie</a></li>
+        <li><a href="/galerie">Galerie</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main class="galerie-page">
-<section class="page-entete"><div class="conteneur"><span class="surtitre">Instants Cascado Event</span><h1>Galerie</h1><hr class="filet centre" /><p>Des décors, des rencontres et des souvenirs à partager.</p></div></section>
-<section class="galerie-section" aria-label="Photos et vidéos de nos événements">
-<div class="galerie-fenetre" role="region" aria-roledescription="carrousel" aria-label="Galerie de photos et vidéos"><div class="galerie-ruban"><button class="galerie-photo" type="button" data-index="0" aria-label="Ouvrir la photo 1"><img src="/galerie/1.jpg" alt="Événement Cascado Event — photo 1" loading="eager" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="1" aria-label="Ouvrir la photo 2"><img src="/galerie/2.jpg" alt="Événement Cascado Event — photo 2" loading="eager" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="2" aria-label="Ouvrir la photo 3"><img src="/galerie/3.jpg" alt="Événement Cascado Event — photo 3" loading="eager" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="3" aria-label="Ouvrir la photo 4"><img src="/galerie/4.jpg" alt="Événement Cascado Event — photo 4" loading="eager" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="4" aria-label="Ouvrir la photo 5"><img src="/galerie/5.jpg" alt="Événement Cascado Event — photo 5" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="5" aria-label="Ouvrir la photo 6"><img src="/galerie/6.jpg" alt="Événement Cascado Event — photo 6" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="6" aria-label="Ouvrir la photo 7"><img src="/galerie/7.jpg" alt="Événement Cascado Event — photo 7" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="7" aria-label="Ouvrir la photo 8"><img src="/galerie/8.jpg" alt="Événement Cascado Event — photo 8" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="8" aria-label="Ouvrir la photo 9"><img src="/galerie/9.jpg" alt="Événement Cascado Event — photo 9" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="9" aria-label="Ouvrir la photo 10"><img src="/galerie/10.jpg" alt="Événement Cascado Event — photo 10" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="10" aria-label="Ouvrir la photo 11"><img src="/galerie/11.jpg" alt="Événement Cascado Event — photo 11" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo" type="button" data-index="11" aria-label="Ouvrir la photo 12"><img src="/galerie/12.jpg" alt="Événement Cascado Event — photo 12" loading="lazy" decoding="async" /></button>
-<button class="galerie-photo galerie-video" type="button" data-index="12" aria-label="Ouvrir la vidéo livre-dor"><video data-src="/videos/livre-dor.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — livre-dor"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="13" aria-label="Ouvrir la vidéo minicascado"><video data-src="/videos/minicascado.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — minicascado"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="14" aria-label="Ouvrir la vidéo panneau"><video data-src="/videos/panneau.MP4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — panneau"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="15" aria-label="Ouvrir la vidéo panneau2"><video data-src="/videos/panneau2.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — panneau2"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="16" aria-label="Ouvrir la vidéo photobooth"><video data-src="/videos/photobooth.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — photobooth"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="17" aria-label="Ouvrir la vidéo photobooth2"><video data-src="/videos/photobooth2.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — photobooth2"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="18" aria-label="Ouvrir la vidéo 1"><video data-src="/videos/1.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — 1"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="19" aria-label="Ouvrir la vidéo 2"><video data-src="/videos/2.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — 2"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="20" aria-label="Ouvrir la vidéo 3"><video data-src="/videos/3.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — 3"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button>
-<button class="galerie-photo galerie-video" type="button" data-index="21" aria-label="Ouvrir la vidéo 4"><video data-src="/videos/4.mp4" muted loop playsinline preload="none" aria-label="Vidéo Cascado Event — 4"></video><span class="galerie-video-badge" aria-hidden="true">▶ Vidéo</span></button></div></div>
-<div class="galerie-commandes"><button type="button" data-move="-1" aria-label="Photos précédentes">←</button><button type="button" id="galerie-pause" aria-label="Mettre le défilement en pause" aria-pressed="false">Pause</button><button type="button" data-move="1" aria-label="Photos suivantes">→</button></div>
-<p class="galerie-indication">Faites glisser les photos et vidéos. Cliquez pour les découvrir en grand.</p>
-</section>
-<dialog id="galerie-lightbox" aria-label="Photo ou vidéo en grand"><button type="button" class="lightbox-fermer" aria-label="Fermer le média">×</button><button type="button" class="lightbox-precedent" aria-label="Média précédent">←</button><figure><img id="lightbox-image" alt="" /><video id="lightbox-video" muted playsinline disablepictureinpicture disableremoteplayback preload="none" hidden></video><button id="lightbox-lecture" type="button" hidden>Pause</button><figcaption id="lightbox-legende" aria-live="polite"></figcaption></figure><button type="button" class="lightbox-suivant" aria-label="Média suivant">→</button></dialog>
-</main>
+  <main>
+
+    <!-- EN-TÊTE DE PAGE -->
+    <section class="page-entete">
+      <div class="conteneur">
+        <span class="surtitre">Formules</span>
+        <h1>Nos Packs</h1>
+        <hr class="filet centre" />
+        <p>
+          <!-- À REMPLIR : phrase d'introduction sur vos formules -->
+          Deux formules clés en main, pensées pour s'adapter à l'ampleur de votre
+          événement. Devis personnalisé sous 48&nbsp;h.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- LES DEUX PACKS -->
+    <section class="section">
+      <div class="conteneur">
+        <div class="entete-section reveal">
+          <span class="surtitre">NOS FORMULES</span>
+          <h2 class="section-titre">Choisissez le pack qui sublimera votre événement</h2>
+          <hr class="filet centre" />
+        </div>
+        <div class="packs-grille reveal">
+
+          <!-- ============ PACK PREMIUM ============ -->
+          <div class="pack">
+            <h3 class="pack-nom">Premium</h3>
+            <p class="pack-accroche">
+              Composez votre expérience : choisissez 2 prestations parmi nos
+              3 incontournables.
+            </p>
+            <div class="pack-prix">
+              Sur devis
+            </div>
+
+            <p class="pack-choix">2 prestations au choix parmi 3</p>
+            <ul class="pack-liste">
+              <li>Panneau fontaine</li>
+              <li>Photobooth avec photos illimitées</li>
+              <li>Livre d’or vidéo</li>
+            </ul>
+
+            <a href="/contact" class="bouton fantome">Choisir Premium</a>
+          </div>
+
+
+          <!-- ============ PACK PRESTIGE (mis en avant) ============ -->
+          <div class="pack prestige">
+            <span class="pack-badge">L'offre supérieure</span>
+            <h3 class="pack-nom">Prestige</h3>
+            <p class="pack-accroche">
+              L’expérience Cascado Event la plus complète, pensée pour un
+              événement sans compromis.
+            </p>
+            <div class="pack-prix">
+              Sur devis
+            </div>
+
+            <p class="pack-choix">Toutes les prestations incluses + 1 avantage offert</p>
+            <ul class="pack-liste">
+              <li>Panneau fontaine</li>
+              <li>Photobooth avec photos illimitées</li>
+              <li>Livre d’or vidéo</li>
+              <li class="pack-plus">Au choix : mur floral offert ou mini-cascade offerte</li>
+            </ul>
+
+            <a href="/contact" class="bouton">Choisir Prestige</a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
 
 
   <!-- PIED DE PAGE COMMUN -->
@@ -235,6 +305,5 @@
 
   <script src="/script.js"></script>
   <script src="/announcement.js"></script>
-  <script src="/galerie/galerie.js"></script>
 </body>
 </html>

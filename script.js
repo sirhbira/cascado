@@ -7,6 +7,10 @@
      3. Apparition douce des sections au défilement (une seule fois)
      4. Vignettes vidéo cliquables -> ouverture dans une fenêtre légère
      5. Formulaire de contact (validation + envoi par email)
+     6. Carrousel des packs (mobile)
+     7. Suivi Google Ads / Analytics (clics devis, WhatsApp, téléphone,
+        choix de modèle) — l'envoi réussi du devis est suivi séparément
+        dans contact/devis.js, au moment réel de la confirmation.
    ------------------------------------------------------------
    Le script est chargé en fin de page (voir la balise <script>).
    ============================================================ */
@@ -334,5 +338,117 @@ document.addEventListener("DOMContentLoaded", function () {
       mq.addListener(appliquer);
     }
   });
+
+
+  /* --------------------------------------------------------
+     7. SUIVI GOOGLE ADS / ANALYTICS (clics)
+     --------------------------------------------------------
+     Un seul écouteur délégué, déclenché uniquement par un clic
+     réel (jamais au chargement de la page). Chaque branche fait
+     un "return" : un même clic ne peut jamais déclencher deux
+     événements. L'envoi réussi du devis est suivi séparément,
+     dans contact/devis.js, au moment réel de la confirmation.
+     -------------------------------------------------------- */
+  document.addEventListener("click", function (e) {
+    if (typeof window.gtag !== "function") return;
+
+    const lien = e.target.closest("a");
+    if (!lien) return;
+
+    const href = lien.getAttribute("href") || "";
+
+    if (lien.classList.contains("wa-flottant") || href.indexOf("wa.me") !== -1) {
+      window.gtag("event", "click_whatsapp");
+      return;
+    }
+
+    if (href.indexOf("tel:") === 0) {
+      window.gtag("event", "click_phone");
+      return;
+    }
+
+    const texte = (lien.textContent || "").trim().toLowerCase();
+
+    if (texte.indexOf("devis") !== -1) {
+      window.gtag("event", "generate_lead");
+      return;
+    }
+
+    if (texte.indexOf("choisir") !== -1) {
+      window.gtag("event", "click_choose_model");
+    }
+  });
+
+
+  /* --------------------------------------------------------
+     8. PRÉCHARGEMENT ANTICIPÉ DES IMAGES EN LAZY-LOADING
+     --------------------------------------------------------
+     Le lazy-loading natif ne déclenche le chargement que très
+     près du viewport : lors d'un scroll rapide sur desktop, on
+     voit un court instant le fond de la carte avant l'image.
+
+     Ici on garde loading="lazy" dans le HTML (bon pour mobile /
+     Lighthouse / LCP), mais on « pré-arme » ces images bien
+     avant qu'elles n'entrent à l'écran grâce à un
+     IntersectionObserver avec une large marge verticale.
+     Résultat : au scroll normal ou rapide, l'image est déjà
+     décodée quand la carte devient visible — plus de flash noir.
+
+     On n'ajoute AUCUNE animation : seul le moment du chargement
+     change, jamais le rendu, les dimensions ni le cadrage.
+     -------------------------------------------------------- */
+  (function () {
+    // Marge d'anticipation : on lance le chargement environ un écran
+    // et demi avant que l'image n'entre dans le viewport. Assez large
+    // pour absorber un scroll rapide sur desktop, sans pour autant
+    // tout charger d'un coup (les images vraiment lointaines restent
+    // différées jusqu'à l'approche du viewport).
+    var MARGE = "1200px 0px";
+
+    // On ne touche pas aux galeries à défilement horizontal : leurs
+    // vignettes gèrent déjà leur propre chargement et un préchargement
+    // massif y serait contre-productif.
+    function estExclue(img) {
+      return !!img.closest(".galerie-fenetre, [data-no-preload]");
+    }
+
+    function precharger(img) {
+      // Bascule en chargement immédiat : les navigateurs relancent
+      // l'algorithme de chargement quand l'attribut passe de
+      // "lazy" à "eager" sur une image encore différée.
+      img.loading = "eager";
+      if ("fetchPriority" in img && !img.getAttribute("fetchpriority")) {
+        img.fetchPriority = "low";
+      }
+      if (typeof img.decode === "function") {
+        img.decode().catch(function () {});
+      }
+    }
+
+    var images = Array.prototype.filter.call(
+      document.querySelectorAll('img[loading="lazy"]'),
+      function (img) { return !estExclue(img); }
+    );
+    if (!images.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      // Pas d'observer : le lazy-loading natif prend le relais.
+      return;
+    }
+
+    var observateur = new IntersectionObserver(
+      function (entrees) {
+        entrees.forEach(function (entree) {
+          if (entree.isIntersecting) {
+            precharger(entree.target);
+            observateur.unobserve(entree.target);
+          }
+        });
+      },
+      { rootMargin: MARGE }
+    );
+
+    images.forEach(function (img) { observateur.observe(img); });
+  })();
 
 });
