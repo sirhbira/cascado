@@ -58,15 +58,21 @@
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="menu-nav" id="menu-nav">
+      <nav class="menu-nav" id="menu-nav" aria-label="Navigation principale">
         <ul>
           <li><a href="/">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth">Photobooth</a></li>
-          <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+          <li class="menu-deroulant">
+            <button type="button" class="menu-deroulant-bouton" aria-expanded="false" aria-controls="menu-prestations">Nos prestations <span class="menu-chevron" aria-hidden="true"></span></button>
+            <ul class="sous-menu" id="menu-prestations">
+              <li><a href="/panneaux">Panneaux Fontaine</a></li>
+              <li><a href="/photobooth">Photobooth</a></li>
+              <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+              <li><a href="/magazine-box">Magazine Box</a></li>
+            </ul>
+          </li>
           <li><a href="/packs">Nos Packs</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/galerie" class="actif" aria-current="page">Galerie</a></li>
+          <li><a href="/contact">Contact / Devis</a></li>
         </ul>
       </nav>
     </div>
@@ -77,9 +83,10 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+        <li><a href="/magazine-box">Magazine Box</a></li>
         <li><a href="/packs">Nos Packs</a></li>
-        <li><a href="/contact">Contact</a></li>
         <li><a href="/galerie" class="actif" aria-current="page">Galerie</a></li>
+        <li><a href="/contact">Contact / Devis</a></li>
       </ul>
     </nav>
   </header>
@@ -88,6 +95,12 @@
   <main class="galerie-page">
 <section class="page-entete"><div class="conteneur"><span class="surtitre">Instants Cascado Event</span><h1>Galerie</h1><hr class="filet centre" /><p>Des décors, des rencontres et des souvenirs à partager.</p></div></section>
 <section class="galerie-section" aria-label="Photos et vidéos de nos événements">
+<!-- MAGAZINE BOX — emplacement prévu pour les futures photos.
+     1. Déposer les fichiers dans /galerie (ex. magazine-box-1.jpg, idéalement < 300 Ko).
+     2. Ajouter un bouton par photo dans .galerie-ruban, à la suite des photos et avant les vidéos :
+        <button class="galerie-photo" type="button" data-index="0" aria-label="Ouvrir la photo Magazine Box 1"><img src="/galerie/magazine-box-1.jpg" alt="Magazine Box Cascado Event — photo 1" loading="lazy" decoding="async" /></button>
+     data-index est recalculé automatiquement (galerie.js) : défilement, agrandissement et navigation
+     s'adaptent seuls au nombre de médias. Aucun média n'est inventé ici. -->
 <div class="galerie-fenetre" role="region" aria-roledescription="carrousel" aria-label="Galerie de photos et vidéos"><div class="galerie-ruban"><button class="galerie-photo" type="button" data-index="0" aria-label="Ouvrir la photo 1"><img src="/galerie/1.jpg" alt="Événement Cascado Event — photo 1" loading="eager" decoding="async" /></button>
 <button class="galerie-photo" type="button" data-index="1" aria-label="Ouvrir la photo 2"><img src="/galerie/2.jpg" alt="Événement Cascado Event — photo 2" loading="eager" decoding="async" /></button>
 <button class="galerie-photo" type="button" data-index="2" aria-label="Ouvrir la photo 3"><img src="/galerie/3.jpg" alt="Événement Cascado Event — photo 3" loading="eager" decoding="async" /></button>
@@ -127,7 +140,7 @@
           <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
           <p>
             Prestations événementielles haut de gamme : panneaux fontaine
-            lumineux, photobooths et livre d’or vidéo.
+            lumineux, photobooths, livre d’or vidéo et Magazine Box.
           </p>
           <p>
             Intervention en région Centre, Île-de-France et alentours pour
@@ -143,6 +156,7 @@
             <li><a href="/panneaux">Panneaux Fontaine</a></li>
             <li><a href="/photobooth">Photobooth</a></li>
             <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/magazine-box">Magazine Box</a></li>
             <li><a href="/packs">Nos Packs</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/galerie">Galerie</a></li>

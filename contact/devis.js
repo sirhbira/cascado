@@ -16,8 +16,39 @@
   const checked = name => [...form.querySelectorAll(`input[name="${name}"]:checked`)].filter(el => !el.matches(':disabled'));
   const selection = name => checked(name).map(el => el.value);
   const value = id => $(id).value.trim();
+  // Règles des prestations et des packs : prestations-config.js.
+  const config = window.CascadoConfig;
+  const PREMIUM = config.packs.premium, PRESTIGE = config.packs.prestige;
+  const parNom = Object.fromEntries(config.prestations.map(p => [p.nom, p]));
   // Packs : choix unique. Prestations individuelles : cumulables (cases à cocher).
   const formule = () => { const choix = selection('formule'); return choix[0]?.startsWith('Pack ') ? choix[0] : choix.join(' + '); };
+  const optionPrestige = () => selection('option_prestige')[0] === 'Oui';
+
+  // Prestations réellement demandées, dans l'ordre d'affichage. `option` : ajoutée au Prestige.
+  function services() {
+    const type = selection('formule')[0];
+    if (type === PRESTIGE.nom) {
+      const list = PRESTIGE.inclus.map(nom => ({ nom }));
+      if (optionPrestige()) list.push({ nom: PRESTIGE.option, option: true });
+      return list;
+    }
+    return (type === PREMIUM.nom ? selection('prestations_premium') : selection('formule')).map(nom => ({ nom }));
+  }
+
+  // Titre et détails d'une prestation, communs au récapitulatif et à l'e-mail.
+  const titre = service => `✓ ${service.nom}${service.option ? ' — en option, tarif préférentiel' : ''}`;
+  function details(service, type) {
+    const prestation = parNom[service.nom] || {};
+    const lines = [];
+    const model = prestation.champModele && selection(prestation.champModele)[0];
+    if (model) lines.push(`Modèle : ${model}`);
+    if (service.nom === 'Photobooth' && type !== PRESTIGE.nom) {
+      const floral = selection('mur_floral')[0];
+      lines.push(`Mur floral : ${floral || 'À préciser'}${floral === 'Oui' ? ' (en supplément)' : ''}`);
+    }
+    if (prestation.champPersonnalisation && value(prestation.champPersonnalisation)) lines.push(`Personnalisation : ${value(prestation.champPersonnalisation)}`);
+    return lines;
+  }
   let step = 0;
   let submitting = false;
   form.noValidate = true;
@@ -30,7 +61,7 @@
   }
   $('date_evenement').min = today();
 
-  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', livre: 'Modèle', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
+  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', livre: 'Modèle', magazine: 'Magazine Box', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
   function showStep(target, focus = true) {
     step = target;
     steps.forEach(el => { el.hidden = el !== route[step]; });
@@ -95,29 +126,38 @@
   function configure() {
     const type = selection('formule')[0];
     const premium = $('option-premium');
-    premium.hidden = type !== 'Pack Premium';
+    premium.hidden = type !== PREMIUM.nom;
     premium.disabled = premium.hidden;
     if (premium.hidden) premium.querySelectorAll('input').forEach(el => { el.checked = false; el.disabled = false; });
     const count = selection('prestations_premium').length;
-    premium.querySelectorAll('input').forEach(el => { el.disabled = count === 2 && !el.checked; });
-    $('premium-compteur').textContent = `${count} / 2 prestations sélectionnées`;
-    $('option-prestige').hidden = type !== 'Pack Prestige';
-    const included = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
-    const hasPanel = included.includes('Panneau Fontaine'), hasBooth = included.includes('Photobooth');
-    const enabled = { panneau: hasPanel, photobooth: hasBooth, livre: included.includes('Livre d’or vidéo') || included.includes('Livre d’or audio-vidéo'), floral: hasBooth && type !== 'Pack Prestige', avantage: type === 'Pack Prestige' };
+    premium.querySelectorAll('input').forEach(el => { el.disabled = count === PREMIUM.nombre && !el.checked; });
+    $('premium-compteur').textContent = `${count} / ${PREMIUM.nombre} prestations sélectionnées`;
+    $('option-prestige').hidden = type !== PRESTIGE.nom;
+    // L'option n'existe qu'avec le Prestige : réinitialisée dès qu'on change de formule.
+    const option = $('option-prestige-choix');
+    option.disabled = type !== PRESTIGE.nom;
+    if (option.disabled) option.querySelectorAll('input').forEach(el => { el.checked = false; });
+    const included = services().map(service => service.nom);
+    const enabled = { floral: included.includes('Photobooth') && type !== PRESTIGE.nom, avantage: type === PRESTIGE.nom };
+    config.prestations.forEach(prestation => { enabled[prestation.etape] = included.includes(prestation.nom); });
     steps.forEach(el => {
       if (!(el.dataset.step in enabled)) return;
       const available = enabled[el.dataset.step];
-      el.querySelectorAll('input').forEach(input => {
+      // Une prestation retirée efface ses choix : ils ne sont jamais envoyés.
+      el.querySelectorAll('input, textarea').forEach(input => {
         input.disabled = !available || unavailable.has(input);
-        if (input.disabled) { input.checked = false; error(input.name, ''); }
+        if (input.disabled) { input.checked = false; if (input.tagName === 'TEXTAREA') input.value = ''; error(input.name, ''); }
       });
     });
     $('prestations_incluses').disabled = !type;
-    $('prestations_incluses').value = included.filter(Boolean).join(' ; ');
+    $('prestations_incluses').value = included.join(' ; ');
     route = steps.filter(el => !(el.dataset.step in enabled) || enabled[el.dataset.step]);
     showStep(Math.min(step, route.length - 1), false);
   }
+
+  // Choix obligatoires par étape : modèles depuis la configuration, puis options.
+  const groups = { floral: ['mur_floral', 'Choisissez Oui ou Non.'], avantage: ['avantage_offert', 'Choisissez votre avantage offert.'] };
+  config.prestations.forEach(p => { if (p.champModele) groups[p.etape] = [p.champModele, p.messageModele]; });
 
   function validate(index, report = true) {
     const key = route[index].dataset.step;
@@ -129,9 +169,8 @@
     if (key === '0') {
       const type = selection('formule')[0];
       check('formule', type ? '' : 'Choisissez la prestation qui vous intéresse.');
-      if (type === 'Pack Premium') check('prestations_premium', selection('prestations_premium').length === 2 ? '' : 'Sélectionnez exactement 2 prestations.');
+      if (type === PREMIUM.nom) check('prestations_premium', selection('prestations_premium').length === PREMIUM.nombre ? '' : `Sélectionnez exactement ${PREMIUM.nombre} prestations.`);
     }
-    const groups = { panneau: ['modele_panneau', 'Choisissez un modèle de panneau.'], photobooth: ['modele_photobooth', 'Choisissez un modèle de photobooth.'], livre: ['modele_livre', 'Choisissez un modèle de livre d’or vidéo.'], floral: ['mur_floral', 'Choisissez Oui ou Non.'], avantage: ['avantage_offert', 'Choisissez votre avantage offert.'] };
     if (groups[key]) { const [name, message] = groups[key]; check(name, selection(name).length === 1 ? '' : message); }
     if (key === '1') {
       check('ville', value('ville').length >= 2 ? '' : 'Indiquez la ville de votre événement.');
@@ -152,16 +191,14 @@
   function summary() {
     const type = selection('formule')[0];
     const rows = [['Prestation', formule() || 'À sélectionner']];
-    const services = type === 'Pack Prestige' ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo'] : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
-    if (type === 'Pack Premium') rows.push(['Pack Premium', '2 prestations au choix parmi 3']);
-    services.forEach(service => {
-      let detail = `✓ ${service}`;
-      const model = service === 'Panneau Fontaine' ? selection('modele_panneau')[0] : service === 'Photobooth' ? selection('modele_photobooth')[0] : service === 'Livre d’or vidéo' || service === 'Livre d’or audio-vidéo' ? selection('modele_livre')[0] : null;
-      if (model) detail += `\n→ Modèle : ${model}`;
-      if (service === 'Photobooth' && type !== 'Pack Prestige') detail += `\n→ Mur floral : ${selection('mur_floral')[0] || 'À préciser'}${selection('mur_floral')[0] === 'Oui' ? ' (en supplément)' : ''}`;
-      rows.push(['Prestation choisie', detail]);
+    if (type === PREMIUM.nom) rows.push([PREMIUM.nom, `${PREMIUM.nombre} prestations au choix parmi ${PREMIUM.choix.length}`]);
+    services().forEach(service => {
+      rows.push(['Prestation choisie', [titre(service), ...details(service, type).map(line => `→ ${line}`)].join('\n')]);
     });
-    if (type === 'Pack Prestige') rows.push(['Avantage offert', selection('avantage_offert')[0] || 'À sélectionner']);
+    if (type === PRESTIGE.nom) {
+      rows.push(['Avantage offert', selection('avantage_offert')[0] || 'À sélectionner']);
+      rows.push([`Option ${PRESTIGE.option}`, optionPrestige() ? 'Oui — ajouté à tarif préférentiel' : 'Non']);
+    }
     rows.push(['Ville', value('ville') || 'À renseigner']);
     if (value('lieu')) rows.push(['Lieu de réception', value('lieu')]);
     rows.push(['Date', value('date_evenement') ? value('date_evenement').split('-').reverse().join('/') : 'À renseigner'], ['Invités', value('invites') ? `${value('invites')} invités` : 'À renseigner']);
@@ -181,32 +218,15 @@
     const date = value('date_evenement').split('-').reverse().join('/');
     const client = `${value('prenom')} ${value('nom')}`.replace(/[\r\n]+/g, ' ');
     const requestId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    const services = type === 'Pack Prestige'
-      ? ['Panneau Fontaine', 'Photobooth', 'Livre d’or vidéo']
-      : type === 'Pack Premium' ? selection('prestations_premium') : selection('formule');
-    const models = {
-      'Panneau Fontaine': 'modele_panneau',
-      Photobooth: 'modele_photobooth',
-      'Livre d’or vidéo': 'modele_livre',
-      'Livre d’or audio-vidéo': 'modele_livre'
-    };
-    const prestations = services.map(service => {
-      const lines = [`✓ ${service}`];
-      const model = models[service] && selection(models[service])[0];
-      if (model) lines.push(`Modèle : ${model}`);
-      if (service === 'Photobooth' && type !== 'Pack Prestige') {
-        const floral = selection('mur_floral')[0];
-        lines.push(`Mur floral : ${floral}${floral === 'Oui' ? ' (en supplément)' : ''}`);
-      }
-      return lines.join('\n');
-    }).join('\n\n');
+    const prestations = services().map(service => [titre(service), ...details(service, type)].join('\n')).join('\n\n');
 
     // Lien WhatsApp : 06 12 34 56 78 → 33612345678, +33 / 0033 sans double 33.
     const whatsappNumber = value('telephone').replace(/[\s.()\-]/g, '').replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '33');
     const [year, month, day] = value('date_evenement').split('-').map(Number);
     const whatsappDate = new Date(year, month - 1, day).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-    // Pack : son nom seul. Prestations individuelles : « A, B et C ».
-    const whatsappServices = type.startsWith('Pack ') ? type : new Intl.ListFormat('fr', { type: 'conjunction' }).format(selection('formule'));
+    // Pack : son nom (et l'option du Prestige si ajoutée). Prestations individuelles : « A, B et C ».
+    const whatsappServices = type === PRESTIGE.nom && optionPrestige() ? `${type} avec l’option ${PRESTIGE.option}`
+      : type.startsWith('Pack ') ? type : new Intl.ListFormat('fr', { type: 'conjunction' }).format(selection('formule'));
     const whatsappMessage = `Bonjour, j’espère que vous allez bien 😊\n\nJe viens vers vous suite à votre demande de devis pour votre événement du ${whatsappDate} à ${value('lieu') || value('ville')}.\n\nVous avez manifesté votre intérêt pour : ${whatsappServices}.`;
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -231,7 +251,10 @@
       'Formule choisie': formule(),
       Prestations: prestations
     };
-    if (type === 'Pack Prestige') payload['Avantage offert'] = selection('avantage_offert')[0];
+    if (type === PRESTIGE.nom) {
+      payload['Avantage offert'] = selection('avantage_offert')[0];
+      payload[`Option ${PRESTIGE.option}`] = optionPrestige() ? 'Oui — ajouté à tarif préférentiel' : 'Non';
+    }
     payload['Message du client'] = value('message') || 'Aucun message';
     // Adresse de réponse uniquement, sans seconde ligne visible dans le mail.
     if (value('email')) payload._replyto = value('email');
@@ -255,7 +278,7 @@
       });
     }
     // Sur téléphone, un choix de modèle ne reconstruit pas toutes les étapes.
-    if (choice && (!mobile.matches || e.target.name === 'formule' || e.target.name === 'prestations_premium')) configure();
+    if (choice && (!mobile.matches || ['formule', 'prestations_premium', 'option_prestige'].includes(e.target.name))) configure();
     if ($(`erreur-${e.target.name}`)?.textContent) validate(step);
     summary();
     updateNextButton();
@@ -327,20 +350,15 @@
     updateNextButton();
   });
   // Présélection unique à l'ouverture : les choix restent ensuite libres.
+  // ?prestation=<id de prestations-config.js>[&modele=<slug>]
   const params = new URLSearchParams(window.location.search);
-  const services = {
-    'panneau-fontaine': ['Panneau Fontaine', 'modele_panneau'],
-    photobooth: ['Photobooth', 'modele_photobooth'],
-    'livre-or-video': ['Livre d’or vidéo', 'modele_livre']
-  };
-  const requested = services[params.get('prestation')];
-  if (Array.isArray(requested)) {
-    const [service, group] = requested;
-    const radio = [...form.querySelectorAll('input[name="formule"]')].find(input => input.value === service && !input.matches(':disabled'));
-    if (radio) {
-      radio.checked = true;
+  const requested = config.prestations.find(prestation => prestation.id === params.get('prestation'));
+  if (requested) {
+    const choice = [...form.querySelectorAll('input[name="formule"]')].find(input => input.value === requested.nom && !input.matches(':disabled'));
+    if (choice) {
+      choice.checked = true;
       configure();
-      const model = [...form.querySelectorAll(`input[name="${group}"]`)].find(input =>
+      const model = requested.champModele && [...form.querySelectorAll(`input[name="${requested.champModele}"]`)].find(input =>
         !input.matches(':disabled') &&
         (input.dataset.modele || window.CascadoModeles.slug(input.value)) === params.get('modele'));
       if (model) model.checked = true;

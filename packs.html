@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Packs Premium &amp; Prestige — Cascado Event</title>
-  <meta name="description" content="Les formules Cascado Event : Premium et Prestige. Panneaux fontaine et photobooth réunis dans des packs clés en main." />
+  <meta name="description" content="Les formules Cascado Event : Pack Premium, 2 prestations au choix parmi 4, et Pack Prestige, panneau fontaine, photobooth et livre d’or vidéo avec le Magazine Box en option." />
   <link rel="canonical" href="https://cascadoevent.fr/packs" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,15 +66,21 @@
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="menu-nav" id="menu-nav">
+      <nav class="menu-nav" id="menu-nav" aria-label="Navigation principale">
         <ul>
           <li><a href="/">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth">Photobooth</a></li>
-          <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
-          <li><a href="/packs" class="actif">Nos Packs</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li class="menu-deroulant">
+            <button type="button" class="menu-deroulant-bouton" aria-expanded="false" aria-controls="menu-prestations">Nos prestations <span class="menu-chevron" aria-hidden="true"></span></button>
+            <ul class="sous-menu" id="menu-prestations">
+              <li><a href="/panneaux">Panneaux Fontaine</a></li>
+              <li><a href="/photobooth">Photobooth</a></li>
+              <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+              <li><a href="/magazine-box">Magazine Box</a></li>
+            </ul>
+          </li>
+          <li><a href="/packs" class="actif" aria-current="page">Nos Packs</a></li>
           <li><a href="/galerie">Galerie</a></li>
+          <li><a href="/contact">Contact / Devis</a></li>
         </ul>
       </nav>
     </div>
@@ -85,9 +91,10 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+        <li><a href="/magazine-box">Magazine Box</a></li>
         <li><a href="/packs" class="actif" aria-current="page">Nos Packs</a></li>
-        <li><a href="/contact">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/contact">Contact / Devis</a></li>
       </ul>
     </nav>
   </header>
@@ -125,17 +132,18 @@
             <h3 class="pack-nom">Premium</h3>
             <p class="pack-accroche">
               Composez votre expérience : choisissez 2 prestations parmi nos
-              3 incontournables.
+              4 incontournables.
             </p>
-            <div class="pack-prix">
+            <div class="pack-prix" data-prix="premium">
               Sur devis
             </div>
 
-            <p class="pack-choix">2 prestations au choix parmi 3</p>
+            <p class="pack-choix">2 prestations au choix parmi 4</p>
             <ul class="pack-liste">
               <li>Panneau fontaine</li>
               <li>Photobooth avec photos illimitées</li>
               <li>Livre d’or vidéo</li>
+              <li>Magazine Box</li>
             </ul>
 
             <a href="/contact" class="bouton fantome">Choisir Premium</a>
@@ -150,16 +158,17 @@
               L’expérience Cascado Event la plus complète, pensée pour un
               événement sans compromis.
             </p>
-            <div class="pack-prix">
+            <div class="pack-prix" data-prix="prestige">
               Sur devis
             </div>
 
-            <p class="pack-choix">Toutes les prestations incluses + 1 avantage offert</p>
+            <p class="pack-choix">3 prestations incluses + 1 avantage offert</p>
             <ul class="pack-liste">
               <li>Panneau fontaine</li>
               <li>Photobooth avec photos illimitées</li>
               <li>Livre d’or vidéo</li>
               <li class="pack-plus">Au choix : mur floral offert ou mini-cascade offerte</li>
+              <li class="pack-option">En option : Magazine Box à tarif préférentiel <span class="pack-option-prix" data-prix="option-magazine-prestige" data-prix-reference="magazine-box"></span></li>
             </ul>
 
             <a href="/contact" class="bouton">Choisir Prestige</a>
@@ -183,7 +192,7 @@
           <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
           <p>
             Prestations événementielles haut de gamme : panneaux fontaine
-            lumineux, photobooths et livre d’or vidéo.
+            lumineux, photobooths, livre d’or vidéo et Magazine Box.
           </p>
           <p>
             Intervention en région Centre, Île-de-France et alentours pour
@@ -199,6 +208,7 @@
             <li><a href="/panneaux">Panneaux Fontaine</a></li>
             <li><a href="/photobooth">Photobooth</a></li>
             <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/magazine-box">Magazine Box</a></li>
             <li><a href="/packs">Nos Packs</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/galerie">Galerie</a></li>
@@ -303,6 +313,7 @@
     <span class="wa-texte">Réservation via WhatsApp</span>
   </a>
 
+  <script src="/prestations-config.js"></script>
   <script src="/script.js"></script>
   <script src="/announcement.js"></script>
 </body>

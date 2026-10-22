@@ -3,8 +3,15 @@
   if (!carrousel) return;
   const piste = carrousel.querySelector(".univers-grille");
   const cartes = Array.from(piste.querySelectorAll(".univers-carte"));
-  const points = Array.from(carrousel.querySelectorAll("[data-carte]"));
   const statut = carrousel.querySelector(".prestations-statut");
+  // Un point par carte, généré depuis le HTML : ajouter une carte suffit.
+  const points = cartes.map(function (carte) {
+    const point = document.createElement("button");
+    point.type = "button";
+    point.setAttribute("aria-label", "Afficher " + carte.querySelector("h3").textContent);
+    carrousel.querySelector(".prestations-points").appendChild(point);
+    return point;
+  });
   let active = 0;
   let depart = null;
   let glissement = false;
@@ -12,10 +19,16 @@
   function afficher(index) {
     active = (index + cartes.length) % cartes.length;
     cartes.forEach(function (carte, i) {
+      // Centre, voisine de droite, voisine de gauche ; les autres attendent derrière.
       const position = (i - active + cartes.length) % cartes.length;
+      const droite = position === 1;
+      const gauche = !droite && position === cartes.length - 1;
+      const arriere = position !== 0 && !droite && !gauche;
       carte.classList.toggle("carte-centre", position === 0);
-      carte.classList.toggle("carte-droite", position === 1);
-      carte.classList.toggle("carte-gauche", position === 2);
+      carte.classList.toggle("carte-droite", droite);
+      carte.classList.toggle("carte-gauche", gauche);
+      carte.classList.toggle("carte-arriere", arriere);
+      carte.toggleAttribute("aria-hidden", arriere);
       carte.tabIndex = position === 0 ? 0 : -1;
     });
     points.forEach(function (point, i) { point.setAttribute("aria-pressed", String(i === active)); });
@@ -37,8 +50,8 @@
   carrousel.querySelectorAll("[data-direction]").forEach(function (bouton) {
     bouton.addEventListener("click", function () { afficher(active + Number(bouton.dataset.direction)); });
   });
-  points.forEach(function (point) {
-    point.addEventListener("click", function () { afficher(Number(point.dataset.carte)); });
+  points.forEach(function (point, i) {
+    point.addEventListener("click", function () { afficher(i); });
   });
   carrousel.addEventListener("keydown", function (event) {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;

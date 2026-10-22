@@ -13,11 +13,15 @@ Direction artistique : luxe & doré, noir profond, épuré.
 
 ```
 cascadoevent/
-├── index.html          Accueil : hero vidéo, présentation, les 2 univers, aperçu des packs
-├── panneaux/index.html    Galerie des modèles de panneaux fontaine
-├── photobooth/index.html  Galerie des modèles de photobooth
-├── packs/index.html       Formules Premium & Prestige (grille tarifaire)
-├── contact/index.html     Formulaire + coordonnées
+├── index.html          Accueil : hero vidéo, carrousel des 4 prestations, aperçu des packs, FAQ
+├── panneaux.html       Galerie des modèles de panneaux fontaine
+├── photobooth.html     Galerie des modèles de photobooth
+├── livre-or-video.html Modèles de livre d’or vidéo
+├── magazine-box.html   Présentation du Magazine Box
+├── packs.html          Formules Premium & Prestige (grille tarifaire)
+├── contact.html        Formulaire de devis (contact/devis.js) + coordonnées
+├── galerie.html        Galerie photos et vidéos
+├── prestations-config.js  Configuration centrale : prestations, règles des packs, tarifs
 ├── googlea36a95fb7b4e8ce5.html  Vérification Google (inchangée)
 ├── CNAME               Domaine personnalisé cascadoevent.fr
 ├── style.css           Feuille de style partagée (toutes les pages)
@@ -29,7 +33,20 @@ cascadoevent/
 
 L'en-tête et le pied de page sont **recopiés à l'identique** dans chaque page
 HTML (pas de build, donc pas d'inclusion automatique). Si vous modifiez la
-navigation, répercutez le changement dans les 5 fichiers `.html`.
+navigation, répercutez le changement dans les 8 pages `.html` (menu « Nos
+prestations », sous-navigation mobile et liens utiles du pied de page).
+
+### Prestations, packs et tarifs (`prestations-config.js`)
+
+- **Règles du formulaire de devis** : liste des prestations, étape et champ de
+  modèle de chacune, Pack Premium (2 au choix parmi 4), Pack Prestige
+  (3 incluses + Magazine Box en option à tarif préférentiel).
+- **Tarifs** : prévus mais non publiés (`afficher: false` → « Sur devis »).
+  Passer `afficher` à `true` remplace les éléments `[data-prix]` des pages
+  Accueil, Packs et Contact par les montants configurés.
+- **Ajouter une prestation** : une entrée dans `prestations`, puis sa carte dans
+  le formulaire (`contact.html`), le carrousel de l'accueil (les points de
+  navigation se génèrent seuls), le menu et le pied de page.
 
 ## Ouvrir le site en local
 

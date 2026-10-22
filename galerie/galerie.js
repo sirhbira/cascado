@@ -2,6 +2,8 @@
   const viewport = document.querySelector('.galerie-fenetre');
   const track = document.querySelector('.galerie-ruban');
   const originals = [...track.children];
+  // L'index suit l'ordre du HTML : un média ajouté n'oblige pas à renuméroter les autres.
+  originals.forEach((el, i) => { el.dataset.index = i; });
   const dialog = document.getElementById('galerie-lightbox');
   const image = document.getElementById('lightbox-image');
   const player = document.getElementById('lightbox-video');

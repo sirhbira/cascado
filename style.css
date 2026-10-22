@@ -449,6 +449,133 @@ a.annonce-message { color: var(--or); }
   transform: scaleX(1);
 }
 
+/* Menu déroulant « Nos prestations » : survol, clic et clavier (script.js) */
+.menu-deroulant {
+  position: relative;
+}
+
+.menu-deroulant-bouton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--texte-doux);
+  transition: color var(--transition);
+}
+
+/* Même filet doré que les liens du menu */
+.menu-deroulant-bouton::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--or-degrade);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.menu-chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--transition);
+}
+
+.menu-deroulant-bouton:hover,
+.menu-deroulant-bouton.actif,
+.menu-deroulant.est-ouvert .menu-deroulant-bouton {
+  color: var(--champagne);
+}
+
+.menu-deroulant-bouton:hover::before,
+.menu-deroulant-bouton.actif::before {
+  transform: scaleX(1);
+}
+
+.menu-deroulant.est-ouvert .menu-chevron {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.menu-deroulant-bouton:focus-visible {
+  outline: 1px solid var(--or);
+  outline-offset: 4px;
+}
+
+.menu-nav .sous-menu {
+  position: absolute;
+  top: calc(100% + 22px);
+  left: 50%;
+  z-index: 10;
+  display: block;
+  min-width: 250px;
+  margin: 0;
+  padding: 12px 0;
+  list-style: none;
+  background: rgba(13, 13, 15, 0.97);
+  border: 1px solid var(--or-filet);
+  border-radius: var(--rayon);
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.7), 0 0 40px -18px rgba(212, 175, 55, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 8px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+}
+
+/* Pont invisible : le survol ne se perd pas entre le bouton et la liste */
+.menu-nav .sous-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -24px;
+  height: 24px;
+}
+
+.menu-deroulant.est-ouvert .sous-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+@media (hover: hover) and (min-width: 1281px) {
+  .menu-deroulant:hover .sous-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  .menu-deroulant:hover .menu-chevron {
+    transform: translateY(1px) rotate(225deg);
+  }
+}
+
+.menu-nav .sous-menu a {
+  display: block;
+  padding: 11px 26px;
+  letter-spacing: 0.16em;
+}
+
+.menu-nav .sous-menu a::after {
+  left: 26px;
+  width: calc(100% - 52px);
+  bottom: 6px;
+}
+
 /* Sous-navigation mobile : bandeau d'onglets défilable au doigt (masqué sur desktop) */
 .sous-nav {
   display: none;
@@ -850,7 +977,8 @@ a.annonce-message { color: var(--or); }
 
 .univers-grille {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Sans JavaScript : autant de colonnes que de prestations (le carrousel prend le relais sinon). */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   grid-auto-rows: 1fr;
   gap: 36px;
 }
@@ -1393,6 +1521,31 @@ a.annonce-message { color: var(--or); }
 .pack-liste li.pack-plus::before {
   left: 16px;
   top: 14px;
+}
+
+/* Option payante du Prestige : distincte de l'avantage offert (filet pointillé, « + ») */
+.pack-liste li.pack-option {
+  margin: 12px -14px 0;
+  padding: 12px 16px 12px 40px;
+  border: 1px dashed var(--or-filet);
+  border-radius: var(--rayon);
+  color: var(--texte);
+}
+
+.pack-liste li.pack-option::before {
+  content: "+";
+  left: 16px;
+  top: 12px;
+}
+
+.pack-option-prix {
+  display: block;
+  color: var(--champagne);
+  font-size: 0.86rem;
+}
+
+.pack-option-prix:empty {
+  display: none;
 }
 
 .pack .bouton {
@@ -2180,7 +2333,7 @@ a.annonce-message { color: var(--or); }
   }
 
   .menu-nav.ouvert {
-    max-height: 520px;
+    max-height: 640px;
   }
 
   .menu-nav ul {
@@ -2201,6 +2354,46 @@ a.annonce-message { color: var(--or); }
 
   .menu-nav a::after {
     display: none;
+  }
+
+  /* « Nos prestations » devient un accordéon dans le menu hamburger */
+  .menu-deroulant-bouton {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 16px 0;
+  }
+
+  .menu-deroulant-bouton::before,
+  .menu-nav .sous-menu::before {
+    display: none;
+  }
+
+  .menu-nav .sous-menu {
+    position: static;
+    display: none;
+    min-width: 0;
+    padding: 0 0 10px 18px;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .menu-deroulant.est-ouvert .sous-menu {
+    display: block;
+    transform: none;
+  }
+
+  .menu-nav .sous-menu li {
+    border-bottom: 0;
+  }
+
+  .menu-nav .sous-menu a {
+    padding: 12px 0;
   }
 
 }

@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Cascado Event — Des prestations pensées pour impressionner</title>
-  <meta name="description" content="Cascado Event sublime vos événements avec des panneaux fontaine, photobooths et livres d’or vidéo pensés pour créer des moments mémorables et uniques." />
+  <meta name="description" content="Cascado Event sublime vos événements avec des panneaux fontaine, photobooths, livres d’or vidéo et Magazine Box pensés pour créer des moments mémorables et uniques." />
 
   <link rel="canonical" href="https://cascadoevent.fr/">
 
@@ -39,7 +39,7 @@
 
   <meta property="og:site_name" content="Cascado Event">
   <meta property="og:title" content="Cascado Event — Des prestations pensées pour impressionner">
-  <meta property="og:description" content="Cascado Event sublime vos événements avec des panneaux fontaine, photobooths et livres d’or vidéo pensés pour créer des moments mémorables et uniques.">
+  <meta property="og:description" content="Cascado Event sublime vos événements avec des panneaux fontaine, photobooths, livres d’or vidéo et Magazine Box pensés pour créer des moments mémorables et uniques.">
   <meta property="og:url" content="https://cascadoevent.fr/">
   <meta property="og:type" content="website">
 
@@ -105,15 +105,21 @@
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="menu-nav" id="menu-nav">
+      <nav class="menu-nav" id="menu-nav" aria-label="Navigation principale">
         <ul>
-          <li><a href="/" class="actif">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth">Photobooth</a></li>
-          <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+          <li><a href="/" class="actif" aria-current="page">Accueil</a></li>
+          <li class="menu-deroulant">
+            <button type="button" class="menu-deroulant-bouton" aria-expanded="false" aria-controls="menu-prestations">Nos prestations <span class="menu-chevron" aria-hidden="true"></span></button>
+            <ul class="sous-menu" id="menu-prestations">
+              <li><a href="/panneaux">Panneaux Fontaine</a></li>
+              <li><a href="/photobooth">Photobooth</a></li>
+              <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+              <li><a href="/magazine-box">Magazine Box</a></li>
+            </ul>
+          </li>
           <li><a href="/packs">Nos Packs</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/galerie">Galerie</a></li>
+          <li><a href="/contact">Contact / Devis</a></li>
         </ul>
       </nav>
     </div>
@@ -124,9 +130,10 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+        <li><a href="/magazine-box">Magazine Box</a></li>
         <li><a href="/packs">Nos Packs</a></li>
-        <li><a href="/contact">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/contact">Contact / Devis</a></li>
       </ul>
     </nav>
   </header>
@@ -204,7 +211,7 @@ Pour sublimer votre événement.</p>
     </section>
 
     <!-- ======================================================
-         LES TROIS UNIVERS
+         NOS PRESTATIONS (carrousel)
          ====================================================== -->
     <section class="section compacte">
       <div class="conteneur">
@@ -262,14 +269,26 @@ Pour sublimer votre événement.</p>
             </div>
           </a>
 
+          <!-- Univers 4 : Magazine Box -->
+          <a href="/magazine-box" class="univers-carte">
+            <div class="univers-media">
+              <picture>
+                <source srcset="/images/magazine-box-thumb.webp" type="image/webp" />
+                <img class="cadrage-magazine" src="/images/magazine-box-thumb.jpg" alt="Magazine Box : couverture de magazine géante personnalisée pour un mariage" width="640" height="800" loading="eager" fetchpriority="low" decoding="async" />
+              </picture>
+            </div>
+            <div class="univers-texte">
+              <h3>Magazine Box</h3>
+              <p>Prenez la pose et devenez les stars de votre propre couverture de magazine.</p>
+              <span class="univers-lien">Découvrir</span>
+            </div>
+          </a>
+
         </div>
         <div class="prestations-navigation" hidden>
           <button type="button" class="prestations-fleche" data-direction="-1" aria-label="Prestation précédente">&#8592;</button>
-          <div class="prestations-points" aria-label="Choisir une prestation">
-            <button type="button" data-carte="0" aria-label="Afficher Panneaux Fontaine" aria-pressed="true"></button>
-            <button type="button" data-carte="1" aria-label="Afficher Photobooth" aria-pressed="false"></button>
-            <button type="button" data-carte="2" aria-label="Afficher Livre d’or vidéo" aria-pressed="false"></button>
-          </div>
+          <!-- Points générés par prestations.js : un par carte. -->
+          <div class="prestations-points" aria-label="Choisir une prestation"></div>
           <button type="button" class="prestations-fleche" data-direction="1" aria-label="Prestation suivante">&#8594;</button>
         </div>
         <p class="prestations-statut" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -300,14 +319,15 @@ Pour sublimer votre événement.</p>
             <h3 class="pack-nom">Premium</h3>
             <p class="pack-accroche">
               Composez votre expérience : choisissez 2 prestations parmi nos
-              3 incontournables.
+              4 incontournables.
             </p>
-            <div class="pack-prix">Sur devis</div>
-            <p class="pack-choix">2 prestations au choix parmi 3</p>
+            <div class="pack-prix" data-prix="premium">Sur devis</div>
+            <p class="pack-choix">2 prestations au choix parmi 4</p>
             <ul class="pack-liste">
               <li>Panneau fontaine</li>
               <li>Photobooth avec photos illimitées</li>
               <li>Livre d’or vidéo</li>
+              <li>Magazine Box</li>
             </ul>
             <a href="/contact" class="bouton fantome">Choisir Premium</a>
           </div>
@@ -320,13 +340,14 @@ Pour sublimer votre événement.</p>
               L’expérience Cascado Event la plus complète, pensée pour un
               événement sans compromis.
             </p>
-            <div class="pack-prix">Sur devis</div>
-            <p class="pack-choix">Toutes les prestations incluses + 1 avantage offert</p>
+            <div class="pack-prix" data-prix="prestige">Sur devis</div>
+            <p class="pack-choix">3 prestations incluses + 1 avantage offert</p>
             <ul class="pack-liste">
               <li>Panneau fontaine</li>
               <li>Photobooth avec photos illimitées</li>
               <li>Livre d’or vidéo</li>
               <li class="pack-plus">Au choix : mur floral offert ou mini-cascade offerte</li>
+              <li class="pack-option">En option : Magazine Box à tarif préférentiel <span class="pack-option-prix" data-prix="option-magazine-prestige" data-prix-reference="magazine-box"></span></li>
             </ul>
             <a href="/contact" class="bouton">Choisir Prestige</a>
           </div>
@@ -484,13 +505,25 @@ Pour sublimer votre événement.</p>
           </div>
 
           <div class="faq-item">
+            <button type="button" class="faq-q" id="faq-q-13" aria-expanded="false" aria-controls="faq-a-13">
+              <span>Qu’est-ce que le Magazine Box&nbsp;?</span>
+              <span class="faq-ico" aria-hidden="true"></span>
+            </button>
+            <div class="faq-a" id="faq-a-13" role="region" aria-labelledby="faq-q-13">
+              <div>
+                <p>Le Magazine Box est une animation photo originale : un décor en forme de couverture de magazine, personnalisé selon votre événement, dans lequel vos invités prennent la pose pour devenir les stars de leur propre couverture. <a href="/magazine-box" class="texte-or">Découvrir le Magazine Box</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
             <button type="button" class="faq-q" id="faq-q-9" aria-expanded="false" aria-controls="faq-a-9">
               <span>Quelle est la différence entre le Pack Premium et le Pack Prestige&nbsp;?</span>
               <span class="faq-ico" aria-hidden="true"></span>
             </button>
             <div class="faq-a" id="faq-a-9" role="region" aria-labelledby="faq-q-9">
               <div>
-                <p>Le Pack Premium permet de choisir 2 prestations parmi 3 : panneau fontaine, photobooth ou livre d’or vidéo. Le Pack Prestige est la formule la plus complète et regroupe toutes les prestations prévues dans le pack.</p>
+                <p>Le Pack Premium permet de choisir 2 prestations parmi 4 : panneau fontaine, photobooth, livre d’or vidéo ou Magazine Box. Le Pack Prestige est notre formule la plus complète : il réunit le panneau fontaine, le photobooth et le livre d’or vidéo, avec un avantage offert au choix (mur floral ou mini-cascade). Le Magazine Box peut y être ajouté en option, à tarif préférentiel.</p>
               </div>
             </div>
           </div>
@@ -552,7 +585,7 @@ Pour sublimer votre événement.</p>
           <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
           <p>
             Prestations événementielles haut de gamme : panneaux fontaine
-            lumineux, photobooths et livre d’or vidéo.
+            lumineux, photobooths, livre d’or vidéo et Magazine Box.
           </p>
           <p>
             Intervention en région Centre, Île-de-France et alentours pour
@@ -568,6 +601,7 @@ Pour sublimer votre événement.</p>
             <li><a href="/panneaux">Panneaux Fontaine</a></li>
             <li><a href="/photobooth">Photobooth</a></li>
             <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/magazine-box">Magazine Box</a></li>
             <li><a href="/packs">Nos Packs</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/galerie">Galerie</a></li>
@@ -676,6 +710,7 @@ Pour sublimer votre événement.</p>
   <script src="/script.js" defer></script>
   <script src="/announcement.js" defer></script>
   <script src="/films.js?v=5-videos-2" defer></script>
+  <script src="/prestations-config.js" defer></script>
   <script src="/prestations.js" defer></script>
   <script src="/avis-google.js" defer></script>
 </body>

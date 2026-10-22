@@ -2,7 +2,7 @@
    CascadoEvent — JavaScript partagé (toutes les pages)
    ------------------------------------------------------------
    Fonctionnalités :
-     1. Menu de navigation responsive (hamburger)
+     1. Menu de navigation responsive (hamburger + menu « Nos prestations »)
      2. Année automatique dans le pied de page
      3. Apparition douce des sections au défilement (une seule fois)
      4. Vignettes vidéo cliquables -> ouverture dans une fenêtre légère
@@ -23,12 +23,42 @@ document.addEventListener("DOMContentLoaded", function () {
   const boutonBurger = document.getElementById("menu-burger");
   const menuNav = document.getElementById("menu-nav");
 
+  // Menu déroulant « Nos prestations » : clic et clavier partout ; le survol
+  // sur grand écran est géré en CSS. Dans le menu hamburger, c'est un accordéon.
+  const menuCompact = window.matchMedia("(max-width: 1280px)");
+  const deroulants = menuNav ? Array.from(menuNav.querySelectorAll(".menu-deroulant")) : [];
+
+  function basculerDeroulant(deroulant, ouvert) {
+    deroulant.classList.toggle("est-ouvert", ouvert);
+    deroulant.querySelector(".menu-deroulant-bouton").setAttribute("aria-expanded", ouvert ? "true" : "false");
+  }
+
+  deroulants.forEach(function (deroulant) {
+    const bouton = deroulant.querySelector(".menu-deroulant-bouton");
+    bouton.addEventListener("click", function () {
+      basculerDeroulant(deroulant, !deroulant.classList.contains("est-ouvert"));
+    });
+    deroulant.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || !deroulant.classList.contains("est-ouvert")) return;
+      basculerDeroulant(deroulant, false);
+      bouton.focus();
+    });
+    // Sur grand écran, la liste se referme dès que le focus ou un clic la quitte.
+    deroulant.addEventListener("focusout", function (e) {
+      if (!menuCompact.matches && !deroulant.contains(e.relatedTarget)) basculerDeroulant(deroulant, false);
+    });
+    document.addEventListener("click", function (e) {
+      if (!menuCompact.matches && !deroulant.contains(e.target)) basculerDeroulant(deroulant, false);
+    });
+  });
+
   if (boutonBurger && menuNav) {
     boutonBurger.addEventListener("click", function () {
       const ouvert = menuNav.classList.toggle("ouvert");
       boutonBurger.classList.toggle("actif", ouvert);
       boutonBurger.setAttribute("aria-expanded", ouvert ? "true" : "false");
       boutonBurger.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
+      if (!ouvert) deroulants.forEach(function (d) { basculerDeroulant(d, false); });
     });
 
     // On referme le menu après un clic sur un lien (utile sur mobile)
@@ -38,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         boutonBurger.classList.remove("actif");
         boutonBurger.setAttribute("aria-expanded", "false");
         boutonBurger.setAttribute("aria-label", "Ouvrir le menu");
+        deroulants.forEach(function (d) { basculerDeroulant(d, false); });
       });
     });
   }

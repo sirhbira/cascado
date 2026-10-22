@@ -58,15 +58,21 @@
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="menu-nav" id="menu-nav">
+      <nav class="menu-nav" id="menu-nav" aria-label="Navigation principale">
         <ul>
           <li><a href="/">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth">Photobooth</a></li>
-          <li><a href="/livre-or-video" class="actif" aria-current="page">Livre d’or vidéo</a></li>
+          <li class="menu-deroulant">
+            <button type="button" class="menu-deroulant-bouton actif" aria-expanded="false" aria-controls="menu-prestations">Nos prestations <span class="menu-chevron" aria-hidden="true"></span></button>
+            <ul class="sous-menu" id="menu-prestations">
+              <li><a href="/panneaux">Panneaux Fontaine</a></li>
+              <li><a href="/photobooth">Photobooth</a></li>
+              <li><a href="/livre-or-video" class="actif" aria-current="page">Livre d’or vidéo</a></li>
+              <li><a href="/magazine-box">Magazine Box</a></li>
+            </ul>
+          </li>
           <li><a href="/packs">Nos Packs</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/galerie">Galerie</a></li>
+          <li><a href="/contact">Contact / Devis</a></li>
         </ul>
       </nav>
     </div>
@@ -77,9 +83,10 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video" class="actif" aria-current="page">Livre d’or vidéo</a></li>
+        <li><a href="/magazine-box">Magazine Box</a></li>
         <li><a href="/packs">Nos Packs</a></li>
-        <li><a href="/contact">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/contact">Contact / Devis</a></li>
       </ul>
     </nav>
   </header>
@@ -207,7 +214,7 @@
           <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
           <p>
             Prestations événementielles haut de gamme : panneaux fontaine
-            lumineux, photobooths et livre d’or vidéo.
+            lumineux, photobooths, livre d’or vidéo et Magazine Box.
           </p>
           <p>
             Intervention en région Centre, Île-de-France et alentours pour
@@ -223,6 +230,7 @@
             <li><a href="/panneaux">Panneaux Fontaine</a></li>
             <li><a href="/photobooth">Photobooth</a></li>
             <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/magazine-box">Magazine Box</a></li>
             <li><a href="/packs">Nos Packs</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/galerie">Galerie</a></li>

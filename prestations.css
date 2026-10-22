@@ -24,6 +24,11 @@
   opacity: 1;
 }
 
+/* Magazine Box : la couverture reste lisible sur les cartes étroites (mobile). */
+.prestations-coverflow .univers-media img.cadrage-magazine {
+  object-position: 60% 50%;
+}
+
 .prestations-coverflow .univers-media::after {
   background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.2) 65%, rgba(0, 0, 0, 0.65));
 }
@@ -74,7 +79,7 @@
   min-height: 0;
   transform-origin: center;
   backface-visibility: hidden;
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.65s ease, border-color var(--transition), box-shadow 0.65s ease;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.65s ease, opacity 0.65s ease, border-color var(--transition), box-shadow 0.65s ease;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -97,6 +102,15 @@
   z-index: 1;
   transform: translateX(calc(-50% + var(--decalage))) translateZ(-120px) rotateY(-18deg) scale(0.87);
   filter: brightness(0.62) blur(1px);
+}
+
+/* À partir de 4 cartes : les cartes non voisines attendent, invisibles, derrière la carte centrale. */
+.prestations-coverflow .carte-arriere {
+  z-index: 0;
+  transform: translateX(-50%) translateZ(-260px) scale(0.74);
+  filter: brightness(0.4) blur(2px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .prestations-navigation {

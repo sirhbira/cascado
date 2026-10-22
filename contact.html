@@ -67,15 +67,21 @@
       <button class="menu-burger" id="menu-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="menu-nav" id="menu-nav">
+      <nav class="menu-nav" id="menu-nav" aria-label="Navigation principale">
         <ul>
           <li><a href="/">Accueil</a></li>
-          <li><a href="/panneaux">Panneaux Fontaine</a></li>
-          <li><a href="/photobooth">Photobooth</a></li>
-          <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+          <li class="menu-deroulant">
+            <button type="button" class="menu-deroulant-bouton" aria-expanded="false" aria-controls="menu-prestations">Nos prestations <span class="menu-chevron" aria-hidden="true"></span></button>
+            <ul class="sous-menu" id="menu-prestations">
+              <li><a href="/panneaux">Panneaux Fontaine</a></li>
+              <li><a href="/photobooth">Photobooth</a></li>
+              <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+              <li><a href="/magazine-box">Magazine Box</a></li>
+            </ul>
+          </li>
           <li><a href="/packs">Nos Packs</a></li>
-          <li><a href="/contact" class="actif">Contact</a></li>
           <li><a href="/galerie">Galerie</a></li>
+          <li><a href="/contact" class="actif" aria-current="page">Contact / Devis</a></li>
         </ul>
       </nav>
     </div>
@@ -86,9 +92,10 @@
         <li><a href="/panneaux">Panneaux Fontaine</a></li>
         <li><a href="/photobooth">Photobooth</a></li>
         <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+        <li><a href="/magazine-box">Magazine Box</a></li>
         <li><a href="/packs">Nos Packs</a></li>
-        <li><a href="/contact" class="actif" aria-current="page">Contact</a></li>
         <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/contact" class="actif" aria-current="page">Contact / Devis</a></li>
       </ul>
     </nav>
   </header>
@@ -105,10 +112,11 @@
         <section class="devis-etape" data-step="0" aria-labelledby="titre-prestation">
           <span class="surtitre">01 — Votre prestation</span><h2 id="titre-prestation" tabindex="-1">Quelle prestation souhaitez-vous ?</h2>
           <fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre prestation</legend>
-<div class="devis-choix"><label class="devis-carte"><input type="radio" name="formule" value="Pack Premium" aria-describedby="erreur-formule" /><span>Pack Premium</span></label><label class="devis-carte"><input type="radio" name="formule" value="Pack Prestige" aria-describedby="erreur-formule" /><span>Pack Prestige</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Panneau Fontaine" aria-describedby="erreur-formule" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Photobooth" aria-describedby="erreur-formule" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Livre d’or vidéo" aria-describedby="erreur-formule" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-formule" aria-live="polite"></p></fieldset>
-          <fieldset class="devis-condition" id="option-premium" hidden disabled><legend>Choisissez 2 prestations parmi 3 :</legend><p class="devis-aide">2 prestations au choix parmi 3</p>
-<div class="devis-choix"><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Panneau Fontaine" aria-describedby="erreur-prestations_premium" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Photobooth" aria-describedby="erreur-prestations_premium" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Livre d’or vidéo" aria-describedby="erreur-prestations_premium" /><span>Livre d’or vidéo</span></label></div><p class="devis-erreur" id="erreur-prestations_premium" aria-live="polite"></p><p id="premium-compteur" class="devis-aide" role="status">0 / 2 prestations sélectionnées</p></fieldset>
-          <div class="devis-condition" id="option-prestige" hidden><h3>Toutes les prestations incluses + 1 avantage offert</h3><ul class="devis-inclus"><li>Panneau Fontaine</li><li>Photobooth</li><li>Livre d’or vidéo</li></ul></div>
+<div class="devis-choix"><label class="devis-carte"><input type="radio" name="formule" value="Pack Premium" aria-describedby="erreur-formule" /><span>Pack Premium</span></label><label class="devis-carte"><input type="radio" name="formule" value="Pack Prestige" aria-describedby="erreur-formule" /><span>Pack Prestige</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Panneau Fontaine" aria-describedby="erreur-formule" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Photobooth" aria-describedby="erreur-formule" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Livre d’or vidéo" aria-describedby="erreur-formule" /><span>Livre d’or vidéo</span></label><label class="devis-carte"><input type="checkbox" name="formule" value="Magazine Box" aria-describedby="erreur-formule" /><span>Magazine Box</span></label></div><p class="devis-erreur" id="erreur-formule" aria-live="polite"></p></fieldset>
+          <fieldset class="devis-condition" id="option-premium" hidden disabled><legend>Choisissez 2 prestations parmi 4 :</legend><p class="devis-aide">2 prestations au choix parmi 4</p>
+<div class="devis-choix"><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Panneau Fontaine" aria-describedby="erreur-prestations_premium" /><span>Panneau Fontaine</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Photobooth" aria-describedby="erreur-prestations_premium" /><span>Photobooth</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Livre d’or vidéo" aria-describedby="erreur-prestations_premium" /><span>Livre d’or vidéo</span></label><label class="devis-carte"><input type="checkbox" name="prestations_premium" value="Magazine Box" aria-describedby="erreur-prestations_premium" /><span>Magazine Box</span></label></div><p class="devis-erreur" id="erreur-prestations_premium" aria-live="polite"></p><p id="premium-compteur" class="devis-aide" role="status">0 / 2 prestations sélectionnées</p></fieldset>
+          <div class="devis-condition" id="option-prestige" hidden><h3>3 prestations incluses + 1 avantage offert</h3><ul class="devis-inclus"><li>Panneau Fontaine</li><li>Photobooth</li><li>Livre d’or vidéo</li></ul>
+<fieldset class="devis-option" id="option-prestige-choix" disabled><legend>Souhaitez-vous ajouter le Magazine Box à votre Pack Prestige ?</legend><p class="devis-aide"><span class="devis-option-badge">En option · facultatif</span> <span data-prix="option-magazine-prestige" data-prix-reference="magazine-box">Tarif préférentiel réservé au Pack Prestige, précisé dans votre devis.</span></p><div class="devis-choix"><label class="devis-carte"><input type="radio" name="option_prestige" value="Oui" /><span>Oui</span></label><label class="devis-carte"><input type="radio" name="option_prestige" value="Non" /><span>Non</span></label></div></fieldset></div>
         </section>
 <section class="devis-etape" data-step="panneau" data-label="Choisissez votre modèle de panneau" aria-labelledby="titre-panneau" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-panneau" tabindex="-1">Choisissez votre modèle de panneau</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre modèle de panneau</legend><div class="devis-choix devis-modeles">
 <label class="devis-carte devis-modele"><input type="radio" name="modele_panneau" value="Panneau Angle Droit" aria-describedby="erreur-modele_panneau" /><img src="/images/panneau-1.jpg" alt="" decoding="async" loading="lazy" /><span>Panneau Angle Droit</span></label>
@@ -123,6 +131,7 @@
 <section class="devis-etape" data-step="livre" aria-labelledby="titre-livre" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-livre" tabindex="-1">Choisissez votre livre d’or vidéo</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre livre d’or vidéo</legend><div class="devis-choix devis-modeles">
 <label class="devis-carte devis-modele"><input type="radio" name="modele_livre" value="Livre d’or vidéo 1" data-modele="livre-or-video-1" aria-describedby="erreur-modele_livre" /><img src="/images/livredor-2.jpg" alt="" decoding="async" loading="lazy" /><span>Livre d’or vidéo 1</span></label>
 </div><p class="devis-erreur" id="erreur-modele_livre" aria-live="polite"></p></fieldset></section>
+<section class="devis-etape" data-step="magazine" aria-labelledby="titre-magazine" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-magazine" tabindex="-1">Personnalisez votre Magazine Box</h2><figure class="devis-floral-photo devis-magazine-photo"><img src="/images/magazine-box-thumb.jpg" alt="" loading="lazy" decoding="async" /><figcaption>Magazine Box</figcaption></figure><p class="devis-aide">Aucun modèle à choisir : la couverture est créée sur mesure pour votre événement.</p><div class="devis-champ"><label for="personnalisation_magazine">Style ou souhaits de personnalisation (facultatif)</label><textarea id="personnalisation_magazine" name="personnalisation_magazine" rows="4" placeholder="Titre de la couverture, prénoms, couleurs, thème, logo…"></textarea></div></section>
 <section class="devis-etape" data-step="floral" aria-labelledby="titre-floral" hidden><span class="surtitre">Votre option</span><h2 id="titre-floral" tabindex="-1">Souhaitez-vous ajouter un mur floral ?</h2><figure class="devis-floral-photo"><img src="/images/mur%20floral.jpg" alt="" loading="lazy" decoding="async" /><figcaption>Mur floral</figcaption></figure><p class="devis-aide">Disponible en supplément.</p><fieldset class="devis-groupe"><legend class="visually-hidden">Ajouter un mur floral</legend><div class="devis-choix"><label class="devis-carte"><input type="radio" name="mur_floral" value="Oui" aria-describedby="erreur-mur_floral" /><span>Oui</span></label><label class="devis-carte"><input type="radio" name="mur_floral" value="Non" aria-describedby="erreur-mur_floral" /><span>Non</span></label></div><p class="devis-erreur" id="erreur-mur_floral" aria-live="polite"></p></fieldset></section>
 <section class="devis-etape" data-step="avantage" data-label="Choisissez votre avantage offert" aria-labelledby="titre-avantage" hidden><span class="surtitre">Votre sélection</span><h2 id="titre-avantage" tabindex="-1">Choisissez votre avantage offert</h2><fieldset class="devis-groupe"><legend class="visually-hidden">Choisissez votre avantage offert</legend><div class="devis-choix devis-modeles">
 <label class="devis-carte devis-modele"><input type="radio" name="avantage_offert" value="Mur floral offert" aria-describedby="erreur-avantage_offert" /><img src="/images/mur%20floral.jpg" alt="" decoding="async" loading="lazy" /><span>Mur floral offert</span></label>
@@ -153,7 +162,7 @@
           <a href="/" class="logo"><span class="texte-or">Cascado</span> Event</a>
           <p>
             Prestations événementielles haut de gamme : panneaux fontaine
-            lumineux, photobooths et livre d’or vidéo.
+            lumineux, photobooths, livre d’or vidéo et Magazine Box.
           </p>
           <p>
             Intervention en région Centre, Île-de-France et alentours pour
@@ -169,6 +178,7 @@
             <li><a href="/panneaux">Panneaux Fontaine</a></li>
             <li><a href="/photobooth">Photobooth</a></li>
             <li><a href="/livre-or-video">Livre d’or vidéo</a></li>
+            <li><a href="/magazine-box">Magazine Box</a></li>
             <li><a href="/packs">Nos Packs</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/galerie">Galerie</a></li>
@@ -276,6 +286,7 @@
   <script src="/script.js"></script>
   <script src="/announcement.js"></script>
   <script src="/modeles-devis.js"></script>
+  <script src="/prestations-config.js"></script>
   <script src="/contact/devis.js"></script>
 </body>
 </html>
