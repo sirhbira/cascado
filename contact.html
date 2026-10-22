@@ -32,7 +32,8 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="/contact/devis.css" />
+  <!-- ?v= : à changer à chaque modification des fichiers du devis, pour qu’aucun navigateur ne mélange une page à jour avec d’anciens scripts en cache. -->
+  <link rel="stylesheet" href="/contact/devis.css?v=20261022" />
 
   <!-- Affichage garanti même si le JavaScript est désactivé -->
   <noscript>
@@ -150,6 +151,15 @@
         <div class="devis-navigation" hidden><button type="button" class="devis-precedent">Retour</button><button type="button" class="bouton devis-suivant">Continuer <span aria-hidden="true">→</span></button></div>
         <noscript><p>Activez JavaScript pour configurer les options de votre prestation. Vous pouvez aussi nous joindre directement par téléphone ou WhatsApp.</p></noscript>
       </form>
+      <!-- Confirmation : ouverte par contact/devis.js uniquement après la réponse positive du service d’envoi. -->
+      <dialog class="devis-popup" id="devis-confirmation" aria-labelledby="devis-confirmation-titre" aria-describedby="devis-confirmation-texte">
+        <div class="devis-popup-contenu">
+          <svg class="devis-popup-icone" viewBox="0 0 52 52" aria-hidden="true" focusable="false"><circle class="devis-popup-cercle" cx="26" cy="26" r="24" /><path class="devis-popup-coche" d="M15 27l7 7 15-15" /></svg>
+          <h2 id="devis-confirmation-titre">Votre demande de devis a bien été envoyée !</h2>
+          <p id="devis-confirmation-texte">Merci pour votre confiance ! Notre équipe a bien reçu votre demande. Vous recevrez une réponse en moins de 24 heures.</p>
+          <a href="/" class="bouton">RETOUR À L’ACCUEIL</a>
+        </div>
+      </dialog>
     </div></section>
   </main>
 
@@ -288,7 +298,7 @@
   <script src="/script.js"></script>
   <script src="/announcement.js"></script>
   <script src="/modeles-devis.js"></script>
-  <script src="/prestations-config.js"></script>
-  <script src="/contact/devis.js"></script>
+  <script src="/prestations-config.js?v=20261022"></script>
+  <script src="/contact/devis.js?v=20261022"></script>
 </body>
 </html>

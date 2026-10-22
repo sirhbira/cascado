@@ -16,6 +16,12 @@
   const checked = name => [...form.querySelectorAll(`input[name="${name}"]:checked`)].filter(el => !el.matches(':disabled'));
   const selection = name => checked(name).map(el => el.value);
   const value = id => $(id).value.trim();
+  // Initialisation d'origine, avant tout code dépendant de la configuration.
+  let step = 0;
+  let submitting = false;
+  form.noValidate = true;
+  form.querySelector('.devis-progression').hidden = false;
+  form.querySelector('.devis-navigation').hidden = false;
   // Règles des prestations et des packs : prestations-config.js.
   const config = window.CascadoConfig;
   const PREMIUM = config.packs.premium, PRESTIGE = config.packs.prestige;
@@ -77,11 +83,6 @@
     }
     return lines;
   }
-  let step = 0;
-  let submitting = false;
-  form.noValidate = true;
-  form.querySelector('.devis-progression').hidden = false;
-  form.querySelector('.devis-navigation').hidden = false;
 
   function today() {
     const d = new Date();
@@ -251,7 +252,9 @@
     const [year, month, day] = value('date_evenement').split('-').map(Number);
     const whatsappDate = new Date(year, month - 1, day).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
     // Pack : son nom (+ prestations complémentaires du Prestige). Prestations individuelles : « A, B et C ».
-    const enumerer = noms => new Intl.ListFormat('fr', { type: 'conjunction' }).format(noms);
+    // « A, B et C » ; repli manuel pour les navigateurs sans Intl.ListFormat (anciens Safari).
+    const enumerer = noms => Intl.ListFormat ? new Intl.ListFormat('fr', { type: 'conjunction' }).format(noms)
+      : noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms.join('');
     const ajouts = selection('complements_prestige');
     const whatsappServices = type === PRESTIGE.nom && ajouts.length ? `${type} avec ${enumerer(ajouts)}`
       : type.startsWith('Pack ') ? type : enumerer(selection('formule'));
@@ -323,12 +326,22 @@
     for (let i = 0; i < route.length - 1; i++) {
       if (!validate(i)) { showStep(i); route[i].querySelector('[aria-invalid="true"]:not(:disabled)')?.focus(); return; }
     }
-    summary();
-    const payload = emailPayload();
+    const feedback = $('devis-retour');
+    let payload;
+    try {
+      summary();
+      payload = emailPayload();
+    } catch (err) {
+      // Jamais de clic sans réponse : le client est prévenu et peut réessayer.
+      console.error('Préparation du devis impossible', err);
+      feedback.className = 'devis-retour erreur';
+      feedback.textContent = 'Votre demande n’a pas pu être envoyée. Vos informations sont conservées : réessayez ou contactez-nous au 07 56 94 48 52.';
+      feedback.focus();
+      return;
+    }
     const controls = [...form.querySelectorAll('input, select, textarea, button')];
     const disabled = controls.map(el => el.disabled);
     const button = form.querySelector('[type="submit"]');
-    const feedback = $('devis-retour');
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
     submitting = true;
@@ -354,6 +367,9 @@
       button.textContent = 'DEMANDE ENVOYÉE ✓';
       form.querySelector('.devis-navigation').hidden = true;
       feedback.focus();
+      // Confirmation affichée uniquement après la réponse positive du service d'envoi.
+      const confirmation = $('devis-confirmation');
+      if (confirmation && typeof confirmation.showModal === 'function') confirmation.showModal();
     } catch (err) {
       feedback.classList.add('erreur');
       feedback.textContent = err.name === 'AbortError'

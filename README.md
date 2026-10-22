@@ -172,3 +172,13 @@ Attendez sa réussite dans l’onglet **Actions** : un push seul ne signifie pas
 - GitHub Pages peut encore avoir un délai de propagation. Une page ouverte avant l’installation de ce mécanisme peut nécessiter un premier rechargement forcé (Ctrl + F5).
 - Pour vérifier la génération en local : `python scripts/build_site.py`, puis `python -m http.server 8000 --directory dist`.
 - `dist/` est généré et ignoré par Git ; ne le modifiez pas directement.
+
+**Publication actuelle du site** : cascadoevent.fr est servi directement depuis la
+branche (pas de `site-version.json`, URL sans version) ; la génération ci-dessus
+n'est donc pas utilisée, et les navigateurs gardent chaque fichier 10 minutes en
+cache. Une page à jour peut alors s'exécuter avec un ancien script et casser le
+formulaire de devis. Pour l'éviter, **à chaque modification** de `contact/devis.js`,
+`contact/devis.css` ou `prestations-config.js`, changez la valeur `?v=` de ces
+fichiers dans `contact.html` (et `prestations-config.js?v=` dans `index.html` et
+`packs.html`). Pour l'automatiser : GitHub → Settings → Pages → Source :
+**GitHub Actions** (le workflow existant versionne alors tous les fichiers).
