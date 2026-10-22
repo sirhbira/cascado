@@ -38,15 +38,29 @@ prestations », sous-navigation mobile et liens utiles du pied de page).
 
 ### Prestations, packs et tarifs (`prestations-config.js`)
 
-- **Règles du formulaire de devis** : liste des prestations, étape et champ de
-  modèle de chacune, Pack Premium (2 au choix parmi 4), Pack Prestige
-  (3 incluses + Magazine Box en option à tarif préférentiel).
-- **Tarifs** : prévus mais non publiés (`afficher: false` → « Sur devis »).
-  Passer `afficher` à `true` remplace les éléments `[data-prix]` des pages
-  Accueil, Packs et Contact par les montants configurés.
-- **Ajouter une prestation** : une entrée dans `prestations`, puis sa carte dans
-  le formulaire (`contact.html`), le carrousel de l'accueil (les points de
-  navigation se génèrent seuls), le menu et le pied de page.
+Chaque prestation y déclare son rôle ; le formulaire de devis se construit
+à partir de ces données (aucune condition propre à une prestation dans
+`contact/devis.js`) :
+
+| Propriété | Effet dans le devis |
+|---|---|
+| `unite: true` | case « prestation seule » à l'étape 01 |
+| `premium: true` | case du Pack Premium (« 2 au choix parmi N », N calculé) |
+| `prestige: 'inclus'` | listée dans « Votre Pack Prestige » |
+| `prestige: 'complement'` | case de « Prestations complémentaires » (Prestige) |
+| `configuration` | étape de choix de modèle ; absente = aucune question |
+| `tarifs` | montants prévus, non publiés |
+
+- **Ajouter une prestation sans modèle** (comme le Magazine Box) : une entrée
+  dans `prestations` suffit pour le formulaire. Ajouter ensuite sa carte dans
+  le carrousel de l'accueil, le menu, le pied de page et, si elle est au
+  choix dans le Premium, une ligne dans la carte Premium (accueil et Packs).
+- **Prestations complémentaires du Prestige** : les cartes Prestige n'en
+  citent aucune (mention générique) ; il suffit de passer `prestige` à
+  `'complement'` pour la proposer dans le devis.
+- **Tarifs** : « Sur devis » tant que `affichageTarifs.actif` vaut `false`.
+  À `true`, les éléments `[data-prix="premium"]` / `[data-prix="prestige"]`
+  affichent les montants configurés.
 
 ## Ouvrir le site en local
 

@@ -130,11 +130,18 @@
   }
 }
 
-/* Option Magazine Box du Pack Prestige : séparée des prestations incluses. */
-.devis-option { min-width: 0; margin: 0; padding: 22px 0 0; border: 0; border-top: 1px dashed var(--or-filet); }
-.devis-condition .devis-option legend { float: left; width: 100%; padding: 0; margin-bottom: 10px; }
-.devis-option legend + * { clear: both; }
-.devis-option-badge { display: inline-block; margin-right: 6px; padding: 3px 10px; border: 1px solid var(--or-filet); border-radius: 100px; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--or); }
-/* Magazine Box : visuel portrait, sans choix de modèle. */
-.devis-magazine-photo { max-width: 300px; }
-.devis-magazine-photo img { aspect-ratio: 4 / 5; }
+/* Pack Prestige : A. le pack et son avantage offert ; B. prestations complémentaires facultatives. */
+.devis-prestige-titre { display: block; margin-bottom: 8px; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or); }
+.devis-inclus .devis-avantage { color: var(--champagne); }
+.devis-inclus .devis-avantage::before { content: '+'; }
+.devis-complements { min-width: 0; margin: 0; padding: 22px 0 0; border: 0; border-top: 1px solid var(--or-filet); }
+.devis-condition .devis-complements legend { float: left; width: 100%; padding: 0; margin-bottom: 6px; font-family: var(--serif); font-size: 1.1rem; color: var(--champagne); }
+.devis-complements legend + * { clear: both; }
+.devis-facultatif { margin-left: 10px; font-family: var(--sans); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--texte-doux); vertical-align: middle; }
+/* Une seule prestation : pleine largeur ; plusieurs : grille automatique. */
+.devis-complements-choix { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.devis-complement { align-items: flex-start; }
+.devis-complement input { margin-top: 3px; }
+.devis-complement strong { display: block; font-weight: 500; }
+.devis-complement small { display: block; margin-top: 2px; font-size: .84rem; color: var(--texte-doux); }
+@media (max-width: 600px) { .devis-facultatif { display: block; margin: 4px 0 0; } }

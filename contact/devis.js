@@ -20,33 +20,61 @@
   const config = window.CascadoConfig;
   const PREMIUM = config.packs.premium, PRESTIGE = config.packs.prestige;
   const parNom = Object.fromEntries(config.prestations.map(p => [p.nom, p]));
+  const liste = filtre => config.prestations.filter(filtre);
+  const premiumChoix = liste(p => p.premium);
+  const prestigeInclus = liste(p => p.prestige === 'inclus');
+  const complements = liste(p => p.prestige === 'complement');
+  const aConfigurer = liste(p => p.configuration);
+
+  // Cases générées depuis la configuration : une prestation ajoutée apparaît sans toucher au HTML.
+  function carte(name, prestation, describedBy, complement) {
+    const label = document.createElement('label');
+    const input = Object.assign(document.createElement('input'), { type: 'checkbox', name, value: prestation.nom });
+    label.className = complement ? 'devis-carte devis-complement' : 'devis-carte';
+    if (describedBy) input.setAttribute('aria-describedby', describedBy);
+    const texte = document.createElement('span');
+    if (complement) {
+      // Nom + accroche facultative (propriété `description` de la configuration).
+      const nom = Object.assign(document.createElement('strong'), { textContent: prestation.nom });
+      texte.append(nom);
+      if (prestation.description) texte.append(Object.assign(document.createElement('small'), { textContent: prestation.description }));
+    } else texte.textContent = prestation.nom;
+    label.append(input, texte);
+    return label;
+  }
+  form.querySelector('[data-choix="formule"]').append(...liste(p => p.unite).map(p => carte('formule', p, 'erreur-formule')));
+  form.querySelector('[data-choix="premium"]').append(...premiumChoix.map(p => carte('prestations_premium', p, 'erreur-prestations_premium')));
+  form.querySelector('[data-choix="complements"]').append(...complements.map(p => carte('complements_prestige', p, null, true)));
+  $('complements-prestige').hidden = complements.length === 0;
+  form.querySelectorAll('[data-premium="nombre"]').forEach(el => { el.textContent = PREMIUM.nombre; });
+  form.querySelectorAll('[data-premium="total"]').forEach(el => { el.textContent = premiumChoix.length; });
+  form.querySelectorAll('[data-prestige="nombre"]').forEach(el => { el.textContent = prestigeInclus.length; });
+  const inclusListe = form.querySelector('[data-liste="prestige-inclus"]');
+  inclusListe.prepend(...prestigeInclus.map(p => Object.assign(document.createElement('li'), { textContent: p.nom })));
+
   // Packs : choix unique. Prestations individuelles : cumulables (cases à cocher).
   const formule = () => { const choix = selection('formule'); return choix[0]?.startsWith('Pack ') ? choix[0] : choix.join(' + '); };
-  const optionPrestige = () => selection('option_prestige')[0] === 'Oui';
 
-  // Prestations réellement demandées, dans l'ordre d'affichage. `option` : ajoutée au Prestige.
+  // Prestations réellement demandées, dans l'ordre d'affichage. `complement` : ajoutée au Prestige.
   function services() {
     const type = selection('formule')[0];
     if (type === PRESTIGE.nom) {
-      const list = PRESTIGE.inclus.map(nom => ({ nom }));
-      if (optionPrestige()) list.push({ nom: PRESTIGE.option, option: true });
-      return list;
+      return [...prestigeInclus.map(p => ({ nom: p.nom })), ...selection('complements_prestige').map(nom => ({ nom, complement: true }))];
     }
     return (type === PREMIUM.nom ? selection('prestations_premium') : selection('formule')).map(nom => ({ nom }));
   }
 
   // Titre et détails d'une prestation, communs au récapitulatif et à l'e-mail.
-  const titre = service => `✓ ${service.nom}${service.option ? ' — en option, tarif préférentiel' : ''}`;
+  const titre = service => `✓ ${service.nom}${service.complement ? ' — prestation complémentaire' : ''}`;
   function details(service, type) {
-    const prestation = parNom[service.nom] || {};
+    const reglage = parNom[service.nom]?.configuration;
     const lines = [];
-    const model = prestation.champModele && selection(prestation.champModele)[0];
+    const model = reglage && selection(reglage.champ)[0];
     if (model) lines.push(`Modèle : ${model}`);
     if (service.nom === 'Photobooth' && type !== PRESTIGE.nom) {
       const floral = selection('mur_floral')[0];
       lines.push(`Mur floral : ${floral || 'À préciser'}${floral === 'Oui' ? ' (en supplément)' : ''}`);
     }
-    if (prestation.champPersonnalisation && value(prestation.champPersonnalisation)) lines.push(`Personnalisation : ${value(prestation.champPersonnalisation)}`);
     return lines;
   }
   let step = 0;
@@ -61,7 +89,7 @@
   }
   $('date_evenement').min = today();
 
-  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', livre: 'Modèle', magazine: 'Magazine Box', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
+  const labels = { '0': 'Prestation', panneau: 'Panneau', photobooth: 'Photobooth', livre: 'Modèle', floral: 'Mur floral', avantage: 'Avantage', '1': 'Événement', '2': 'Coordonnées', '3': 'Confirmation' };
   function showStep(target, focus = true) {
     step = target;
     steps.forEach(el => { el.hidden = el !== route[step]; });
@@ -133,20 +161,21 @@
     premium.querySelectorAll('input').forEach(el => { el.disabled = count === PREMIUM.nombre && !el.checked; });
     $('premium-compteur').textContent = `${count} / ${PREMIUM.nombre} prestations sélectionnées`;
     $('option-prestige').hidden = type !== PRESTIGE.nom;
-    // L'option n'existe qu'avec le Prestige : réinitialisée dès qu'on change de formule.
-    const option = $('option-prestige-choix');
-    option.disabled = type !== PRESTIGE.nom;
-    if (option.disabled) option.querySelectorAll('input').forEach(el => { el.checked = false; });
+    // Prestations complémentaires : propres au Prestige, décochées dès qu'on change de formule.
+    const complementsChoix = $('complements-prestige');
+    complementsChoix.disabled = type !== PRESTIGE.nom;
+    if (complementsChoix.disabled) complementsChoix.querySelectorAll('input').forEach(el => { el.checked = false; });
     const included = services().map(service => service.nom);
     const enabled = { floral: included.includes('Photobooth') && type !== PRESTIGE.nom, avantage: type === PRESTIGE.nom };
-    config.prestations.forEach(prestation => { enabled[prestation.etape] = included.includes(prestation.nom); });
+    // Seules les prestations avec une configuration ont une étape ; les autres sont simplement ajoutées.
+    aConfigurer.forEach(p => { enabled[p.configuration.etape] = included.includes(p.nom); });
     steps.forEach(el => {
       if (!(el.dataset.step in enabled)) return;
       const available = enabled[el.dataset.step];
       // Une prestation retirée efface ses choix : ils ne sont jamais envoyés.
-      el.querySelectorAll('input, textarea').forEach(input => {
+      el.querySelectorAll('input').forEach(input => {
         input.disabled = !available || unavailable.has(input);
-        if (input.disabled) { input.checked = false; if (input.tagName === 'TEXTAREA') input.value = ''; error(input.name, ''); }
+        if (input.disabled) { input.checked = false; error(input.name, ''); }
       });
     });
     $('prestations_incluses').disabled = !type;
@@ -157,7 +186,7 @@
 
   // Choix obligatoires par étape : modèles depuis la configuration, puis options.
   const groups = { floral: ['mur_floral', 'Choisissez Oui ou Non.'], avantage: ['avantage_offert', 'Choisissez votre avantage offert.'] };
-  config.prestations.forEach(p => { if (p.champModele) groups[p.etape] = [p.champModele, p.messageModele]; });
+  aConfigurer.forEach(({ configuration: c }) => { groups[c.etape] = [c.champ, c.message]; });
 
   function validate(index, report = true) {
     const key = route[index].dataset.step;
@@ -191,14 +220,11 @@
   function summary() {
     const type = selection('formule')[0];
     const rows = [['Prestation', formule() || 'À sélectionner']];
-    if (type === PREMIUM.nom) rows.push([PREMIUM.nom, `${PREMIUM.nombre} prestations au choix parmi ${PREMIUM.choix.length}`]);
+    if (type === PREMIUM.nom) rows.push([PREMIUM.nom, `${PREMIUM.nombre} prestations au choix parmi ${premiumChoix.length}`]);
     services().forEach(service => {
       rows.push(['Prestation choisie', [titre(service), ...details(service, type).map(line => `→ ${line}`)].join('\n')]);
     });
-    if (type === PRESTIGE.nom) {
-      rows.push(['Avantage offert', selection('avantage_offert')[0] || 'À sélectionner']);
-      rows.push([`Option ${PRESTIGE.option}`, optionPrestige() ? 'Oui — ajouté à tarif préférentiel' : 'Non']);
-    }
+    if (type === PRESTIGE.nom) rows.push(['Avantage offert', selection('avantage_offert')[0] || 'À sélectionner']);
     rows.push(['Ville', value('ville') || 'À renseigner']);
     if (value('lieu')) rows.push(['Lieu de réception', value('lieu')]);
     rows.push(['Date', value('date_evenement') ? value('date_evenement').split('-').reverse().join('/') : 'À renseigner'], ['Invités', value('invites') ? `${value('invites')} invités` : 'À renseigner']);
@@ -224,9 +250,11 @@
     const whatsappNumber = value('telephone').replace(/[\s.()\-]/g, '').replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '33');
     const [year, month, day] = value('date_evenement').split('-').map(Number);
     const whatsappDate = new Date(year, month - 1, day).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-    // Pack : son nom (et l'option du Prestige si ajoutée). Prestations individuelles : « A, B et C ».
-    const whatsappServices = type === PRESTIGE.nom && optionPrestige() ? `${type} avec l’option ${PRESTIGE.option}`
-      : type.startsWith('Pack ') ? type : new Intl.ListFormat('fr', { type: 'conjunction' }).format(selection('formule'));
+    // Pack : son nom (+ prestations complémentaires du Prestige). Prestations individuelles : « A, B et C ».
+    const enumerer = noms => new Intl.ListFormat('fr', { type: 'conjunction' }).format(noms);
+    const ajouts = selection('complements_prestige');
+    const whatsappServices = type === PRESTIGE.nom && ajouts.length ? `${type} avec ${enumerer(ajouts)}`
+      : type.startsWith('Pack ') ? type : enumerer(selection('formule'));
     const whatsappMessage = `Bonjour, j’espère que vous allez bien 😊\n\nJe viens vers vous suite à votre demande de devis pour votre événement du ${whatsappDate} à ${value('lieu') || value('ville')}.\n\nVous avez manifesté votre intérêt pour : ${whatsappServices}.`;
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -251,10 +279,7 @@
       'Formule choisie': formule(),
       Prestations: prestations
     };
-    if (type === PRESTIGE.nom) {
-      payload['Avantage offert'] = selection('avantage_offert')[0];
-      payload[`Option ${PRESTIGE.option}`] = optionPrestige() ? 'Oui — ajouté à tarif préférentiel' : 'Non';
-    }
+    if (type === PRESTIGE.nom) payload['Avantage offert'] = selection('avantage_offert')[0];
     payload['Message du client'] = value('message') || 'Aucun message';
     // Adresse de réponse uniquement, sans seconde ligne visible dans le mail.
     if (value('email')) payload._replyto = value('email');
@@ -278,7 +303,7 @@
       });
     }
     // Sur téléphone, un choix de modèle ne reconstruit pas toutes les étapes.
-    if (choice && (!mobile.matches || ['formule', 'prestations_premium', 'option_prestige'].includes(e.target.name))) configure();
+    if (choice && (!mobile.matches || ['formule', 'prestations_premium', 'complements_prestige'].includes(e.target.name))) configure();
     if ($(`erreur-${e.target.name}`)?.textContent) validate(step);
     summary();
     updateNextButton();
@@ -358,7 +383,7 @@
     if (choice) {
       choice.checked = true;
       configure();
-      const model = requested.champModele && [...form.querySelectorAll(`input[name="${requested.champModele}"]`)].find(input =>
+      const model = requested.configuration && [...form.querySelectorAll(`input[name="${requested.configuration.champ}"]`)].find(input =>
         !input.matches(':disabled') &&
         (input.dataset.modele || window.CascadoModeles.slug(input.value)) === params.get('modele'));
       if (model) model.checked = true;
