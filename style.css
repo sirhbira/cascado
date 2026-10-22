@@ -936,6 +936,30 @@ a.annonce-message { color: var(--or); }
   margin: 0 auto;
 }
 
+/* Introduction commune des pages prestations (panneaux, photobooth,
+   livre d’or vidéo, Magazine Box). Même balisage sur chaque page :
+     <span class="surtitre">Nos prestations</span>
+     <h1>Titre</h1> <hr class="filet centre" />
+     <p class="page-entete-accroche">Accroche courte</p>
+     <p class="page-entete-description">Description discrète</p>
+   L'accroche ressort (serif, champagne) sans rivaliser avec le titre. */
+.page-entete .page-entete-accroche {
+  max-width: 680px;
+  margin: 0 auto 16px;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  line-height: 1.4;
+  color: var(--champagne);
+  text-wrap: balance;
+}
+
+.page-entete .page-entete-description {
+  max-width: 600px;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  text-wrap: balance;
+}
+
 
 /* 7. SECTIONS DE CONTENU GÉNÉRIQUES --------------------- */
 
