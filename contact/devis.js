@@ -343,7 +343,13 @@
     const disabled = controls.map(el => el.disabled);
     const button = form.querySelector('[type="submit"]');
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
+    // FormSubmit ne répond qu'après avoir transmis l'e-mail, parfois au-delà de 20 s.
+    // Annuler l'attente n'annule pas la demande déjà reçue : on patiente donc plus longtemps.
+    const patience = setTimeout(() => {
+      feedback.className = 'devis-retour';
+      feedback.textContent = 'Envoi en cours… La confirmation peut prendre jusqu’à une minute : merci de ne pas fermer cette page.';
+    }, 10000);
+    const timeout = setTimeout(() => controller.abort(), 90000);
     submitting = true;
     form.setAttribute('aria-busy', 'true');
     controls.forEach(el => { el.disabled = true; });
@@ -371,13 +377,15 @@
       const confirmation = $('devis-confirmation');
       if (confirmation && typeof confirmation.showModal === 'function') confirmation.showModal();
     } catch (err) {
-      feedback.classList.add('erreur');
+      feedback.className = 'devis-retour erreur';
+      // Sans réponse après 90 s, la demande a très probablement été reçue : pas d'incitation à la renvoyer.
       feedback.textContent = err.name === 'AbortError'
-        ? 'L’envoi n’a pas pu être confirmé à temps. Vos informations sont conservées. Réessayez ou contactez-nous au 07 56 94 48 52.'
+        ? 'La confirmation tarde à arriver, mais votre demande a probablement bien été transmise. Pour éviter un doublon, contactez-nous au 07 56 94 48 52 avant de la renvoyer. Vos informations sont conservées.'
         : 'Votre demande n’a pas pu être envoyée. Vos informations sont conservées : réessayez ou contactez-nous au 07 56 94 48 52.';
       button.textContent = 'DEMANDER MON DEVIS';
       feedback.focus();
     } finally {
+      clearTimeout(patience);
       clearTimeout(timeout);
       submitting = false;
       form.removeAttribute('aria-busy');
